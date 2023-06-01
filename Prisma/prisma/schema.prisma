@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model comments {
+  bodyCom               String
+  id                    Int                     @id
+  personalUser_comments personalUser_comments[] @ignore
+  posts                 posts?
+}
+
+model events {
+  idEV                Int                   @id
+  name                String
+  description         String
+  image               String
+  participants        Int
+  like                Int
+  date                DateTime              @db.Date
+  location            String
+  profissionalUser_id Int
+  profissionalUser    profissionalUser      @relation(fields: [profissionalUser_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  personalUser_events personalUser_events[] @ignore
+}
+
+model personalUser {
+  photo                 String
+  name                  String
+  mail                  String                  @unique
+  password              Int
+  id                    Int                     @id
+  Banned                Boolean
+  phone                 Int
+  personalUser_comments personalUser_comments[] @ignore
+  personalUser_events   personalUser_events[]   @ignore
+  posts_personalUser    posts_personalUser[]    @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model personalUser_comments {
+  personalUser_id Int
+  comments_id     Int
+  comments        comments     @relation(fields: [comments_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  personalUser    personalUser @relation(fields: [personalUser_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model personalUser_events {
+  personalUser_id Int
+  events_idEV     Int
+  events          events       @relation(fields: [events_idEV], references: [idEV], onDelete: NoAction, onUpdate: NoAction)
+  personalUser    personalUser @relation(fields: [personalUser_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+model posts {
+  post_Id            Int                  @id
+  type               String
+  title              String
+  body               String
+  image              String
+  like               Int
+  comments           comments             @relation(fields: [post_Id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  posts_personalUser posts_personalUser[] @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model posts_personalUser {
+  posts_post_Id   Int
+  personalUser_id Int
+  personalUser    personalUser @relation(fields: [personalUser_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  posts           posts        @relation(fields: [posts_post_Id], references: [post_Id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@ignore
+}
+
+model profissionalUser {
+  professionamName String
+  professionalMail String   @unique
+  password         Int
+  contactNumber    Int
+  codeFiscal       Int
+  picture          String
+  isVerified       Boolean
+  id               Int      @id
+  banned           Boolean
+  events           events[]
+}
