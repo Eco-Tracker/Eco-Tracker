@@ -9,8 +9,9 @@ datasource db {
 
 model comments {
   bodyCom String
-  id      String @id
-  posts   posts?
+  id      String  @id
+  post_Id String?
+  posts   posts?  @relation(fields: [post_Id], references: [post_Id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model events {
@@ -33,6 +34,7 @@ model personalUser {
   banned             Boolean
   phone_             Int                  @map("phone ")
   personalUser_posts personalUser_posts[] @ignore
+  posts              posts[]
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -52,9 +54,10 @@ model posts {
   body               String
   image              String
   like               Int
+  user_id            String?
+  comments           comments[]
   personalUser_posts personalUser_posts[] @ignore
-  comments           comments             @relation(fields: [post_Id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  profissionalUser   profissionalUser?
+  personalUser       personalUser?        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model profissionalUser {
@@ -65,7 +68,6 @@ model profissionalUser {
   picture                 String
   id                      String                    @id
   banned                  Boolean
-  posts                   posts                     @relation(fields: [id], references: [post_Id], onDelete: NoAction, onUpdate: NoAction)
   profissionalUser_events profissionalUser_events[] @ignore
 }
 
