@@ -7,7 +7,7 @@ const comments = await prisma.comments.create({
     data: {
       
         bodyCom: 'sabrin',
-        id: 25
+        id: 28
     },
   })
 console.log(comments)    
