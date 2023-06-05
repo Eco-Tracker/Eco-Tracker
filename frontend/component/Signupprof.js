@@ -93,7 +93,7 @@ const SignUpPro = ({ navigation }) => {
     });
     
     console.log("User created:", user);
-    
+    navigation.navigate('Loginprof')
   } catch (error) {
     Alert.alert("Error", error.message);
   }
@@ -106,7 +106,7 @@ const SignUpPro = ({ navigation }) => {
         repeatPassword.trim() !== '' &&
         professionalMail.trim() !== ''
       ) {
-          navigation.navigate('Login'); // Navigate to the Login component/page
+          navigation.navigate('Loginprof'); // Navigate to the Login component/page
       }
     };
 
