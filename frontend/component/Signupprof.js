@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
-import { View, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, StatusBar, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, StatusBar, KeyboardAvoidingView, Platform , Image} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword, signInWithPopup, updateProfile} from "firebase/auth";
 import {auth, googleAuthProvider } from "../Firebase/index";
@@ -15,6 +15,7 @@ const SignUpPro = ({ navigation }) => {
     const [codeFiscal, setCodeFiscal]= useState('');
     
     const [picture, setPicture]= useState('');
+    const [buttonColor, setButtonColor] = useState('#000000');
 
     const selectImage = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -83,7 +84,7 @@ const SignUpPro = ({ navigation }) => {
           });
           console.log('User profile updated');
         }
-        await axios.post("http://192.168.43.144:5000/proUsers/register",{
+        await axios.post("http://192.168.103.16:5000/proUsers/register",{
       professionalName,
       professionalMail,
       password,
@@ -144,7 +145,11 @@ const SignUpPro = ({ navigation }) => {
         <View style={styles.container}>
           <StatusBar style={styles.status} />
           <View style={styles.inner}>
-            <Text style={styles.header}>Signup</Text>
+           
+      <TouchableOpacity style={styles.googleButton} onPress={signUpWithGoogle}>
+              <Image source={require('../assets/SignupImage/Google.png')} style={styles.googleButtonImage} />
+            </TouchableOpacity>
+
             <TextInput
               placeholder="Professional Name"
               style={styles.textInput}
@@ -185,16 +190,13 @@ const SignUpPro = ({ navigation }) => {
               type="number"
               onChangeText={setCodeFiscal}
             />
-            <Button title="Select Image" onPress={selectImage} />
+            <Button title="Select Image" onPress={selectImage} color={buttonColor} />
             <TouchableOpacity
               style={[styles.btnContainer]}
             >
               <Text style={styles.buttonText} onPress={()=>signUpUser()} >Create Account</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.googleButton} onPress={signUpWithGoogle}>
-              <AntDesign name="google" size={24} color="white" />
-              <Text style={styles.googleButtonText}>Sign Up with Google</Text>
-            </TouchableOpacity>
+            
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -215,13 +217,27 @@ buttonText: {
   fontWeight: 'bold',
   textAlign: 'center',
 },
+googleButton: {
+    flex: 1,
+    position: 'absolute',
+    bottom: 30,
+    alignSelf: 'center',
+  },
+  googleButtonImage: {
+    flex: 1,
+    position: 'relative',
+    top: -540,
+    left: 5,
+    width: 260,
+    height: 55,
+  },
 inner: {
   padding: 30,
   flex: 1,
   justifyContent: 'center', // Center buttons vertically
 },
 header: {
-  fontSize: 36,
+  fontSize: 24,
   marginBottom: 8,
   textAlign: 'center',
 },
@@ -232,32 +248,27 @@ textInput: {
   marginBottom: 20,
 },
 btnContainer: {
-  width: 180,
+  width: 230,
   borderRadius: 12,
   backgroundColor: '#4CAF50',
   alignItems: 'center',
   paddingVertical: 10,
+  marginTop: 15,
 },
 disabledBtnContainer: {
   opacity: 0.5,
 },
-googleButton: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  backgroundColor: '#DB4437',
-  borderRadius: 12,
-  paddingHorizontal: 12,
-  paddingVertical: 10,
-  marginTop: 10,
-},
-googleButtonText: {
-  marginLeft: 10,
-  color: 'white',
-  fontSize: 16,
-  fontWeight: 'bold',
-},
+
 status: {
   backgroundColor: 'red',
+},
+
+image: {
+  width: 200,
+  height: 200,
+  marginTop: 10,
+  marginBottom: 20,
+  alignSelf: 'center', 
 },
 });
 
