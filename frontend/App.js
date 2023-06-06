@@ -1,5 +1,20 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, DefaultTheme } from '@react-navigation/stack';
+import headerLogo from "./assets/littlelogo.png"
+import {
+  StatusBar,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Animated,
+  TextInput,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Button,
+  Platform,
+} from 'react-native';
 
 
 
@@ -9,6 +24,7 @@ import Loginpers from './component/Loginpers.js';
 import Loginprof from './component/Loginprof.js';
 import Signuppers from './component/Signuppers.js';
 import Signupprof from './component/Signupprof.js';
+import PersonnalUser from './component/PersonnalUser';
 
 
 
@@ -23,13 +39,27 @@ const App=() => {
   return (
 
      <NavigationContainer  >
-      <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName='Home'>
-       <Stack.Screen   name='Home'  component={Home}/>
+      <Stack.Navigator screenOptions={{headerShown:true}} initialRouteName='PersonnalUser' >
+       <Stack.Screen   name='Home'  component={Home} />
        <Stack.Screen   name='Home2'  component={Home2}/>
        <Stack.Screen   name='Loginpers'  component={Loginpers}/>
        <Stack.Screen   name='Loginprof'  component={Loginprof}/>
        <Stack.Screen   name='Signuppers'  component={Signuppers}/>
        <Stack.Screen   name='Signupprof'  component={Signupprof}/>
+       <Stack.Screen   name='PersonnalUser'  component={PersonnalUser} options={{
+          title: '',
+          headerStyle: {
+            backgroundColor: '#F3F3F3',
+            height: '12%',
+          },
+          headerLeft: () => (
+            <Image source={headerLogo} style={{ width: 50, height: 50, marginLeft: 10 ,marginTop:"30%"}} />
+          ),
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}/>
       
 
       </Stack.Navigator>
