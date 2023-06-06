@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
+  Alert,
   View,
   StyleSheet,
   Text,
@@ -11,18 +12,32 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-
-const Loginpers = ({ navigation }) => {
-  const handleLogin = () => {
-    // Perform login logic here
-  };
+import { signInWithEmailAndPassword} from "firebase/auth";
+import {auth, googleAuthProvider } from "../Firebase/index";
+const Login = ({ navigation }) => {
+  const [professionalMail, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleLogin = async () => {
+    try {
+        const userCredential = await signInWithEmailAndPassword (
+          auth,
+          professionalMail,
+          password
+        );
+        const user = userCredential.user;
+        Alert.alert("Welcome");
+        console.log("User created:", user);
+      } catch (error) {
+        Alert.alert("Signup first", error.message);
+      }
+    };
 
   const handlePress = () => {
     // Add handle press logic here
   };
 
   const handleSignUp = () => {
-    navigation.navigate('Signupprof'); // Navigate to the SignUp component/page
+    navigation.navigate('SignUpPro'); // Navigate to the SignUp component/page
   };
 
   const dismissKeyboard = () => {
@@ -38,11 +53,11 @@ const Loginpers = ({ navigation }) => {
         <View style={styles.container}>
           <StatusBar style={styles.status} />
           <View style={styles.inner}>
-            <Text style={styles.header}>Profisional Login</Text>
-            <TextInput placeholder="Username" style={styles.textInput} />
-            <TextInput placeholder="Password" style={styles.textInput} secureTextEntry={true} />
-            <TouchableOpacity style={styles.btnContainer} onPress={handlePress}>
-              <Text style={styles.buttonText}>Submit</Text>
+            <Text style={styles.header} onPress={handleLogin}>Login</Text>
+            <TextInput placeholder="Email" value={professionalMail} onChangeText={(text) => setEmail(text)} style={styles.textInput} />
+            <TextInput placeholder="Password" onChangeText={(text) => setPassword(text)} style={styles.textInput} secureTextEntry={true} value={password} />
+            <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
+                  <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
@@ -71,7 +86,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   inner: {
-    padding: 60,
+    padding: 40,
     flex: 1,
     justifyContent: 'space-around',
   },
@@ -111,6 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
-export default Loginpers;
+export default Login;
