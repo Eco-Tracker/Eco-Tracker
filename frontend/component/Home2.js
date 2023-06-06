@@ -1,39 +1,42 @@
 import React, { useState } from 'react';
-import { StatusBar, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {Button, StatusBar, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function App({ navigation }) {
   const [imageSource, setImageSource] = useState(require('../images/1.png'));
   const [buttonPressCount, setButtonPressCount] = useState(0);
 
-  const handlePress = () => {
-    if (buttonPressCount === 0) {
-      // First button press
-      setButtonPressCount(1); // Update button press count
-    } else {
-      // Second button press
-      navigation.navigate('Loginpers'); // Perform navigation to LoginComponent
-    }
-  };
+  // const handlePress = () => {
+  //   if (buttonPressCount === 0) {
+  //     // First button press
+  //     setButtonPressCount(1); // Update button press count
+  //   } else {
+  //     navigation.navigate('Loginpers'); // Perform navigation to LoginComponent
+  //   }
+  // };
 
-  const handleImagePress = () => {
-    navigation.navigate('Loginprof'); // Perform navigation to LoginComponent
-  };
+  // const handleImagePress = () => {
+  //   navigation.navigate('Login'); // Perform navigation to LoginComponent
+  // };
+  const handleButton1=()=>{
+    navigation.navigate('Loginpers')
+  }
+  const handleButton2=()=>{
+    navigation.navigate('Loginprof')
+  }
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" translucent={false} />
 
-      <Image source={imageSource} style={styles.image} onPress={handleImagePress} />
+      {/* <Image source={imageSource} style={styles.image} onPress={handleImagePress} /> */}
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.Personalbutton} onPress={handlePress}>
+        <TouchableOpacity style={styles.Personalbutton} onPress={handleButton1}>
           <Text style={styles.buttonText}>PersonalUser</Text>
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.ProfesionalButton} onPress={handlePress}>
+      <TouchableOpacity style={styles.ProfesionalButton} onPress={handleButton2}>
         <Text style={styles.buttonText}>ProfesionalUser</Text>
       </TouchableOpacity>
 

@@ -6,11 +6,14 @@ import { createStackNavigator, DefaultTheme } from '@react-navigation/stack';
 import Home from './component/Home'
 import Home2 from './component/Home2'
 import Loginpers from './component/Loginpers.js';
-import Loginprof from './component/Loginprof.js';
+import Login from './component/Loginprof.js';
 import Signuppers from './component/Signuppers.js';
 import Signupprof from './component/Signupprof.js';
 import Nav from './NavBar/Nav';
 import Home3 from './component/Home3'
+import SignUpPro from './component/Signupprof.js';
+
+
 
 
 const Stack=createStackNavigator()
@@ -27,13 +30,10 @@ const App=() => {
       {/* <Stack.Screen   name='Home'  component={Home}/>
        <Stack.Screen   name='Home2'  component={Home2}/>
        <Stack.Screen   name='Loginpers'  component={Loginpers}/>
-       <Stack.Screen   name='Loginprof'  component={Loginprof}/>
+       <Stack.Screen   name='Loginprof'  component={Login}/>
        <Stack.Screen   name='Signuppers'  component={Signuppers}/>
-       <Stack.Screen   name='Signupprof'  component={Signupprof}/> */} 
-       
-       <Stack.Screen name="Home3" component={Home3} options={{ title: 'Home3',headerShown: false  }} />
-
-      <Stack.Screen  name='Nav' component={Nav}/>
+       <Stack.Screen   name='SignUpPro'  component={SignUpPro}/>
+      
 
       </Stack.Navigator>
     </NavigationContainer>
