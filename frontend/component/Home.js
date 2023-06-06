@@ -35,7 +35,7 @@ export default function App({ navigation }) {
       // First button press
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 4000,
+        duration: 2000,
         useNativeDriver: true,
       }).start(() => {
         setButtonPressCount(1); // Update button press count
@@ -49,7 +49,7 @@ export default function App({ navigation }) {
   const handleImagePress = () => {
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 1000,
+      duration: 500,
       useNativeDriver: true,
     }).start();
   };

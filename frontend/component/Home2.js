@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 330,
-    marginTop: 20,
+    marginTop: 10,
+    top:-70
   },
 });
