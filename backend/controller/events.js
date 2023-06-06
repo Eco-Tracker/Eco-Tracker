@@ -55,19 +55,42 @@ const add = async (req , res)=>{
 }
 const update = async (req, res) => {
     try {
-        const profissional = await prisma.events.update({
-            
+      const updatedEvent = await prisma.events.update({
+        where: { idEV: req.params.idEV },
+        data: {
+          name: req.body.name,
+          description: req.body.description,
+          participants: req.body.participants,
+          like: req.body.like,
+          image: req.body.image,
+          date: new Date(),
+          location: req.body.location,
+        },
+      });
+      res.status(200).json(updatedEvent);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  };
+  
+const deleteEvent = async (req, res) => {
+    
+    try {
+        const profissional = await prisma.events.delete({
+            where: { idEV : req.params.idEV }
         })
-         res.status(201).json(profissional)
+         res.status(200).json(profissional)
     }
     catch (err) {
          res.status(500).json(err)
     }
 }
+
 module.exports = {
     add,
     update,
     getOneByName,
     getOneBylocation,
-    getAll
+    getAll, 
+    deleteEvent
 }

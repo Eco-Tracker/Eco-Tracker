@@ -5,11 +5,13 @@ const {
     update,
     getOneByName,
     getOneBylocation,
-    getAll
+    getAll, 
+    deleteEvent
 }= require("../controller/events")
 router.get("/", getAll);
 router.post("/add", add);
-router.post("/update", update);
+router.put("/:idEV", update);
+router.delete("/:idEV",deleteEvent);
 router.get("/:name", getOneByName);
 router.get("/:location",getOneBylocation)
 module.exports = router;     

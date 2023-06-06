@@ -14,7 +14,8 @@ app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/proUsers", users);
-app.use("/users",user)
+app.use("/users",user);
+app.use("/event", event)
 
 app.listen(5000, ()=> console.log("listening on port 5000"))
 const main=()=>{ console.log("connect to prisma")}

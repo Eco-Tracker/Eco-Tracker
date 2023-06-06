@@ -82,7 +82,7 @@ const SignUpUsers = ({ navigation }) => {
           });
           console.log('User profile updated');
         }
-        await axios.post("http://197.26.41.9:5000/users/register",{
+        await axios.post("http://192.168.103.10:5000/users/register",{
           name,
           mail,
       password,
