@@ -83,7 +83,7 @@ const SignUpPro = ({ navigation }) => {
           });
           console.log('User profile updated');
         }
-        await axios.post("http://192.168.43.144:5000/proUsers/register",{
+        await axios.post("http://192.168.100.36:5000/proUsers/register",{
       professionalName,
       professionalMail,
       password,
