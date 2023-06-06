@@ -1,34 +1,36 @@
 import React, { useState } from 'react';
-import {Button, StatusBar, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, StatusBar, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function App({ navigation }) {
   const [imageSource, setImageSource] = useState(require('../images/1.png'));
   const [buttonPressCount, setButtonPressCount] = useState(0);
 
-  // const handlePress = () => {
-  //   if (buttonPressCount === 0) {
-  //     // First button press
-  //     setButtonPressCount(1); // Update button press count
-  //   } else {
-  //     navigation.navigate('Loginpers'); // Perform navigation to LoginComponent
-  //   }
-  // };
+  const handlePress = () => {
+    if (buttonPressCount === 0) {
+      // First button press
+      setButtonPressCount(1); // Update button press count
+    } else {
+      navigation.navigate('Loginpers'); // Perform navigation to LoginComponent
+    }
+  };
 
-  // const handleImagePress = () => {
-  //   navigation.navigate('Login'); // Perform navigation to LoginComponent
-  // };
-  const handleButton1=()=>{
-    navigation.navigate('Loginpers')
-  }
-  const handleButton2=()=>{
-    navigation.navigate('Loginprof')
-  }
+  const handleImagePress = () => {
+    navigation.navigate('Login'); // Perform navigation to LoginComponent
+  };
+
+  const handleButton1 = () => {
+    navigation.navigate('Loginpers');
+  };
+
+  const handleButton2 = () => {
+    navigation.navigate('Loginprof');
+  };
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" translucent={false} />
 
-      {/* <Image source={imageSource} style={styles.image} onPress={handleImagePress} /> */}
+      <Image source={imageSource} style={styles.image} onPress={handleImagePress} />
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.Personalbutton} onPress={handleButton1}>
