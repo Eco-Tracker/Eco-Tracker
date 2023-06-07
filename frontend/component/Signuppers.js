@@ -78,7 +78,7 @@ const SignUpUsers = ({ navigation }) => {
         });
         console.log('User profile updated');
       }
-      await axios.post("http://192.168.103.16:5000/users/register",{
+      await axios.post("http://192.168.100.4:5000/users/register",{
         name,
         mail,
         password,
@@ -103,6 +103,16 @@ const SignUpUsers = ({ navigation }) => {
       navigation.navigate('Loginpers'); // Navigate to the Login component/page
     }
   };
+  const signUpWithGoogle = async () => {
+    try {
+      console.log("hello", auth, googleAuthProvider);
+      await signInWithPopup(auth, googleAuthProvider);
+    } catch (error) {
+      Alert.alert("Error", error.message);
+      console.log(error);
+    }
+  };
+
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();

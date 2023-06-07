@@ -26,6 +26,7 @@ import Signuppers from './component/Signuppers.js';
 import SignUpPro from './component/Signupprof.js';
 import PersonnalUser from './component/PersonnalUser';
 import ProfesionnalUser from './component/ProfesionnalUser';
+import Nav from "../frontend/NavBar/Nav"
 
 
 
@@ -48,6 +49,7 @@ const App=() => {
        <Stack.Screen   name='Loginprof'  component={Login}/>
        <Stack.Screen   name='Signuppers'  component={Signuppers}/>
        <Stack.Screen   name='SignUpPro'  component={SignUpPro}/>
+       <Stack.Screen   name='Nav'  component={Nav}/>
        
       
 
