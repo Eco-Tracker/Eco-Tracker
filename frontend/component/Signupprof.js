@@ -5,7 +5,7 @@ import { View, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, Tou
 import { AntDesign } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword, signInWithPopup, updateProfile} from "firebase/auth";
 import {auth, googleAuthProvider } from "../Firebase/index";
-
+import ADDRESS_IP from '../API'
 const SignUpPro = ({ navigation }) => {
     const [professionalName, setProfessionalName] = useState('');
     const [professionalMail, setProfessionalMail] = useState('');
@@ -84,7 +84,7 @@ const SignUpPro = ({ navigation }) => {
           });
           console.log('User profile updated');
         }
-        await axios.post("http://192.168.100.4:5000/proUsers/register",{
+        await axios.post(`http://${ADDRESS_IP}:5000/proUsers/register`,{
       professionalName,
       professionalMail,
       password,
