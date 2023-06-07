@@ -53,7 +53,7 @@ const LoginUser = ({ navigation }) => {
         <View style={styles.container}>
           <StatusBar style={styles.status} />
           <View style={styles.inner}>
-            <Text style={styles.header} onPress={handleLogin}>Login</Text>
+            <Text style={styles.header} onPress={handleLogin}>Please add the necessary informations to access the application</Text>
             <TextInput placeholder="Email" value={mail} onChangeText={(text) => setEmail(text)} style={styles.textInput} />
             <TextInput placeholder="Password" onChangeText={(text) => setPassword(text)} style={styles.textInput} secureTextEntry={true} value={password} />
             <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
@@ -86,23 +86,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   inner: {
-    padding: 40,
+    padding: 160,
     flex: 1,
     justifyContent: 'space-around',
   },
   header: {
-    fontSize: 36,
-    marginBottom: 8,
-    textAlign: 'center',
+    top: -70,
+    fontSize: 16,
+    marginBottom: -148,
+    
   },
   textInput: {
-    height: 40,
+    top: -90,
+    height: 50,
     borderColor: '#000000',
     borderBottomWidth: 1,
-    marginBottom: 20,
+    marginBottom: 45,
   },
   btnContainer: {
-    width: 180,
+    top: -50,
+    width: 290,
     borderRadius: 12,
     backgroundColor: '#4CAF50',
     alignItems: 'center',
