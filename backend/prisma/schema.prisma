@@ -8,73 +8,67 @@ datasource db {
 }
 
 model comments {
-  id      String  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id      String @id @default (cuid())
   bodyCom String
-  post_Id String? @db.Uuid
-  posts   posts?  @relation(fields: [post_Id], references: [post_Id], onDelete: NoAction, onUpdate: NoAction)
+  post_Id String
+  posts   posts  @relation(fields: [post_Id], references: [post_Id])
+  author personalUser @relation(fields: [authorId], references: [id])
+  authorId                String
+
 }
 
 model events {
-  idEV                    String                    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  idEV                    String                    @id @default (cuid())
   name                    String
   description             String
   image                   String
   participants            Int
   like                    Int
-  date                    DateTime                  @db.Date
+  date                    DateTime                 
   location                String
-  profissionalUser_events profissionalUser_events[] @ignore
+  author profissionalUser @relation(fields: [authorId], references: [id])
+  authorId                String
+
 }
 
 model personalUser {
-  id                 String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  photo              String
+  id                 String               @id @default (cuid())
+  photo              String? 
   name               String
   mail               String               @unique
-  phone_             Int?
-  personalUser_posts personalUser_posts[] @ignore
+  phone              Int
+  banned             Boolean    @default(false)
   posts              posts[]
+  comments           comments[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model personalUser_posts {
-  personalUser_id String       @db.Uuid
-  posts_post_Id   String       @db.Uuid
-  personalUser    personalUser @relation(fields: [personalUser_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  posts           posts        @relation(fields: [posts_post_Id], references: [post_Id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@ignore
-}
 
 model posts {
-  post_Id            String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  post_Id            String               @id @default (cuid())
   type               String
   title              String
   body               String
   image              String
   like               Int
-  user_id            String?              @db.Uuid
+  author personalUser @relation(fields: [authorId], references: [id])
+  authorId                String
   comments           comments[]
-  personalUser_posts personalUser_posts[] @ignore
-  personalUser       personalUser?        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model profissionalUser {
-  id                      String                    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id                      String                    @id @default (cuid())
   professionalName        String
   professionalMail        String                    @unique
   contactNumber           Int
-  codeFiscal              Int
+  codeFiscal              String
   picture                 String
-  profissionalUser_events profissionalUser_events[] @ignore
+  banned                  Boolean    @default(false)
+  events                  events[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
-model profissionalUser_events {
-  profissionalUser_id String           @db.Uuid
-  events_idEV         String           @db.Uuid
-  events              events           @relation(fields: [events_idEV], references: [idEV], onDelete: NoAction, onUpdate: NoAction)
-  profissionalUser    profissionalUser @relation(fields: [profissionalUser_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@ignore
+model admin {
+  adminId String @id @default (cuid())
+  email String
 }
+
