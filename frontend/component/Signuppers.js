@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { View, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, StatusBar, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../Firebase/index";
-
+import ADDRESS_IP from '../API'
 const SignUpUsers = ({ navigation }) => {
   const [name, setname] = useState('');
   const [mail, setmail] = useState('');
@@ -78,7 +78,7 @@ const SignUpUsers = ({ navigation }) => {
         });
         console.log('User profile updated');
       }
-      await axios.post("http://192.168.103.16:5000/users/register",{
+      await axios.post(`http://${ADDRESS_IP}:5000/users/register`,{
         name,
         mail,
         password,
@@ -101,6 +101,15 @@ const SignUpUsers = ({ navigation }) => {
       mail.trim() !== ''
     ) {
       navigation.navigate('Loginpers'); // Navigate to the Login component/page
+    }
+  };
+  const signUpWithGoogle = async () => {
+    try {
+      console.log("hello", auth, googleAuthProvider);
+      await signInWithPopup(auth, googleAuthProvider);
+    } catch (error) {
+      Alert.alert("Error", error.message);
+      console.log(error);
     }
   };
 
