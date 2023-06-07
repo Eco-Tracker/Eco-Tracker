@@ -62,10 +62,45 @@ const login = async (req, res) => {
          res.status(500).json(err)
     }
 }
+
+const updatePro = async(req,res)=>{
+    try {
+        const profissional = await prisma.profissionalUser.update({
+            where: { id: req.params.id },
+        data: {
+            professionalName: req.body.professionalName,
+            professionalMail: req.body.professionalMail,
+            contactNumber: req.body.contactNumber,
+            codeFiscal: req.body.codeFiscal,
+            picture: req.body.picture,
+        },
+        })
+        res.status(200).json(profissional)
+    }
+    catch (err) {
+         res.status(500).json(err)
+    }
+}
+const deletePro = async (req, res) => {
+    
+    try {
+        const profissional = await prisma.profissionalUser.delete({
+            where: { id : req.params.id }
+        })
+         res.status(200).json(profissional)
+    }
+    catch (err) {
+         res.status(500).json(err)
+    }
+}
+
+
 module.exports = {
     register,
     login,
     getOneByName,
     getOneByemail,
-    getAll
+    getAll,
+    updatePro,
+    deletePro
 }
