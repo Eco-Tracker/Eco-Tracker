@@ -49,7 +49,7 @@ const App=() => {
        <Stack.Screen   name='Loginprof'  component={Login}/>
        <Stack.Screen   name='Signuppers'  component={Signuppers}/>
        <Stack.Screen   name='SignUpPro'  component={SignUpPro}/>
-       <Stack.Screen   name='Nav'  component={Nav}/>
+       {/* <Stack.Screen   name='Nav'  component={Nav}/> */}
        
       
 
