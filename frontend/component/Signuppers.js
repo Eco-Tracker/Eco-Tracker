@@ -105,15 +105,7 @@ const SignUpUsers = ({ navigation }) => {
     }
   };
 
-  const signUpWithGoogle = async () => {
-    try {
-      console.log("hello", auth, googleAuthProvider);
-      await signInWithPopup(auth, googleAuthProvider);
-    } catch (error) {
-      Alert.alert("Error", error.message);
-      console.log(error);
-    }
-  };
+ 
 
 
   
