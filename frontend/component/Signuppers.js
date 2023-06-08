@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
-import { View, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, StatusBar, KeyboardAvoidingView, Platform, Image } from 'react-native';
+import { View, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard,signUpWithGoogle, StatusBar, KeyboardAvoidingView, Platform, Image, ScrollView } from 'react-native';
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../Firebase/index";
 import ADDRESS_IP from '../API'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 const SignUpUsers = ({ navigation }) => {
   const [name, setname] = useState('');
   const [mail, setmail] = useState('');
@@ -138,7 +140,9 @@ const SignUpUsers = ({ navigation }) => {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : null}
     >
+    <KeyboardAwareScrollView  style={styles.ff}>
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
           <StatusBar style={styles.status} />
           <View style={styles.inner}>
@@ -195,7 +199,9 @@ const SignUpUsers = ({ navigation }) => {
  
           </View>
         </View>
+        </ScrollView>
       </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -207,6 +213,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  ff:{
+top:70,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   buttonText: {
     color: '#fff',
     fontSize: 16,
@@ -216,21 +230,19 @@ const styles = StyleSheet.create({
   googleButton: {
     flex: 1,
     position: 'absolute',
-    bottom: 30,
+    bottom: -50,
     alignSelf: 'center',
   },
   googleButtonImage: {
     flex: 1,
     position: 'relative',
-    top: -520,
+    top: -560,
     left: 5,
     width: 260,
     height: 55,
   },
-  
   inner: {
-    padding: 30,
-    flex: 1,
+    padding: 110,
     justifyContent: 'center', // Center buttons vertically
   },
   header: {
@@ -239,13 +251,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textInput: {
+    top: 2,
     height: 30,
     borderColor: '#000000',
     borderBottomWidth: 1,
     marginBottom: 20,
   },
   btnContainer: {
-    width: 230,
+    width: 280,
     borderRadius: 12,
     backgroundColor: '#4CAF50',
     alignItems: 'center',
@@ -263,7 +276,7 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: 10,
     marginBottom: 20,
-    alignSelf: 'center', 
+    alignSelf: 'center',
   },
 });
 
