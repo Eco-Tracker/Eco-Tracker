@@ -1,45 +1,39 @@
 import React, { useState } from 'react';
-import {
-  Alert,
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-  StatusBar,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
-import { signInWithEmailAndPassword} from "firebase/auth";
-import {auth, googleAuthProvider } from "../Firebase/index";
-import Nav from "../NavBar/Nav"
-import NavBar from '../NavBar/Nav';
-const Login = ({ navigation }) => {
+import { Alert, View, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, StatusBar, KeyboardAvoidingView, Platform } from 'react-native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../Firebase/index';
+import { useNavigation } from '@react-navigation/native';
+
+const Login = () => {
+  const navigation = useNavigation();
+
   const [professionalMail, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const handleLogin = async () => {
     try {
-        const userCredential = await signInWithEmailAndPassword (
-          auth,
-          professionalMail,
-          password
-        );
-        const user = userCredential.user;
-        Alert.alert("Welcome");
-        console.log("User created:", user);
-      } catch (error) {
-        Alert.alert("Signup first", error.message);
-      }
-    };
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        professionalMail,
+        password
+      );
+      const user = userCredential.user;
+      Alert.alert("Welcome");
+      console.log("User created:", user);
+
+      // Rediriger vers la page "profhomepage"
+      navigation.navigate('profhomepage');
+    } catch (error) {
+      Alert.alert("Signup first", error.message);
+    }
+  };
 
   const handlePress = () => {
-    // Add handle press logic here
+    // Ajouter ici la logique pour le bouton "Press"
   };
 
   const handleSignUp = () => {
-    navigation.navigate('SignUpPro'); // Navigate to the SignUp component/page
+    navigation.navigate('SignUpPro'); // Naviguer vers le composant/page "SignUpPro"
   };
 
   const dismissKeyboard = () => {
@@ -55,11 +49,22 @@ const Login = ({ navigation }) => {
         <View style={styles.container}>
           <StatusBar style={styles.status} />
           <View style={styles.inner}>
-            <Text style={styles.header} onPress={handleLogin}>Please add the necessary informations to access the application</Text>
-            <TextInput placeholder="Email" value={professionalMail} onChangeText={(text) => setEmail(text)} style={styles.textInput} />
-            <TextInput placeholder="Password" onChangeText={(text) => setPassword(text)} style={styles.textInput} secureTextEntry={true} value={password} />
+            <Text style={styles.header} onPress={handleLogin}>Please add the necessary information to access the application</Text>
+            <TextInput
+              placeholder="Email"
+              value={professionalMail}
+              onChangeText={(text) => setEmail(text)}
+              style={styles.textInput}
+            />
+            <TextInput
+              placeholder="Password"
+              onChangeText={(text) => setPassword(text)}
+              style={styles.textInput}
+              secureTextEntry={true}
+              value={password}
+            />
             <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
-                  <Text style={styles.buttonText}>Submit</Text>
+              <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
@@ -67,7 +72,6 @@ const Login = ({ navigation }) => {
                 <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
               </TouchableOpacity>
             </View>
-            {/* <NavBar /> */}
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -97,7 +101,6 @@ const styles = StyleSheet.create({
     top: -70,
     fontSize: 16,
     marginBottom: -108,
-    
   },
   textInput: {
     top: -90,
@@ -123,7 +126,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   signUpText: {
-    
     fontSize: 12,
     lineHeight: 14,
   },
