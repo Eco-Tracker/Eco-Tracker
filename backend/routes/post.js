@@ -11,7 +11,7 @@ router.get("/", getAll);
 router.post("/register", register);
 router.get("/:title", getOneByTitle);
 router.delete("/:title", deleteOneByTitle);
-router.put("/:title", updateOneByTitle);
+router.put("/:post_Id", updateOneByTitle);
 
 
 

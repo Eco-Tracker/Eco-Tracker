@@ -8,7 +8,7 @@ const PostList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://192.168.1.3:5000/post/');
+        const response = await axios.get('http://192.168.103.6:5000/post/');
         console.log(response.data)
         setPosts(response.data);
       } catch (error) {
@@ -18,6 +18,9 @@ const PostList = () => {
 
     fetchPosts();
   }, []);
+
+
+  
 
   const renderItem = ({ item }) => (
     <View style={styles.postContainer}>
@@ -72,4 +75,3 @@ const styles = StyleSheet.create({
 });
 
 export default PostList;
-

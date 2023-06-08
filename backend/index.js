@@ -17,8 +17,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/proUsers", users);
 app.use("/post",post)
-
-
 app.use("/users",user);
 app.use("/event", event);
 app.use("/comment", comment);

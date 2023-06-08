@@ -45,8 +45,7 @@ const updateOneByTitle = async (req, res) => {
                 title: req.body.title,
                 body: req.body.body,
                 image: req.body.image,
-                like: req.body.like,
-                user_id: req.body.user_id
+                like: req.body.like
             }
         });
 

@@ -23,6 +23,7 @@ const getOneByName = async (req,res)=>{
          res.status(500).json(err)
     }
 }
+
 const getOneById = async (req, res) => {
     try {
        const one= await prisma.personalUser.findMany({ where: { id: req.params.id } })
@@ -81,8 +82,19 @@ const deleteUser = async (req, res) => {
          res.status(500).json(err)
     }
 }
+const getOneByemail = async (req,res)=>{
+    try {
+        const mails= await prisma.personalUser.findMany({ where: { mail: req.params.mail } })
+         res.status(200).json(mails)
+    }
+    catch (err) {
+        
+         res.status(500).json(err)
+    }
+}
 
 module.exports = {
+    getOneByemail,
     register,
     getOneByName,
     getAllUsers,
