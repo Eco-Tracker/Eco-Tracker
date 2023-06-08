@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { signInWithEmailAndPassword} from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import {auth, googleAuthProvider } from "../Firebase/index";
 const LoginUser = ({ navigation }) => {
   const [mail, setEmail] = useState("");
@@ -24,6 +24,7 @@ const LoginUser = ({ navigation }) => {
           mail,
           password
         );
+        console.log(auth, "this is auth")
         const user = userCredential.user;
         Alert.alert("Welcome");
         console.log("User created:", user);
@@ -35,6 +36,15 @@ const LoginUser = ({ navigation }) => {
   const handlePress = () => {
     // Add handle press logic here
   };
+  const resetPassword=()=>{
+    sendPasswordResetEmail(auth,mail)
+    .then((res)=> {
+      console.log(mail,"email")
+      alert('password sent')} )
+      .catch((error) => {
+        console.error('Error during password reset:', error);
+      });
+  }
 
   const handleSignUp = () => {
     navigation.navigate('Signuppers'); // Navigate to the SignUp component/page
@@ -61,6 +71,7 @@ const LoginUser = ({ navigation }) => {
             </TouchableOpacity>
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
+              <Text onPress={()=>{resetPassword()}}>Forgot password ?</Text>
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
               </TouchableOpacity>

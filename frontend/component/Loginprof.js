@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { signInWithEmailAndPassword} from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import {auth, googleAuthProvider } from "../Firebase/index";
 import Nav from "../NavBar/Nav"
 import NavBar from '../NavBar/Nav';
@@ -41,6 +41,15 @@ const Login = ({ navigation }) => {
   const handleSignUp = () => {
     navigation.navigate('SignUpPro'); // Navigate to the SignUp component/page
   };
+  const resetPassword=()=>{
+    sendPasswordResetEmail(auth,professionalMail)
+    .then((res)=> {
+      console.log(professionalMail,"email")
+      alert('password reset email has been sent successfully')} )
+      .catch((error) => {
+        alert('Please enter a valid email', error);
+      });
+  }
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -63,6 +72,7 @@ const Login = ({ navigation }) => {
             </TouchableOpacity>
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
+              <Text onPress={()=>{resetPassword()}}>Forgot password ?</Text>
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
               </TouchableOpacity>
