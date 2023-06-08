@@ -68,7 +68,10 @@ const register = async (req , res)=>{
                 title: req.body.title,
                 body: req.body.body,
                 image: req.body.image,
-                like:req.body.like
+                like:req.body.like,
+                author:{
+                    connect:{id:req.body.id}
+                  }
             }
         })
          res.status(201).json(posst)           
