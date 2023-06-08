@@ -47,15 +47,12 @@ const App=() => {
       <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName='ProfesionnalUser' >
       <Stack.Screen   name='HomePage'  component={PostList}/>
       <Stack.Screen   name='post'  component={post}/>
-      
        <Stack.Screen   name='Home'  component={Home} />
        <Stack.Screen   name='Home2'  component={Home2}/>
        <Stack.Screen   name='Loginpers'  component={Loginpers}/>
        <Stack.Screen   name='Loginprof'  component={Login}/>
        <Stack.Screen   name='Signuppers'  component={Signuppers}/>
        <Stack.Screen   name='SignUpPro'  component={SignUpPro}/>
-
-
        <Stack.Screen   name='Nav'  component={Nav}/>
        
       

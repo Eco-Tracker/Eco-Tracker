@@ -13,6 +13,7 @@ catch(err){
 }
 }
 const getOneByName = async (req,res)=>{
+    console.log(req.params,"test")
     try {
         const profissionals= await prisma.profissionalUser.findMany({ where: { professionalName: req.params.professionalName } })
          res.status(200).json(profissionals)
