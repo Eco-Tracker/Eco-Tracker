@@ -17,6 +17,16 @@ const ProfHomePage = () => {
     <View style={styles.container}>
       <StatusBar backgroundColor="#F3F3F3" barStyle="dark-content" />
 
+      <View style={styles.shape}>
+        <ScrollView style={styles.scrollView}>
+          <KeyboardAvoidingView behavior="padding" style={styles.content}>
+            <FlatListVertical searchText={searchText} />
+          </KeyboardAvoidingView>
+        </ScrollView>
+      </View>
+
+      <Image source={require('../assets/ProfHome/Smalllogo.png')} style={styles.logo} />
+
       <TextInput
         style={styles.searchInput}
         placeholder="Search"
@@ -24,14 +34,6 @@ const ProfHomePage = () => {
         onChangeText={handleInputChange}
         onSubmitEditing={handleSearch}
       />
-      
-      <View style={styles.shape} />
-
-      <ScrollView style={styles.scrollView}>
-        <KeyboardAvoidingView behavior="padding" style={styles.content}>
-          <FlatListDemo />
-        </KeyboardAvoidingView>
-      </ScrollView>
 
       <View style={styles.formNavBarButton}>
         <TouchableOpacity>
@@ -51,12 +53,11 @@ const ProfHomePage = () => {
         <Image source={require('../assets/ProfHome/profil.png')} style={styles.profilButton} />
       </TouchableOpacity>
 
-      <Image source={require('../assets/ProfHome/Smalllogo.png')} style={styles.logo} />
     </View>
   );
 };
 
-const FlatListDemo = () => {
+const FlatListVertical = ({ searchText }) => {
   const names = [
     {
       index: "1",
@@ -76,9 +77,13 @@ const FlatListDemo = () => {
     },
   ];
 
+  const filteredResults = names.filter((item) =>
+    item.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   return (
     <View style={styles.content}>
-      {names.map((item) => (
+      {filteredResults.map((item) => (
         <Text key={item.index} style={styles.textStyle}>
           {item.name}
         </Text>
@@ -96,28 +101,30 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    top: 12,
+    top: -13,
   },
   content: {
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: 10,
+    
   },
   searchInput: {
-    width: 240,
+    position: 'absolute',
+    width: 280,
     height: 40,
     backgroundColor: '#FBFDFF',
     borderRadius: 20,
     paddingHorizontal: 20,
     borderWidth: 1,
-    top: 10,
-    left: 55,
+    top: 15,
+    left: 75,
     borderColor: '#E6E6E6',
   },
   logo: {
     position: 'absolute',
     top: 10,
-    left: 70,
+    left: 30,
     width: 40,
     height: 43,
   },
@@ -126,9 +133,9 @@ const styles = StyleSheet.create({
   },
   profilButton: {
     position: 'absolute',
-    width: 45,
-    height: 55,
-    top: 325,
+    width: 40,
+    height: 50,
+    top: 330,
     left: 150,
     alignItems: 'center',
     paddingBottom: 0,
@@ -137,33 +144,30 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 425,
     height: 155,
-    top: 595,
+    top: 605,
     left: -33,
     alignItems: 'center',
     paddingBottom: 0,
   },
   homeButton: {
     position: 'absolute',
-    top: 325,
+    top: 330,
     left: 15,
-    width: 57,
-    height: 60,
+    width: 47,
+    height: 50,
   },
   addButton: {
     position: 'absolute',
     top: 305,
     bottom: 60,
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     alignSelf: 'center',
   },
-  formNavBarButtonImage: {
-    width: 425,
-    height: 155,
-  },
+  
   shape: {
     position: 'absolute',
-    top: 70,
+    top: 60,
     width: 360,
     height: 711,
     backgroundColor: '#F9F9F9',
@@ -176,6 +180,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: 'black',
     borderRadius: 20,
+    width: 330,
+    
   },
 });
 
