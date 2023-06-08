@@ -26,6 +26,8 @@ import Signuppers from './component/Signuppers.js';
 import Signupprof from './component/Signupprof.js';
 import PersonnalUser from './component/PersonnalUser';
 import ProfesionnalUser from './component/ProfesionnalUser';
+import PostList from './component/HomePage';
+import post from './component/post'
 import Nav from "../frontend/NavBar/Nav"
 import ProfHomePage from './component/ProfHomePage';
 
@@ -44,6 +46,9 @@ const App=() => {
 
      <NavigationContainer  >
       <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName='ProfesionnalUser' >
+      <Stack.Screen   name='HomePage'  component={PostList}/>
+      <Stack.Screen   name='post'  component={post}/>
+      
        <Stack.Screen   name='Home'  component={Home} />
        <Stack.Screen   name='Home2'  component={Home2}/>
        <Stack.Screen   name='Loginpers'  component={Loginpers}/>
