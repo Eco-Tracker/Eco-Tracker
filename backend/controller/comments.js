@@ -6,7 +6,7 @@ const getAll = async (req,res)=>{
     try{
     const comments = await prisma.comments.findMany()
     res.status(200).json(comments)
-}
+} 
 catch(err){
     console.log(err)
      res.status(500).json(err)
@@ -29,7 +29,10 @@ const add = async (req , res)=>{
         const comment = await prisma.comments.create({
             data: {
                 bodyCom: req.body.bodyCom,
-                post_Id:req.body.post_Id
+                post_Id:req.body.post_Id,
+                author:{
+                    connect:{id:req.body.id}
+                }
             }
         })
          res.status(201).json(comment)           
@@ -46,6 +49,7 @@ const update = async (req, res) => {
         where: { id: req.params.id },
         data: {
             bodyCom: req.body.bodyCom
+
         },
       });
       res.status(200).json(comment);

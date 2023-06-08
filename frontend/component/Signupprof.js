@@ -90,7 +90,7 @@ const SignUpPro = ({ navigation }) => {
       professionalMail,
       password,
       contactNumber: parseInt(contactNumber, 10),
-      codeFiscal: parseInt(codeFiscal, 10),
+      codeFiscal,
       picture
     });
     
@@ -188,7 +188,6 @@ const SignUpPro = ({ navigation }) => {
               placeholder="Code Fiscal"
               style={styles.textInput}
               value={codeFiscal}
-              type="number"
               onChangeText={setCodeFiscal}
             />
             <Button title="Select Image" onPress={selectImage} color={buttonColor} />
