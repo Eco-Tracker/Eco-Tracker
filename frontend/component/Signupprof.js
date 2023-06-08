@@ -5,7 +5,7 @@ import { View, Alert, Button, StyleSheet, Text, TextInput, TouchableOpacity, Tou
 import { AntDesign } from '@expo/vector-icons';
 import { createUserWithEmailAndPassword, signInWithPopup, updateProfile} from "firebase/auth";
 import {auth, googleAuthProvider } from "../Firebase/index";
-
+import ADDRESS_IP from '../API'
 const SignUpPro = ({ navigation }) => {
     const [professionalName, setProfessionalName] = useState('');
     const [professionalMail, setProfessionalMail] = useState('');
@@ -84,12 +84,13 @@ const SignUpPro = ({ navigation }) => {
           });
           console.log('User profile updated');
         }
-        await axios.post("http://192.168.103.16:5000/proUsers/register",{
+
+        await axios.post(`http://${ADDRESS_IP}:5000/proUsers/register`,{
       professionalName,
       professionalMail,
       password,
       contactNumber: parseInt(contactNumber, 10),
-      codeFiscal: parseInt(codeFiscal, 10),
+      codeFiscal,
       picture
     });
     
@@ -187,7 +188,6 @@ const SignUpPro = ({ navigation }) => {
               placeholder="Code Fiscal"
               style={styles.textInput}
               value={codeFiscal}
-              type="number"
               onChangeText={setCodeFiscal}
             />
             <Button title="Select Image" onPress={selectImage} color={buttonColor} />

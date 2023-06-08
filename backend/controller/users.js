@@ -23,15 +23,15 @@ const getOneByName = async (req,res)=>{
          res.status(500).json(err)
     }
 }
-// const getOneByemail = async (req, res) => {
-//     try {
-//         prisma.personalUser.findFirst({ where: { mail: req.params.email } }).then((result) => {
-//         res.json(result);
-//       });
-//     } catch (err) {
-//       res.json(err);
-//     }
-//   };
+const getOneById = async (req, res) => {
+    try {
+       const one= await prisma.personalUser.findMany({ where: { id: req.params.id } })
+        res.status(200).json(one);
+    
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  };
 
 const register = async (req , res)=>{
     try {
@@ -39,7 +39,7 @@ const register = async (req , res)=>{
             data: {
                 name: req.body.name,
                 mail: req.body.mail,
-                phone_: req.body.phone_,
+                phone: req.body.phone,
                 photo: req.body.photo,
          
             }
@@ -52,9 +52,41 @@ const register = async (req , res)=>{
     }
 
 }
+const updateUser = async(req,res)=>{
+    try {
+        const user = await prisma.personalUser.update({
+            where: { id: req.params.id },
+        data: {
+                name: req.body.name,
+                mail: req.body.mail,
+                phone: req.body.phone,
+                photo: req.body.photo,
+        },
+        })
+        res.status(200).json(user)
+    }
+    catch (err) {
+         res.status(500).json(err)
+    }
+}
+const deleteUser = async (req, res) => {
+    
+    try {
+        const user = await prisma.personalUser.delete({
+            where: { id : req.params.id }
+        })
+         res.status(200).json(user)
+    }
+    catch (err) {
+         res.status(500).json(err)
+    }
+}
 
 module.exports = {
     register,
     getOneByName,
-    getAllUsers
+    getAllUsers,
+    getOneById,
+    deleteUser,
+    updateUser
 }

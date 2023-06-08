@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import { signInWithEmailAndPassword} from "firebase/auth";
 import {auth, googleAuthProvider } from "../Firebase/index";
+import Nav from "../NavBar/Nav"
+import NavBar from '../NavBar/Nav';
 const Login = ({ navigation }) => {
   const [professionalMail, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,6 +67,7 @@ const Login = ({ navigation }) => {
                 <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
               </TouchableOpacity>
             </View>
+            {/* <NavBar /> */}
           </View>
         </View>
       </TouchableWithoutFeedback>
