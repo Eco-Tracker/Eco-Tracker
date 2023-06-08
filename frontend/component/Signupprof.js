@@ -84,12 +84,13 @@ const SignUpPro = ({ navigation }) => {
           });
           console.log('User profile updated');
         }
+
         await axios.post(`http://${ADDRESS_IP}:5000/proUsers/register`,{
       professionalName,
       professionalMail,
       password,
       contactNumber: parseInt(contactNumber, 10),
-      codeFiscal: parseInt(codeFiscal, 10),
+      codeFiscal,
       picture
     });
     
@@ -187,7 +188,6 @@ const SignUpPro = ({ navigation }) => {
               placeholder="Code Fiscal"
               style={styles.textInput}
               value={codeFiscal}
-              type="number"
               onChangeText={setCodeFiscal}
             />
             <Button title="Select Image" onPress={selectImage} color={buttonColor} />

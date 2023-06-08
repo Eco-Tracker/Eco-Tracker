@@ -42,7 +42,10 @@ const add = async (req , res)=>{
                 like: req.body.like,
                 image: req.body.image,
                 date : new Date(),
-                location: req.body.location
+                location: req.body.location,
+                author:{
+                  connect:{id:req.body.id}
+                }
             }
         })
          res.status(201).json(event)           
