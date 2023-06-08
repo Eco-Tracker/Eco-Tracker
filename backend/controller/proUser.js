@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getAll = async (req,res)=>{
     try{
-    const profissionals = await prisma.profissionalUser.findMany();
+    const profissionals = await prisma.profissionalUser.findMany()
     res.status(200).json(profissionals)
 }
 catch(err){
@@ -14,8 +14,8 @@ catch(err){
 }
 const getOneByName = async (req,res)=>{
     try {
-        const names= await prisma.profissionalUser.findMany({ where: { professionamName: req.params.name } })
-         res.status(200).json(names)
+        const profissionals= await prisma.profissionalUser.findMany({ where: { professionalName: req.params.professionalName } })
+         res.status(200).json(profissionals)
     }
     catch (err) {
         
@@ -24,11 +24,19 @@ const getOneByName = async (req,res)=>{
 }
 const getOneByemail = async (req, res) => {
     try {
-        prisma.profissionalUser.findFirst({ where: { professionalMail: req.params.email } }).then((result) => {
-        res.json(result);
-      });
+        const one = await prisma.profissionalUser.findMany({ where: { professionalMail: req.params.email } })
+        res.status(200).json(one);
     } catch (err) {
-      res.json(err);
+        res.status(500).json(err)
+    }
+  };
+  const getOneById = async (req, res) => {
+    try {
+       const one= await prisma.profissionalUser.findUnique({ where: { id: req.params.id } })
+        res.status(200).json(one);
+    
+    } catch (err) {
+        res.status(500).json(err)
     }
   };
 
@@ -102,5 +110,6 @@ module.exports = {
     getOneByemail,
     getAll,
     updatePro,
-    deletePro
+    deletePro,
+    getOneById
 }
