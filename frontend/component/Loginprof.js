@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import {
   Alert,
   View,
@@ -16,29 +17,49 @@ import { signInWithEmailAndPassword} from "firebase/auth";
 import {auth, googleAuthProvider } from "../Firebase/index";
 
 const Login = ({ navigation }) => {
+=======
+import { Alert, View, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, StatusBar, KeyboardAvoidingView, Platform } from 'react-native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../Firebase/index';
+import { useNavigation } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
+const Login = () => {
+  const navigation = useNavigation();
+
+>>>>>>> 519d9a8fff6b8741360efdf92d7b8bf4842bb99f
   const [professionalMail, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const handleLogin = async () => {
     try {
-        const userCredential = await signInWithEmailAndPassword (
-          auth,
-          professionalMail,
-          password
-        );
-        const user = userCredential.user;
-        Alert.alert("Welcome");
-        console.log("User created:", user);
-      } catch (error) {
-        Alert.alert("Signup first", error.message);
-      }
-    };
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        professionalMail,
+        password
+      );
+      const user = userCredential.user;
+      Alert.alert("Welcome");
+      console.log("User created:", user);
+
+      // Rediriger vers la page "profhomepage"
+      navigation.navigate('ProfHomePage');
+    } catch (error) {
+      Alert.alert("Signup first", error.message);
+    }
+  };
 
   const handlePress = () => {
-    // Add handle press logic here
+    // Ajouter ici la logique pour le bouton "Press"
   };
 
   const handleSignUp = () => {
-    navigation.navigate('SignUpPro'); // Navigate to the SignUp component/page
+    navigation.navigate('Signupprof'); // Naviguer vers le composant/page "SignUpPro"
+  };
+
+  const handleForgotPassword = () => {
+    // Handle forgot password logic here
+    Alert.alert("Forgot Password");
   };
 
   const dismissKeyboard = () => {
@@ -46,26 +67,45 @@ const Login = ({ navigation }) => {
   };
 
   return (
+
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
+    
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
         <View style={styles.container}>
           <StatusBar style={styles.status} />
           <View style={styles.inner}>
-            <Text style={styles.header} onPress={handleLogin}>Please add the necessary informations to access the application</Text>
-            <TextInput placeholder="Email" value={professionalMail} onChangeText={(text) => setEmail(text)} style={styles.textInput} />
-            <TextInput placeholder="Password" onChangeText={(text) => setPassword(text)} style={styles.textInput} secureTextEntry={true} value={password} />
-            <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
-                  <Text style={styles.buttonText}>Submit</Text>
-            </TouchableOpacity>
+            <Text style={styles.header}>Please add the necessary information to access the application</Text>
+            <TextInput
+              placeholder="Email"
+              value={professionalMail}
+              onChangeText={(text) => setEmail(text)}
+              style={styles.textInput}
+            />
+            <TextInput
+              placeholder="Password"
+              onChangeText={(text) => setPassword(text)}
+              style={styles.textInput}
+              secureTextEntry={true}
+              value={password}
+            />
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-                <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
+                <Text style={[styles.signUpText, { color: '#4CAF50', fontWeight: 'bold' }]}>Sign Up</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleForgotPassword}>
+                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
               </TouchableOpacity>
             </View>
+<<<<<<< HEAD
+=======
+            <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+>>>>>>> 519d9a8fff6b8741360efdf92d7b8bf4842bb99f
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -75,6 +115,7 @@ const Login = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -87,26 +128,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   inner: {
-    padding: 160,
+    padding: 30,
     flex: 1,
     justifyContent: 'space-around',
   },
   header: {
-    top: -70,
-    fontSize: 16,
-    marginBottom: -108,
-    
+    top :50,
+    fontSize: 14,
+    marginBottom: -20,
   },
   textInput: {
-    top: -90,
     height: 50,
-    borderColor: '#000000',
+    borderColor: '#4CAF50',
     borderBottomWidth: 1,
-    marginBottom: 45,
+    marginBottom: -60,
   },
   btnContainer: {
-    top: -50,
-    width: 290,
+    top:25,
+    width: 320,
     borderRadius: 12,
     backgroundColor: '#4CAF50',
     alignItems: 'center',
@@ -116,18 +155,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 10,
+    top:80,
   },
   signUpButton: {
     marginLeft: 5,
   },
   signUpText: {
-    
-    fontSize: 12,
+    fontSize: 10,
     lineHeight: 14,
+    top:-90,
+    left:-35,
   },
-  status: {
-    backgroundColor: 'red',
+  forgotPasswordText: {
+    fontSize: 8,
+    lineHeight: 14,
+    fontWeight: 'bold',
+    top:-90,
+    left:35,
   },
+ 
 });
 
 export default Login;
