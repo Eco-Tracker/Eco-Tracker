@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
 import pick from "../assets/addImage.png";
+import Header from './constants/Header';
 
 export default function ProfesionnalUser({ navigation }) {
 
@@ -17,8 +18,9 @@ export default function ProfesionnalUser({ navigation }) {
    
   
     return (
-     
-      <KeyboardAvoidingView style={styles.container}
+        <>
+        <Header/>
+      <View style={styles.container}
       behavior="padding">
         <View >
           <Text style={styles.text}>Cancel</Text>
@@ -86,8 +88,9 @@ export default function ProfesionnalUser({ navigation }) {
         </TouchableOpacity>
   
         <StatusBar style="auto" />
-      </KeyboardAvoidingView>
-      
+      </View>
+      </>
+  
     );
   }
   
@@ -114,6 +117,7 @@ export default function ProfesionnalUser({ navigation }) {
     container: {
       flex: 1,
       backgroundColor: '#fff',
+      
      
     },
     text:{
