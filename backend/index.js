@@ -3,6 +3,7 @@ const app = express();
 const dotenv = require('dotenv')
 const users = require("./routes/proUsers")
 const user = require("./routes/users")
+const post =require("./routes/post")
 const cors=require("cors")
 
 dotenv.config() // Load the environment variables
@@ -14,6 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/proUsers", users);
 app.use("/users",user)
+app.use("/post",post)
+
 
 app.listen(5000, ()=> console.log("listening on port 5000"))
 const main=()=>{ console.log("connect to prisma")}
