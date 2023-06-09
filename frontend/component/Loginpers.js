@@ -14,9 +14,11 @@ import {
 } from 'react-native';
 import { signInWithEmailAndPassword} from "firebase/auth";
 import {auth, googleAuthProvider } from "../Firebase/index";
+import axios from 'axios';
 const LoginUser = ({ navigation }) => {
   const [mail, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [dataa,setDataa] = useState("");
   const handleLogin = async () => {
     try {
         const userCredential = await signInWithEmailAndPassword (
@@ -26,15 +28,23 @@ const LoginUser = ({ navigation }) => {
         );
         const user = userCredential.user;
         Alert.alert("Welcome");
-        console.log("User created:", user);
+        const response = await axios.get(`http://192.168.103.6:5000/users/email/rourou@gmail.com`);
+        console.log(response.data,"this is from axios")
+        // console.log("User created:", user);
       } catch (error) {
         Alert.alert("Signup first", error.message);
       }
     };
 
-  const handlePress = () => {
-    // Add handle press logic here
-  };
+    const getByEmail = async () => {
+      try {
+        const response = await axios.get(`http://192.168.103.6:5000/users/email/${mail}`);
+        console.log(response.data,"this is from axios")
+        setDataa(response.data);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
 
   const handleSignUp = () => {
     navigation.navigate('Signuppers'); // Navigate to the SignUp component/page
