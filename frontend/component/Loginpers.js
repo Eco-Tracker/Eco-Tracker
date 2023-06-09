@@ -12,39 +12,52 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, googleAuthProvider } from "../Firebase/index";
+import { signInWithEmailAndPassword} from "firebase/auth";
+import {auth, googleAuthProvider } from "../Firebase/index";
+import axios from 'axios';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+// import post from './post';
 
-const LoginUser = ({ navigation }) => {
+
+const LoginUser = ({navigation}) => {
   const [mail, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [dataa,setDataa] = useState("");
+  const [id,setId]=useState("")
 
   const handleLogin = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        mail,
-        password
-      );
-      const user = userCredential.user;
-      Alert.alert("Welcome");
-      console.log("User created:", user);
-    } catch (error) {
-      Alert.alert("Signup first", error.message);
-    }
-  };
+        const userCredential = await signInWithEmailAndPassword (
+          auth,
+          mail,
+          password
+        );
+        const user = userCredential.user;
+        Alert.alert("Welcome");
+        // const response = await axios.get(`http://172.20.10.4:5000/users/email/${mail}`);
+        // console.log("this is from axios",response.data[0].id)
 
-  const handlePress = () => {
-    // Add handle press logic here
-  };
+        // setId(response.data[0].id)
+        navigation.navigate('post')
+
+      } catch (error) {
+        Alert.alert("Signup first", error.message);
+      }
+    };
+
+    // const getByEmail = async () => {
+    //   try {
+    //     const response = await axios.get(`http://192.168.103.6:5000/users/email/${mail}`);
+    //     console.log(response.data,"this is from axios")
+    //     setDataa(response.data);
+    //   } catch (error) {
+    //     console.error('Error fetching posts:', error);
+    //   }
+    // };
 
   const handleSignUp = () => {
     navigation.navigate('Signuppers'); // Navigate to the SignUp component/page
-  };
-
-  const handleForgotPassword = () => {
-    // Handle forgot password logic here
-    Alert.alert("Forgot Password");
   };
 
   const dismissKeyboard = () => {
@@ -60,35 +73,18 @@ const LoginUser = ({ navigation }) => {
         <View style={styles.container}>
           <StatusBar style={styles.status} />
           <View style={styles.inner}>
-            <Text style={styles.header} onPress={handleLogin}>
-              Please add the necessary informations to access the application
-            </Text>
-            <TextInput
-              placeholder="Email"
-              value={mail}
-              onChangeText={(text) => setEmail(text)}
-              style={styles.textInput}
-            />
-            <TextInput
-              placeholder="Password"
-              onChangeText={(text) => setPassword(text)}
-              style={styles.textInput}
-              secureTextEntry={true}
-              value={password}
-            />
-
+            <Text style={styles.header} onPress={handleLogin}>Please add the necessary informations to access the application</Text>
+            <TextInput placeholder="Email" value={mail} onChangeText={(text) => setEmail(text)} style={styles.textInput} />
+            <TextInput placeholder="Password" onChangeText={(text) => setPassword(text)} style={styles.textInput} secureTextEntry={true} value={password} />
+            <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
+                  <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleForgotPassword}>
-                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
-              <Text style={styles.buttonText}>Submit</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -98,7 +94,6 @@ const LoginUser = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -111,24 +106,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   inner: {
-    padding: 30,
+    padding: 160,
     flex: 1,
     justifyContent: 'space-around',
   },
   header: {
-    top: 50,
-    fontSize: 14,
-    marginBottom: -20,
+    top: -70,
+    fontSize: 16,
+    marginBottom: -148,
+    
   },
   textInput: {
+    top: -90,
     height: 50,
-    borderColor: '#4CAF50',
+    borderColor: '#000000',
     borderBottomWidth: 1,
-    marginBottom: -60,
+    marginBottom: 45,
   },
   btnContainer: {
-    top: 25,
-    width: 320,
+    top: -50,
+    width: 290,
     borderRadius: 12,
     backgroundColor: '#4CAF50',
     alignItems: 'center',
@@ -138,23 +135,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 10,
-    top: 80,
   },
   signUpButton: {
     marginLeft: 5,
   },
   signUpText: {
-    fontSize: 10,
+    
+    fontSize: 12,
     lineHeight: 14,
-    top: -90,
-    left: -35,
   },
-  forgotPasswordText: {
-    fontSize: 8,
-    lineHeight: 14,
-    fontWeight: 'bold',
-    top: -90,
-    left: 35,
+  status: {
+    backgroundColor: 'red',
   },
 });
 
