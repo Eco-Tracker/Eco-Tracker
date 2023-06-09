@@ -5,6 +5,10 @@ import { View, Image, TouchableOpacity, StyleSheet, TextInput, StatusBar, Keyboa
 import {auth} from "../Firebase/index";
 const ProfHomePage = () => {
   const [data,setData]=useState([]); 
+  const [name,setName]=useState('');
+  const [description,setDescription]=useState('');
+  const [date,setDate]=useState('');
+  const [image,setImage]=useState('');
   const [id,setId]=useState('');
   const email = auth.currentUser.email
 
@@ -18,7 +22,9 @@ const ProfHomePage = () => {
     })
     .then((userId)=>{ // userId here is the value returned by previous .then() block
       console.log(userId,'2 id ---')
-      return axios.get(`http://${ADDRESS_IP}:5000/event/idUser/${userId}`)
+      return axios.post(`http://${ADDRESS_IP}:5000/event/idUser/${userId}`,{
+        
+      })
     })
     .then((res)=>{
       console.log(res.data, "salam")

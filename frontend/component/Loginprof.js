@@ -55,19 +55,7 @@ const Login = ({ navigation }) => {
       });
   }
 
-  const handleForgotPassword = () => {
-    // Handle forgot password logic here
-    Alert.alert("Forgot Password");
-  };
-  const resetPassword=()=>{
-    sendPasswordResetEmail(auth,professionalMail)
-    .then((res)=> {
-      console.log(professionalMail,"email")
-      alert('password reset email has been sent successfully')} )
-      .catch((error) => {
-        alert('Please enter a valid email', error);
-      });
-  }
+
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -100,13 +88,11 @@ const Login = ({ navigation }) => {
             />
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
-              <Text onPress={()=>{resetPassword()}}>Forgot password ?</Text>
+              <Text style={styles.forgotPasswordText} onPress={()=>{resetPassword()}}>Forgot password ?</Text>
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50', fontWeight: 'bold' }]}>Sign Up</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleForgotPassword}>
-                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-              </TouchableOpacity>
+
             </View>
             <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
               <Text style={styles.buttonText}>Submit</Text>

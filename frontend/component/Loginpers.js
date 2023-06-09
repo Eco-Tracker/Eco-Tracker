@@ -29,6 +29,8 @@ const LoginUser = ({ navigation }) => {
         const user = userCredential.user;
         Alert.alert("Welcome");
         console.log("User created:", user);
+
+        navigation.navigate('Wrapper');
       } catch (error) {
         Alert.alert("Signup first", error.message);
       }
@@ -51,10 +53,7 @@ const LoginUser = ({ navigation }) => {
     navigation.navigate('Signuppers'); // Navigate to the SignUp component/page
   };
 
-  const handleForgotPassword = () => {
-    // Handle forgot password logic here
-    Alert.alert("Forgot Password");
-  };
+
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -88,12 +87,9 @@ const LoginUser = ({ navigation }) => {
 
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
-              <Text onPress={()=>{resetPassword()}}>Forgot password ?</Text>
+              <Text onPress={()=>{resetPassword()}}  style={styles.forgotPasswordText}>Forgot password ?</Text>
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleForgotPassword}>
-                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
