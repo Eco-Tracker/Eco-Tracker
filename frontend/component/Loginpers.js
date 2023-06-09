@@ -50,6 +50,11 @@ const LoginUser = ({ navigation }) => {
     navigation.navigate('Signuppers'); // Navigate to the SignUp component/page
   };
 
+  const handleForgotPassword = () => {
+    // Handle forgot password logic here
+    Alert.alert("Forgot Password");
+  };
+
   const dismissKeyboard = () => {
     Keyboard.dismiss();
   };
@@ -63,18 +68,35 @@ const LoginUser = ({ navigation }) => {
         <View style={styles.container}>
           <StatusBar style={styles.status} />
           <View style={styles.inner}>
-            <Text style={styles.header} onPress={handleLogin}>Please add the necessary informations to access the application</Text>
-            <TextInput placeholder="Email" value={mail} onChangeText={(text) => setEmail(text)} style={styles.textInput} />
-            <TextInput placeholder="Password" onChangeText={(text) => setPassword(text)} style={styles.textInput} secureTextEntry={true} value={password} />
-            <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
-                  <Text style={styles.buttonText}>Submit</Text>
-            </TouchableOpacity>
+            <Text style={styles.header} onPress={handleLogin}>
+              Please add the necessary informations to access the application
+            </Text>
+            <TextInput
+              placeholder="Email"
+              value={mail}
+              onChangeText={(text) => setEmail(text)}
+              style={styles.textInput}
+            />
+            <TextInput
+              placeholder="Password"
+              onChangeText={(text) => setPassword(text)}
+              style={styles.textInput}
+              secureTextEntry={true}
+              value={password}
+            />
+
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
               </TouchableOpacity>
+              <TouchableOpacity onPress={handleForgotPassword}>
+                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+              </TouchableOpacity>
             </View>
+            <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -84,6 +106,7 @@ const LoginUser = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -96,26 +119,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   inner: {
-    padding: 160,
+    padding: 30,
     flex: 1,
     justifyContent: 'space-around',
   },
   header: {
-    top: -70,
-    fontSize: 16,
-    marginBottom: -148,
-    
+    top: 50,
+    fontSize: 14,
+    marginBottom: -20,
   },
   textInput: {
-    top: -90,
     height: 50,
-    borderColor: '#000000',
+    borderColor: '#4CAF50',
     borderBottomWidth: 1,
-    marginBottom: 45,
+    marginBottom: -60,
   },
   btnContainer: {
-    top: -50,
-    width: 290,
+    top: 25,
+    width: 320,
     borderRadius: 12,
     backgroundColor: '#4CAF50',
     alignItems: 'center',
@@ -125,17 +146,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 10,
+    top: 80,
   },
   signUpButton: {
     marginLeft: 5,
   },
   signUpText: {
-    
-    fontSize: 12,
+    fontSize: 10,
     lineHeight: 14,
+    top: -90,
+    left: -35,
   },
-  status: {
-    backgroundColor: 'red',
+  forgotPasswordText: {
+    fontSize: 8,
+    lineHeight: 14,
+    fontWeight: 'bold',
+    top: -90,
+    left: 35,
   },
 });
 

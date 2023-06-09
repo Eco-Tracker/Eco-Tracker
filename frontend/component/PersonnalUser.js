@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
 import pick from "../assets/addImage.png";
+import Header from './constants/Header';
 
 export default function PersonnalUser({ navigation }) {
 
@@ -17,7 +18,8 @@ export default function PersonnalUser({ navigation }) {
  
 
   return (
-   
+   <>
+    <Header/>
     <KeyboardAvoidingView style={styles.container}
     behavior="padding">
       <View >
@@ -79,6 +81,7 @@ export default function PersonnalUser({ navigation }) {
 
       <StatusBar style="auto" />
     </KeyboardAvoidingView>
+    </>
     
   );
 }
