@@ -12,7 +12,7 @@ const SignUpUsers = ({ navigation }) => {
   const [mail, setmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const [phone_, setphone_] = useState('');
+  const [phone, setphone] = useState('');
 
   const [photo, setphoto] = useState('');
   const [buttonColor, setButtonColor] = useState('#000000');
@@ -84,7 +84,7 @@ const SignUpUsers = ({ navigation }) => {
         name,
         mail,
         password,
-        phone_: parseInt(phone_, 10),
+        phone: parseInt(phone, 10),
         photo
       });
 
@@ -106,7 +106,15 @@ const SignUpUsers = ({ navigation }) => {
     }
   };
 
- 
+  const signUpWithGoogle = async () => {
+    try {
+      console.log("hello", auth, googleAuthProvider);
+      await signInWithPopup(auth, googleAuthProvider);
+    } catch (error) {
+      Alert.alert("Error", error.message);
+      console.log(error);
+    }
+  };
 
 
   
@@ -139,9 +147,9 @@ const SignUpUsers = ({ navigation }) => {
           <View style={styles.inner}>
             
             
-          <TouchableOpacity style={styles.googleButton} onPress={signUpWithGoogle} >
+          {/* <TouchableOpacity style={styles.googleButton} onPress={signUpWithGoogle} >
               <Image source={require('../assets/SignupImage/Google.png')} style={styles.googleButtonImage} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TextInput
               placeholder="Professional Name"
@@ -173,9 +181,9 @@ const SignUpUsers = ({ navigation }) => {
             <TextInput
               placeholder="phone number"
               style={styles.textInput}
-              value={phone_}
+              value={phone}
               type="number"
-              onChangeText={setphone_}
+              onChangeText={setphone}
             />
             <Button title="Select Image" onPress={selectImage} color={buttonColor} />
             {photo !== '' && (

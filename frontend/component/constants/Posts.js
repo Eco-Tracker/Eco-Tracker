@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FlatList,
   Text,
@@ -11,15 +11,39 @@ import {colors, shadow, sizes, spacing} from './theme';
 import FavoriteButton from './FavoriteButton';
 import list from "./data"
 import CommentButton from './CommentButton';
+import axios from 'axios';
+import ADDRESS_IP from '../../API'
+
 
 const CARD_WIDTH = sizes.width-45;
 const CARD_HEIGHT = 300;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 
 const Posts = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(`http://${ADDRESS_IP}:5000/post/`);
+        console.log(response.data)
+        setPosts(response.data);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+
+
+
+
+  
   return (
     <FlatList
-      data={list}
+      data={posts}
       showsVerticalScrollIndicator={true}
       snapToInterval={CARD_WIDTH_SPACING}
       decelerationRate="fast"
@@ -38,11 +62,11 @@ const Posts = () => {
             <View style={[styles.card]}>
               
               <View style={styles.imageBox}>
-                <Image source={item.image} style={styles.image} />
+                <Image source={{uri: item.image}} style={styles.image} />
               </View>
               <View style={styles.titleBox}>
                 <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.location}>{item.location}</Text>
+                <Text style={styles.location}>{item.body}</Text>
               </View>
             </View>
           </TouchableOpacity>

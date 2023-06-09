@@ -12,9 +12,10 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { signInWithEmailAndPassword} from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
 import {auth, googleAuthProvider } from "../Firebase/index";
-
+import Nav from "../NavBar/Nav"
+import NavBar from '../NavBar/Nav';
 const Login = ({ navigation }) => {
   const [professionalMail, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,11 +45,17 @@ const Login = ({ navigation }) => {
   const handleSignUp = () => {
     navigation.navigate('Signupprof'); // Naviguer vers le composant/page "SignUpPro"
   };
+  const resetPassword=()=>{
+    sendPasswordResetEmail(auth,professionalMail)
+    .then((res)=> {
+      console.log(professionalMail,"email")
+      alert('password reset email has been sent successfully')} )
+      .catch((error) => {
+        alert('Please enter a valid email', error);
+      });
+  }
 
-  const handleForgotPassword = () => {
-    // Handle forgot password logic here
-    Alert.alert("Forgot Password");
-  };
+
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -84,9 +91,8 @@ const Login = ({ navigation }) => {
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50', fontWeight: 'bold' }]}>Sign Up</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleForgotPassword}>
-                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-              </TouchableOpacity>
+              <Text style={styles.forgotPasswordText} onPress={()=>{resetPassword()}}>Forgot password ?</Text>
+
             </View>
             <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
               <Text style={styles.buttonText}>Submit</Text>

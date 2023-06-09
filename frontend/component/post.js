@@ -2,14 +2,19 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, Image, StyleSheet } from 'react-native';
 import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
+import {auth} from "../Firebase/index";
+import ADDRESS_IP from '../API'
+
+
+
 const PostForm = () => {
   const [description, setDescription] = useState('');
   const [type, setType] = useState('');
   const [Title, setTitle] = useState('');
   const [buttonColor, setButtonColor] = useState('#000000');
   const [image, setImage] = useState('');
-
- 
+  const [id,setId]=useState('');
+  const email = auth.currentUser.email
 
   const selectImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -60,12 +65,35 @@ try {
   console.log("Upload Image Error", err, err.request, err.response);
 }
 }
+// const handleGet = () =>{
+//   axios.get(`http://${ADDRESS_IP}:5000/users/email/${email}`)
+//   .then((res)=>{
+//     console.log( res.data)
+//     setId(res.data[0].id)
+//     console.log(id, 'amro')
+//     // return res.data.id; // return the id to the next .then() block
+//   })
+//   .catch((err)=>{
+//     console.log(err)
+//   })
+// }
 
+      const createPost = async () => {
+        axios.get(`http://${ADDRESS_IP}:5000/users/email/${email}`)
+  .then((res)=>{
+    console.log(res.data[0].id)
+    setId(res.data[0].id)
+    console.log(id, 'amro')
+    return res.data.id; // return the id to the next .then() block
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
 
-  const createPost = async () => {
-    console.log(image)
-    try {
-      await axios.post('http://192.168.103.6:5000/post/register', {id: "climvomry0000v77ccx5r43mk",title:Title,body:description,image:image,type:type,like:4});
+    console.log('this is id',id)
+
+    try { 
+      await axios.post(`http://${ADDRESS_IP}:5000/post/register`, {id: id,title:Title,body:description,image:image,type:type,like:4});
     } catch (error) {
       console.error('Error creating post:', error);
     }

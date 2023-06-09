@@ -22,6 +22,20 @@ const getOneByName = async (req,res)=>{
          res.status(500).json(err)
     }
 }
+const getByUser = async (req,res)=>{
+  try{
+    const one = await prisma.events.findMany({where :{
+      authorId : req.params.id
+    }
+  })
+  res.status(200).json(one)
+  }
+  catch (err) {
+        
+    res.status(500).json(err)
+}
+}
+
 const getOneBylocation = async (req, res) => {
     try {
         prisma.events.findMany({ where: { location: req.params.location } }).then((result) => {
@@ -89,11 +103,14 @@ const deleteEvent = async (req, res) => {
     }
 }
 
+
+
 module.exports = {
     add,
     update,
     getOneByName,
     getOneBylocation,
     getAll, 
-    deleteEvent
+    deleteEvent,
+    getByUser
 }
