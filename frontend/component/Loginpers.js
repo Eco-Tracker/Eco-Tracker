@@ -12,15 +12,10 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { signInWithEmailAndPassword} from "firebase/auth";
-import {auth, googleAuthProvider } from "../Firebase/index";
-import axios from 'axios';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-// import post from './post';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { auth, googleAuthProvider } from "../Firebase/index";
 
-
-const LoginUser = ({navigation}) => {
+const LoginUser = ({ navigation }) => {
   const [mail, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [dataa,setDataa] = useState("");
@@ -28,37 +23,37 @@ const LoginUser = ({navigation}) => {
 
   const handleLogin = async () => {
     try {
-        const userCredential = await signInWithEmailAndPassword (
-          auth,
-          mail,
-          password
-        );
-        const user = userCredential.user;
-        Alert.alert("Welcome");
-        // const response = await axios.get(`http://172.20.10.4:5000/users/email/${mail}`);
-        // console.log("this is from axios",response.data[0].id)
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        mail,
+        password
+      );
+      const user = userCredential.user;
+      Alert.alert("Welcome");
+      console.log("User created:", user);
+      navigation.navigate("Wrapper");
+    } catch (error) {
+      Alert.alert("Signup first", error.message);
+    }
+  };
 
-        // setId(response.data[0].id)
-        navigation.navigate('post')
-
-      } catch (error) {
-        Alert.alert("Signup first", error.message);
-      }
-    };
-
-    // const getByEmail = async () => {
-    //   try {
-    //     const response = await axios.get(`http://192.168.103.6:5000/users/email/${mail}`);
-    //     console.log(response.data,"this is from axios")
-    //     setDataa(response.data);
-    //   } catch (error) {
-    //     console.error('Error fetching posts:', error);
-    //   }
-    // };
+  const handlePress = () => {
+    // Add handle press logic here
+  };
 
   const handleSignUp = () => {
     navigation.navigate('Signuppers'); // Navigate to the SignUp component/page
   };
+
+  const resetPassword=()=>{
+    sendPasswordResetEmail(auth,professionalMail)
+    .then((res)=> {
+      console.log(professionalMail,"email")
+      alert('password reset email has been sent successfully')} )
+      .catch((error) => {
+        alert('Please enter a valid email', error);
+      });
+  }
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -84,6 +79,7 @@ const LoginUser = ({navigation}) => {
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
               </TouchableOpacity>
+              <Text style={styles.forgotPasswordText} onPress={()=>{resetPassword()}}>Forgot password ?</Text>
             </View>
           </View>
         </View>

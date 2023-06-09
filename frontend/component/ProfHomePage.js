@@ -1,43 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
+import axios from "axios"
+import ADDRESS_IP from '../API'
 import { View, Image, TouchableOpacity, StyleSheet, TextInput, StatusBar, KeyboardAvoidingView, ScrollView, Text } from 'react-native';
-
+import {auth} from "../Firebase/index";
 const ProfHomePage = () => {
-  const [searchText, setSearchText] = useState('');
+  const [data,setData]=useState([]); 
+  const [id,setId]=useState('');
+  const email = auth.currentUser.email
 
-  const handleInputChange = (text) => {
-    setSearchText(text);
-  };
-
-  const handleSearch = () => {
-    // Effectuez ici les actions à réaliser lorsque l'utilisateur clique sur la recherche
-    console.log('Recherche effectuée:', searchText);
-  };
+  const handleGet = () =>{
+    axios.get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
+    .then((res)=>{
+      console.log(res.data.id, 'this is the id')
+      setId(res.data.id)
+      console.log(id, 'amro')
+      return res.data.id; // return the id to the next .then() block
+    })
+    .then((userId)=>{ // userId here is the value returned by previous .then() block
+      console.log(userId,'2 id ---')
+      return axios.get(`http://${ADDRESS_IP}:5000/event/idUser/${userId}`)
+    })
+    .then((res)=>{
+      console.log(res.data, "salam")
+      setData(res.data)
+      console.log(data, 'this is the data')
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+  
+  useEffect(() => {
+    handleGet();
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="#F3F3F3" barStyle="dark-content" />
-
-      <View style={styles.shape}>
-        <ScrollView style={styles.scrollView}>
-          <KeyboardAvoidingView behavior="padding" style={styles.content}>
-            <FlatListVertical searchText={searchText} />
-          </KeyboardAvoidingView>
-        </ScrollView>
-      </View>
-
-      <Image source={require('../assets/ProfHome/Smalllogo.png')} style={styles.logo} />
-
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Search"
-        value={searchText}
-        onChangeText={handleInputChange}
-        onSubmitEditing={handleSearch}
-      />
-
-      <View style={styles.formNavBarButton}>
+    <View style={styles.content}>
+    {data.map((item) => (
+      <View key={item.idEV}>
+      <Image source={{uri: item.image}} style={styles.imageStyle}/>
+      <Text style={styles.textStyle}>
+        {item.name} 
+      </Text>
+      <Text >{item.description}</Text>
+      <Text >{item.location}</Text>    
+      <Text >{item.date}</Text>
+      <Text>{item.participants}</Text>
+      <Text>{item.like}</Text>
+    </View>
+    ))}
+     <View style={styles.formNavBarButton}>
         <TouchableOpacity>
-          <Image source={require('../assets/ProfHome/formnavbar.png')} style={styles.formNavBarButtonImage} />
+          <Image
+            source={require('../assets/ProfHome/formnavbar.png')}
+            style={styles.formNavBarButtonImage}
+          />
         </TouchableOpacity>
       </View>
 
@@ -52,45 +69,11 @@ const ProfHomePage = () => {
       <TouchableOpacity style={styles.profilButton}>
         <Image source={require('../assets/ProfHome/profil.png')} style={styles.profilButton} />
       </TouchableOpacity>
-
     </View>
-  );
-};
+  
 
-const FlatListVertical = ({ searchText }) => {
-  const names = [
-    {
-      index: "1",
-      name: "Arbi",
-    },
-    {
-      index: "2",
-      name: "miraoui",
-    },
-    {
-      index: "3",
-      name: "sabrine",
-    },
-    {
-      index: "4",
-      name: "mahdi",
-    },
-  ];
-
-  const filteredResults = names.filter((item) =>
-    item.name.toLowerCase().includes(searchText.toLowerCase())
-  );
-
-  return (
-    <View style={styles.content}>
-      {filteredResults.map((item) => (
-        <Text key={item.index} style={styles.textStyle}>
-          {item.name}
-        </Text>
-      ))}
-    </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -108,6 +91,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     
+  },
+  imageStyle: {
+    width: 100, 
+    height: 100, 
   },
   searchInput: {
     position: 'absolute',

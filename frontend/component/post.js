@@ -93,7 +93,7 @@ try {
     console.log('this is id',id)
 
     try { 
-      await axios.post('http://192.168.103.6:5000/post/register', {id: id,title:Title,body:description,image:image,type:type,like:4});
+      await axios.post(`http://${ADDRESS_IP}:5000/post/register`, {id: id,title:Title,body:description,image:image,type:type,like:4});
     } catch (error) {
       console.error('Error creating post:', error);
     }

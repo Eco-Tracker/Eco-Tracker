@@ -14,9 +14,9 @@ catch(err){
 }
 const getOneByName = async (req,res)=>{
     try {
-        const profissionals= await prisma.profissionalUser.findMany({ where: { professionalName: req.params.professionalName } })
-         res.status(200).json(profissionals)
-    }
+        const names= await prisma.profissionalUser.findMany({ where: { professionalName: req.params.name } })
+         res.status(200).json(names)
+    }  
     catch (err) {
         
          res.status(500).json(err)
@@ -24,7 +24,7 @@ const getOneByName = async (req,res)=>{
 }
 const getOneByemail = async (req, res) => {
     try {
-        const one = await prisma.profissionalUser.findMany({ where: { professionalMail: req.params.email } })
+        const one = await prisma.profissionalUser.findFirst({ where: { professionalMail: req.params.professionalMail } })
         res.status(200).json(one);
     } catch (err) {
         res.status(500).json(err)

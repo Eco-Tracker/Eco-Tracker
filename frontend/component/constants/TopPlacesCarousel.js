@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FlatList,
   Text,
@@ -8,16 +8,34 @@ import {
   Image,
 } from 'react-native';
 import {colors, shadow, sizes, spacing} from './theme';
-import list from "./data"
-
+import list from "./data";
+import axios from 'axios';
+import ADDRESS_IP from '../../API'
+import { ImageBackground } from 'react-native';
 const CARD_WIDTH = sizes.width - 80;
 const CARD_HEIGHT = 250;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 
 const TopPlacesCarousel = () => {
+  const [event, setEvent]=useState([]);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await axios.get(`http://${ADDRESS_IP}:5000/event`);
+        console.log(response.data)
+        setEvent(response.data);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
+
+    fetchEvent();
+  }, []);
+
   return (
     <FlatList
-      data={list}
+      data={event}
       horizontal
       snapToInterval={CARD_WIDTH_SPACING}
       decelerationRate="fast"
@@ -35,10 +53,10 @@ const TopPlacesCarousel = () => {
             }}>
             <View style={[styles.card]}>
               <View style={styles.imageBox}>
-                <Image source={item.image} style={styles.image} />
+                <ImageBackground source={{uri: item.image}} style={styles.image} />
               </View>
               <View style={styles.titleBox}>
-                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.title}>{item.name}</Text>
                 <Text style={styles.location}>{item.location}</Text>
               </View>
             </View>
