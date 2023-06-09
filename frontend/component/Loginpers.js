@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { auth, googleAuthProvider } from "../Firebase/index";
 
 const LoginUser = ({ navigation }) => {
@@ -31,6 +31,7 @@ const LoginUser = ({ navigation }) => {
       const user = userCredential.user;
       Alert.alert("Welcome");
       console.log("User created:", user);
+      navigation.navigate("Wrapper");
     } catch (error) {
       Alert.alert("Signup first", error.message);
     }
@@ -44,7 +45,15 @@ const LoginUser = ({ navigation }) => {
     navigation.navigate('Signuppers'); // Navigate to the SignUp component/page
   };
 
-
+  const resetPassword=()=>{
+    sendPasswordResetEmail(auth,professionalMail)
+    .then((res)=> {
+      console.log(professionalMail,"email")
+      alert('password reset email has been sent successfully')} )
+      .catch((error) => {
+        alert('Please enter a valid email', error);
+      });
+  }
 
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -67,10 +76,10 @@ const LoginUser = ({ navigation }) => {
             </TouchableOpacity>
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
-              <Text onPress={()=>{resetPassword()}}  style={styles.forgotPasswordText}>Forgot password ?</Text>
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
               </TouchableOpacity>
+              <Text style={styles.forgotPasswordText} onPress={()=>{resetPassword()}}>Forgot password ?</Text>
             </View>
           </View>
         </View>

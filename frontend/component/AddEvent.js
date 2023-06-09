@@ -1,18 +1,72 @@
 import React, { useState, useEffect  } from 'react';
 import axios from "axios"
 import ADDRESS_IP from '../API'
-import { View, Image, TouchableOpacity, StyleSheet, TextInput, StatusBar, KeyboardAvoidingView, ScrollView, Text } from 'react-native';
+import { View,Button, Image, TouchableOpacity, StyleSheet, TextInput, StatusBar, KeyboardAvoidingView, ScrollView, Text } from 'react-native';
 import {auth} from "../Firebase/index";
-const ProfHomePage = () => {
-  const [data,setData]=useState([]); 
+import * as ImagePicker from 'expo-image-picker';
+const AddEvent = () => {
   const [name,setName]=useState('');
   const [description,setDescription]=useState('');
   const [date,setDate]=useState('');
   const [image,setImage]=useState('');
+  const [like,setLike]=useState('');
+  const [location,setLocation]=useState('');
+  const [participants,setParticipants]=useState('');
   const [id,setId]=useState('');
+  const [buttonColor, setButtonColor] = useState('#000000');
   const email = auth.currentUser.email
 
-  const handleGet = () =>{
+  const selectImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      uploadImageToCloudinary(result.assets[0].uri);
+    }
+  };
+  
+
+
+  const uploadImageToCloudinary = async (imageUri) => {
+    const data = new FormData();
+    let filename = imageUri.split('/').pop();
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? `image/${match[1]}` : `image`;
+    
+    if (type === 'image/jpg') type = 'image/jpeg';
+if (type === 'image/png') type = 'image/png';
+
+data.append('file', { uri: imageUri, name: filename, type }); 
+data.append('upload_preset', 'lrkelxtq');
+
+try {
+  let response = await axios.post(
+    'https://api.cloudinary.com/v1_1/dtbzrpcbh/image/upload',
+    data,
+    {
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'multipart/form-data',
+      }
+    }
+  );
+  if (response.data.secure_url !== '') {
+    const image = response.data.secure_url;
+    setImage(image); 
+  } else {
+    Alert.alert("Error", "Image upload failed");
+  }
+} catch (err) {
+  Alert.alert("Error", "Image upload failed");
+  console.log("Upload Image Error", err, err.request, err.response);
+}
+}
+
+  const handlePost = () =>{
     axios.get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
     .then((res)=>{
       console.log(res.data.id, 'this is the id')
@@ -22,43 +76,55 @@ const ProfHomePage = () => {
     })
     .then((userId)=>{ // userId here is the value returned by previous .then() block
       console.log(userId,'2 id ---')
-      return axios.post(`http://${ADDRESS_IP}:5000/event/idUser/${userId}`,{
-        
+      return axios.post(`http://${ADDRESS_IP}:5000/event/add`,{
+        id: id,
+        name:name,
+        description:description,
+        image:image,
+        location:location,
+        like:0,
+        participants:0,
+        date:date
       })
-    })
-    .then((res)=>{
-      console.log(res.data, "salam")
-      setData(res.data)
-      console.log(data, 'this is the data')
     })
     .catch((err)=>{
       console.log(err)
     })
   }
   
-  useEffect(() => {
-    handleGet();
-  }, []);
+
 
   return (
-    <View style={styles.content}>
-    {data.map((item) => (
-      <View key={item.idEV}>
-      <Image source={{uri: item.image}} style={styles.imageStyle}/>
-      <Text style={styles.textStyle}>
-        {item.name} 
-      </Text>
-      <Text >{item.description}</Text>
-      <Text >{item.location}</Text>    
-      <Text >{item.date}</Text>
-      <Text>{item.participants}</Text>
-      <Text>{item.like}</Text>
+    <View style={styles.container}>
+        <TextInput
+        style={styles.input}
+        placeholder="Name"
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Description"
+        value={description}
+        onChangeText={setDescription}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="date"
+        value={date}
+        onChangeText={setDate}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Location"
+        value={location}
+        onChangeText={setLocation}
+      />
+       <Button title="Select Image" onPress={selectImage} color={buttonColor} />
+      <Button title="Submit" onPress={handlePost} />
     </View>
-    ))}
-  </View>
-
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -157,4 +223,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfHomePage;
+export default AddEvent;

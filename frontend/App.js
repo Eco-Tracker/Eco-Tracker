@@ -17,6 +17,7 @@ import PostList from './component/HomePage';
 import post from './component/post'
 import Nav from "../frontend/NavBar/Nav"
 import ProfHomePage from './component/ProfHomePage';
+import AddEvent from "./component/AddEvent"
 
 
 
@@ -36,7 +37,6 @@ const App=() => {
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="post" component={post} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Home2" component={Home2} />
         <Stack.Screen name="Loginpers" component={Loginpers} />
@@ -47,6 +47,8 @@ const App=() => {
         <Stack.Screen name="PersonnalUser" component={PersonnalUser} />
         <Stack.Screen name="ProfesionnalUser" component={ProfesionnalUser} />
         <Stack.Screen name="Wrapper" component={Wrapper} />
+        <Stack.Screen name="post" component={post} />
+        <Stack.Screen name="AddEvent" component={AddEvent} />
       </Stack.Navigator>
     </NavigationContainer>
   );

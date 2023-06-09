@@ -88,10 +88,10 @@ const Login = ({ navigation }) => {
             />
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
-              <Text style={styles.forgotPasswordText} onPress={()=>{resetPassword()}}>Forgot password ?</Text>
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50', fontWeight: 'bold' }]}>Sign Up</Text>
               </TouchableOpacity>
+              <Text style={styles.forgotPasswordText} onPress={()=>{resetPassword()}}>Forgot password ?</Text>
 
             </View>
             <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>

@@ -12,7 +12,7 @@ import FavoriteButton from './FavoriteButton';
 import list from "./data"
 import CommentButton from './CommentButton';
 import axios from 'axios';
-// import ADDRESS_IP from '..\API'
+import ADDRESS_IP from '../../API'
 
 
 const CARD_WIDTH = sizes.width-45;
@@ -25,7 +25,7 @@ const Posts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`http://192.168.103.6:5000/post/`);
+        const response = await axios.get(`http://${ADDRESS_IP}:5000/post/`);
         console.log(response.data)
         setPosts(response.data);
       } catch (error) {

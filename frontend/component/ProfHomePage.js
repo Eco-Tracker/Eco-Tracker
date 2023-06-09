@@ -49,7 +49,28 @@ const ProfHomePage = () => {
       <Text>{item.like}</Text>
     </View>
     ))}
-  </View>
+     <View style={styles.formNavBarButton}>
+        <TouchableOpacity>
+          <Image
+            source={require('../assets/ProfHome/formnavbar.png')}
+            style={styles.formNavBarButtonImage}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity style={styles.addButton}>
+        <Image source={require('../assets/ProfHome/add.png')} style={styles.addButton} />
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.homeButton}>
+        <Image source={require('../assets/ProfHome/home.png')} style={styles.homeButton} />
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.profilButton}>
+        <Image source={require('../assets/ProfHome/profil.png')} style={styles.profilButton} />
+      </TouchableOpacity>
+    </View>
+  
 
   )
 }
