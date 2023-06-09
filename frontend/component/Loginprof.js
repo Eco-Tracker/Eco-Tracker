@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
 import {
   Alert,
   View,
@@ -17,17 +16,6 @@ import { signInWithEmailAndPassword} from "firebase/auth";
 import {auth, googleAuthProvider } from "../Firebase/index";
 
 const Login = ({ navigation }) => {
-=======
-import { Alert, View, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, StatusBar, KeyboardAvoidingView, Platform } from 'react-native';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../Firebase/index';
-import { useNavigation } from '@react-navigation/native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
-const Login = () => {
-  const navigation = useNavigation();
-
->>>>>>> 519d9a8fff6b8741360efdf92d7b8bf4842bb99f
   const [professionalMail, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -100,12 +88,9 @@ const Login = () => {
                 <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
               </TouchableOpacity>
             </View>
-<<<<<<< HEAD
-=======
             <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
               <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
->>>>>>> 519d9a8fff6b8741360efdf92d7b8bf4842bb99f
           </View>
         </View>
       </TouchableWithoutFeedback>

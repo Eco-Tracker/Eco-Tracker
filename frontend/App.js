@@ -1,7 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, DefaultTheme } from "@react-navigation/stack";
 
-import Wrapper from "./component/Wrapper";
 
 import Wrapper from "./component/Wrapper";
 
@@ -14,12 +13,9 @@ import Signuppers from './component/Signuppers.js';
 import Signupprof from './component/Signupprof.js';
 import PersonnalUser from './component/PersonnalUser';
 import ProfesionnalUser from './component/ProfesionnalUser';
-import PostList from './component/HomePage';
-import post from './component/post'
 import Nav from "../frontend/NavBar/Nav"
 import ProfHomePage from './component/ProfHomePage';
-
-
+import post from "./component/post"
 
 
 
@@ -32,32 +28,26 @@ const App=() => {
 
   return (
 
-     <NavigationContainer  >
-      <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName='ProfesionnalUser' >
-      <Stack.Screen   name='HomePage'  component={PostList}/>
-      <Stack.Screen   name='post'  component={post}/>
-      
-       <Stack.Screen   name='Home'  component={Home} />
-       <Stack.Screen   name='Home2'  component={Home2}/>
-       <Stack.Screen   name='Loginpers'  component={Loginpers}/>
-       <Stack.Screen   name='Loginprof'  component={Login}/>
-       <Stack.Screen   name='Signuppers'  component={Signuppers}/>
-       <Stack.Screen   name='Signupprof'  component={Signupprof}/>
 
-
-       <Stack.Screen   name='Nav'  component={Nav}/>
-       
-      
-
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Home"
+      >
+        <Stack.Screen name="post" component={post} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Home2" component={Home2} />
+        <Stack.Screen name="Loginpers" component={Loginpers} />
+        <Stack.Screen name="Loginprof" component={Login} />
+        <Stack.Screen name="Signuppers" component={Signuppers} />
+        <Stack.Screen   name='Signupprof'  component={Signupprof}/>
+        <Stack.Screen   name='ProfHomePage'  component={ProfHomePage}/>
+        <Stack.Screen name="PersonnalUser" component={PersonnalUser} />
+        <Stack.Screen name="ProfesionnalUser" component={ProfesionnalUser} />
+        <Stack.Screen name="Wrapper" component={Wrapper} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 export default App;
-
-
-
-
-
-
