@@ -30,22 +30,20 @@ const App=() => {
 
 
   return (
-
     
-       
-      
 
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name="post" component={post} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Home2" component={Home2} />
         <Stack.Screen name="Loginpers" component={Loginpers} />
         <Stack.Screen name="Loginprof" component={Login} />
         <Stack.Screen name="Signuppers" component={Signuppers} />
         <Stack.Screen   name='Signupprof'  component={Signupprof}/>
-       <Stack.Screen   name='ProfHomePage'  component={ProfHomePage}/>
+        <Stack.Screen   name='ProfHomePage'  component={ProfHomePage}/>
         <Stack.Screen name="PersonnalUser" component={PersonnalUser} />
         <Stack.Screen name="ProfesionnalUser" component={ProfesionnalUser} />
         <Stack.Screen name="Wrapper" component={Wrapper} />

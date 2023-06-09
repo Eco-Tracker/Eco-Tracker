@@ -19,9 +19,6 @@ const PostList = () => {
     fetchPosts();
   }, []);
 
-
-  
-
   const renderItem = ({ item }) => (
     <View style={styles.postContainer}>
       <Text style={styles.description}>{item.body}</Text>

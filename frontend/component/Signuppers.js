@@ -148,9 +148,9 @@ const SignUpUsers = ({ navigation }) => {
           <View style={styles.inner}>
             
             
-          <TouchableOpacity style={styles.googleButton} onPress={signUpWithGoogle} >
+          {/* <TouchableOpacity style={styles.googleButton} onPress={signUpWithGoogle} >
               <Image source={require('../assets/SignupImage/Google.png')} style={styles.googleButtonImage} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TextInput
               placeholder="Professional Name"
