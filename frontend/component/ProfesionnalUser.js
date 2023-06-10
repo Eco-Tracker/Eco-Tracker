@@ -1,240 +1,135 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, StatusBar, Image, StyleSheet, Text, TouchableOpacity, View ,TextInput} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import * as ImagePicker from 'expo-image-picker';
-import pick from "../assets/addImage.png";
+import React, { useState, useEffect } from 'react';
+import { KeyboardAvoidingView, StatusBar, Image, StyleSheet, Text,Button, TouchableOpacity,ScrollView,  View ,TextInput} from 'react-native';
 import Header from './constants/Header';
-
+import { auth} from "../Firebase/index";
+import {signOut } from 'firebase/auth';
+import axios from "axios";
+import ADDRESS_IP from '../API'
 export default function ProfesionnalUser({ navigation }) {
+  const [proUser,setProUser]=useState([]);
+  const user = auth.currentUser.email
+  console.log(user)
+      const fetchUser=()=>{
+        axios.get(`http://${ADDRESS_IP}:5000/proUsers/email/${user}`)
+        .then((res)=>{
+          console.log(res.data, 'this is the id2')
+          setProUser(res.data)
+          console.log(proUser.id, 'sarhane'); 
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+      }
 
-    const [selectedImage, setSelectedImage] = useState("https://www.pinclipart.com/picdir/middle/221-2217551_computer-user-clip-art.png");
-    const [email, setEmail] = useState('')
-      const [phoneNumber, setPhoneNumber] = useState('')
-      const [userName, setUserName] = useState('')
-      const [name, setName] = useState('')
-      const [codeFiscal , setCodeFiscal] = useState('')
-  
-   
-  
-    return (
-        <>
-        <Header/>
-      <View style={styles.container}
-      behavior="padding">
-        <View >
-          <Text style={styles.text}>Cancel</Text>
-          <View style={styles.inputContainer}>
-           {selectedImage && (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Image source={selectedImage} style={{ width: 200, height: 200, borderRadius: 100, marginBottom: 10 ,borderColor: '#C7C1C0',borderWidth: 2}} />
-      <Image source={pick} style={styles.pickk} />
-  
-    </View>
-  )}
-        </View>
-        </View>
+      useEffect(() => {
+        fetchUser();
+      }, []);
+
+      const onLogout = () => {
+        auth.signOut();
+            navigation.navigate("Loginprof")  
+      };
+      
+
+  return (
+    <>
+    <Header/>
+    <ScrollView style={styles.container}>
+      {proUser && (
         <View>
-          <Text style={styles.texty} >Name</Text>
-        <TextInput
-        
-             value={name}
-             onChangeText={setName}
-             style={styles.input}
-             />
-             <View style={styles.border}></View>
-             <Text style={styles.texty1} >UserName</Text>
-             <TextInput
-       
-             value={userName}
-             onChangeText={setUserName}
-             style={styles.input1}
-             />
-             <View style={styles.border1}></View>
-             <Text style={styles.texty2} >PhoneNumber</Text>
-             <TextInput
-        
-             value={phoneNumber}
-             onChangeText={setPhoneNumber}
-             style={styles.input2}
-             />
-             <View style={styles.border2}></View>
-             <Text style={styles.texty3} >Email</Text>
-             <TextInput
-        
-             value={email}
-             onChangeText={setEmail}
-             style={styles.input3}
-             />
-             <View style={styles.border3}></View>
-             <Text style={styles.texty4} >Code Fiscal</Text>
-             <TextInput
-        
-             value={codeFiscal}
-             onChangeText={setCodeFiscal}
-             style={styles.input4}
-             />
-             <View style={styles.border4}></View>
-             
-            
+          <View style={styles.imageContainer}>
+            <Image 
+              source={{uri:proUser.picture}} 
+              style={styles.userImage} 
+            />
+          </View>
+
+          <View style={styles.userInfo}>
+            <Text style={styles.texty} >Name</Text>
+            <Text style={styles.userName}>{proUser.professionalName}</Text>
+            <View style={styles.border}></View>
+            <Text style={styles.texty} >Email</Text>
+            <Text style={styles.userEmail}>{proUser.professionalMail}</Text>
+            <View style={styles.border}></View>
+            <Text style={styles.texty} >Phone Number</Text>
+            <Text style={styles.userPhone}>{proUser.contactNumber}</Text>
+            <View style={styles.border}></View>
+            <Text style={styles.texty} >Code Fiscal</Text>
+            <Text style={styles.userPhone}>{proUser.codeFiscal}</Text>
+            <View style={styles.border}></View>
+          </View>
+          <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
+            <Text style={styles.buttonText}>Log Out</Text>
+          </TouchableOpacity>
+
         </View>
-  
-       
-  
-       
-  
-        <TouchableOpacity style={styles.Personalbutton} >
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
-  
-        <StatusBar style="auto" />
-      </View>
-      </>
-  
-    );
-  }
-  
-  const styles = StyleSheet.create({
-    buttonContainer: {
-    
-      justifyContent: 'center',
-    
-    },
-    Personalbutton: {
-      backgroundColor: '#4CAF50',
-      width: 350,
-      height: 50,
-      borderRadius: 12,
-      alignItems: 'center',
-      justifyContent: 'center',
-      top:400,
-      left:30
-    },
-    buttonText: {
-      color: '#fff',
-      fontSize: 16,
-    },
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      
-     
-    },
-    text:{
-    marginLeft: 20,
-    fontSize:20,
-    top:25,
-    
-    },
-    inputContainer:{
-      width:"100%",
-      top:150,
-     },
-     pickk : {
-      width:50,
-      height:50,
-      top:-55,
-      left:55,
-      borderColor: '#C7C1C0',borderWidth: 2,
-      borderRadius: 200,
-      backgroundColor: '#000',
-     },
-     input:{
-      backgroundColor:"white",
-      borderRadius :10,
-      top:300,
-      left:40,
-      fontSize:17,
-      fontWeight: '500',
-      
-    },
-    texty : {
-      top:299,
-      left:40,
-      color:'gray'
-    },
-    border : {
-      borderBottomColor: '#000',
-      borderBottomWidth:1,
-      top:310,
-      width:"90%",
-      left:20
-    },
-    input1:{
-      backgroundColor:"white",
-      top:320,
-      left:40,
-      fontSize:17,
-      fontWeight: '500',
-    },
-    border1 : {
-      borderBottomColor: '#000',
-      borderBottomWidth:1,
-      top:331,
-      width:"90%",
-      left:20
-    },
-    input2:{
-      backgroundColor:"white",
-      top:341,
-      left:40,
-      fontSize:17,
-      fontWeight: '500',
-    },
-    border2 : {
-      borderBottomColor: '#000',
-      borderBottomWidth:1,
-      top:351,
-      width:"90%",
-      left:20
-    },
-    input3:{
-      backgroundColor:"white",
-      top:361,
-      left:40,
-      fontSize:17,
-      fontWeight: '500',
-    },
-    input4:{
-        backgroundColor:"white",
-        top:381,
-        left:40,
-        fontSize:17,
-        fontWeight: '500',
-      },
-    border3 : {
-      borderBottomColor: '#000',
-      borderBottomWidth:1,
-      top:372,
-      width:"90%",
-      left:20
-    },
-    border4 : {
-      borderBottomColor: '#000',
-      borderBottomWidth:1,
-      top:391,
-      width:"90%",
-      left:20
-    },
-    texty1 : {
-      top:319,
-      left:40,
-      color:'gray'
-    },
-    texty2 : {
-      top:338,
-      left:40,
-      color:'gray'
-    },
-    texty3 : {
-      top:359,
-      left:40,
-      color:'gray'
-    },
-    texty4 : {
-      top:382,
-      left:40,
-      color:'gray'
-    }
-  });
-  
+      )}
+
+      <StatusBar style="auto" />
+    </ScrollView>
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 15,
+    backgroundColor: '#fff',
+  },
+  imageContainer: {
+    alignItems: 'center',
+    marginVertical: 30,
+  },
+  userImage: {
+    width: 150, 
+    height: 150, 
+    borderRadius: 75,
+    borderColor: '#C7C1C0', 
+    borderWidth: 3, 
+    marginBottom: 20,
+  },
+  userInfo: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginTop: 30, 
+  },
+  userEmail: {
+    fontSize: 18,
+    color: 'black',
+    marginTop: 10,
+    marginTop: 30,
+  },
+  texty : {
+    color:'black',
+    fontSize: 20,
+    marginTop:20
+  },
+  userPhone: {
+    fontSize: 18,
+    color: 'black',
+    marginTop: 10,
+  },
+  border : {
+    borderBottomColor: '#4CAF50',
+    borderBottomWidth:1,
+    width:"90%",
+    left:20,
+    marginTop: 10,
+  },
+  logoutButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 12,
+    alignItems: 'center',
+    padding: 15,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+});
+ 

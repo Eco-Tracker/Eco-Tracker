@@ -14,9 +14,9 @@ const ProfHomePage = () => {
       console.log(res.data.id, 'this is the id')
       setId(res.data.id)
       console.log(id, 'amro')
-      return res.data.id; // return the id to the next .then() block
+      return res.data.id; 
     })
-    .then((userId)=>{ // userId here is the value returned by previous .then() block
+    .then((userId)=>{ 
       console.log(userId,'2 id ---')
       return axios.get(`http://${ADDRESS_IP}:5000/event/idUser/${userId}`)
     })
@@ -49,7 +49,7 @@ const ProfHomePage = () => {
       <Text>{item.like}</Text>
     </View>
     ))}
-     <View style={styles.formNavBarButton}>
+     {/* <View style={styles.formNavBarButton}>
         <TouchableOpacity>
           <Image
             source={require('../assets/ProfHome/formnavbar.png')}
@@ -68,7 +68,7 @@ const ProfHomePage = () => {
 
       <TouchableOpacity style={styles.profilButton}>
         <Image source={require('../assets/ProfHome/profil.png')} style={styles.profilButton} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   
 
