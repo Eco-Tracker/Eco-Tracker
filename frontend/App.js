@@ -18,6 +18,13 @@ import ProfHomePage from './component/ProfHomePage';
 import AddEvent from "./component/AddEvent"
 import PostForm from "./component/post"
 
+import PostList from './component/HomePage';
+import eventDetails from "./component/constants/EventDetails";
+import post from './component/post'
+import NavBar from "./component/NavBarPro";
+import ProfHomePage from './component/ProfHomePage';
+import AddEvent from "./component/AddEvent"
+import TopPlacesCarousel from './component/constants/TopPlacesCarousel';
 
 
 
@@ -42,9 +49,11 @@ const App=() => {
         <Stack.Screen name="Loginprof" component={Login} />
         <Stack.Screen name="Signuppers" component={Signuppers} />
         <Stack.Screen   name='Signupprof'  component={Signupprof}/>
-        <Stack.Screen   name='ProfHomePage'  component={ProfHomePage}/>
+        <Stack.Screen   name='eventDetails'  component={eventDetails}/>
+        <Stack.Screen   name='ProfHomePage'  component={NavBar}/>
         <Stack.Screen name="PersonnalUser" component={PersonnalUser} />
         <Stack.Screen name="ProfesionnalUser" component={ProfesionnalUser} />
+        <Stack.Screen name="TopPlacesCarousel" component={TopPlacesCarousel} />
         <Stack.Screen name="Wrapper" component={Wrapper} />
         <Stack.Screen name="post" component={PostForm} />
         <Stack.Screen name="AddEvent" component={AddEvent} />

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { createStackNavigator, DefaultTheme } from "@react-navigation/stack";
 import {
   FlatList,
   Text,
@@ -9,18 +8,17 @@ import {
   Image,
 } from 'react-native';
 import {colors, shadow, sizes, spacing} from './theme';
-import list from "./data";
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
 import ADDRESS_IP from '../../API'
 import { ImageBackground } from 'react-native';
 const CARD_WIDTH = sizes.width - 80;
 const CARD_HEIGHT = 250;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 
-const TopPlacesCarousel = () => {
+const eventDetails = ({ route }) => {
   const [event, setEvent]=useState([]);
-  const navigation = useNavigation();
+  const { item } = route.params;
+
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -35,41 +33,31 @@ const TopPlacesCarousel = () => {
     fetchEvent();
   }, []);
 
-  return (
-    <FlatList
-      data={event}
-      horizontal
-      snapToInterval={CARD_WIDTH_SPACING}
-      decelerationRate="fast"
-      showsHorizontalScrollIndicator={false}
-      keyExtractor={i => i.id}
-      renderItem={({item, index}) => {
+
         return (
           <TouchableOpacity
             style={{
               marginLeft: spacing.l,
-              marginRight: index === list.length - 1 ? spacing.l : 0,
               height: CARD_HEIGHT,
               backgroundColor: '#F3F3F3',
             
-            }}
-            onPress={() => navigation.navigate('eventDetails', {item})}>
+            }}>
             <View style={[styles.card]}>
-              <View style={styles.imageBox}>
-                <ImageBackground source={{uri: item.image}} style={styles.image} />
-              </View>
+                <Image source={{uri: item.image}} style={styles.image} />
+
               <View style={styles.titleBox}>
                 <Text style={styles.title}>{item.name}</Text>
                 <Text style={styles.location}>{item.location}</Text>
-                
+                <Text >{item.description}</Text>    
+                <Text >{item.date}</Text>
+                <Text>{item.participants}</Text>
+                <Text>{item.like}</Text>
               </View>
             </View>
           </TouchableOpacity>
         );
-      }}
-    />
-  );
-};
+      }
+
 
 const styles = StyleSheet.create({
   card: {
@@ -110,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TopPlacesCarousel;
+export default eventDetails;

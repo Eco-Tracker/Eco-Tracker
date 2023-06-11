@@ -133,6 +133,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  input:{
+    width: '70%',
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    borderRadius :13,
+},
   scrollView: {
     flex: 1,
     top: -13,
@@ -221,6 +230,7 @@ const styles = StyleSheet.create({
     width: 330,
     
   },
+
 });
 
 export default AddEvent;
