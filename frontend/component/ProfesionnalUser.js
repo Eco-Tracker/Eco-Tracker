@@ -27,7 +27,7 @@ export default function ProfesionnalUser({ navigation }) {
 
       const onLogout = () => {
         auth.signOut();
-            navigation.navigate("Loginprof")  
+            navigation.navigate("Home2")  
       };
       
 
