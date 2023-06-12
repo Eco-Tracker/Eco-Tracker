@@ -22,8 +22,6 @@ import PostList from './component/HomePage';
 import eventDetails from "./component/constants/EventDetails";
 import post from './component/post'
 import NavBar from "./component/NavBarPro";
-import ProfHomePage from './component/ProfHomePage';
-import AddEvent from "./component/AddEvent"
 import TopPlacesCarousel from './component/constants/TopPlacesCarousel';
 
 

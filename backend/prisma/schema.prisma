@@ -3,72 +3,80 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" 
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+ 
 }
 
 model comments {
-  id      String @id @default (cuid())
-  bodyCom String
-  post_Id String
-  posts   posts  @relation(fields: [post_Id], references: [post_Id])
-  author personalUser @relation(fields: [authorId], references: [id])
-  authorId                String
-
+  id       String       @id @default(cuid())
+  bodyCom  String
+  post_Id  String
+  posts    posts        @relation(fields: [post_Id], references: [post_Id])
+  author   personalUser @relation(fields: [authorId], references: [id])
+  authorId String
 }
 
 model events {
-  idEV                    String                    @id @default (cuid())
-  name                    String
-  description             String
-  image                   String
-  participants            Int
-  like                    Int
-  date                    DateTime                 
-  location                String
-  author profissionalUser @relation(fields: [authorId], references: [id])
-  authorId                String
-
+  idEV         String           @id @default(cuid())
+  name         String
+  description  String
+  image        String
+  participants Int
+  like         Int
+  date         DateTime
+  location     String
+  author       profissionalUser @relation(fields: [authorId], references: [id])
+  authorId     String
 }
 
 model personalUser {
-  id                 String               @id @default (cuid())
-  photo              String? 
-  name               String
-  mail               String               @unique
-  phone              Int
-  banned             Boolean    @default(false)
-  posts              posts[]
-  comments           comments[]
+  id         String       @id @default(cuid())
+  photo      String?
+  name       String
+  mail       String       @unique
+  phone      Int
+  banned     Boolean      @default(false)
+  posts      posts[]
+  comments   comments[]
+  challenges challenges[]
 }
 
-
-
 model posts {
-  post_Id            String               @id @default (cuid())
-  type               String
-  title              String
-  body               String
-  image              String
-  like               Int
-  author personalUser @relation(fields: [authorId], references: [id])
-  authorId                String
-  comments           comments[]
+  post_Id  String       @id @default(cuid())
+  type     String
+  title    String
+  body     String
+  image    String
+  like     Int
+  author   personalUser @relation(fields: [authorId], references: [id])
+  authorId String
+  comments comments[]
 }
 
 model profissionalUser {
-  id                      String                    @id @default (cuid())
-  professionalName        String
-  professionalMail        String                    @unique
-  contactNumber           Int
-  codeFiscal              String
-  picture                 String
-  banned                  Boolean    @default(false)
-  events                  events[]
+  id               String   @id @default(cuid())
+  professionalName String
+  professionalMail String   @unique
+  contactNumber    Int
+  codeFiscal       String
+  picture          String
+  banned           Boolean  @default(false)
+  events           events[]
 }
 
 model admin {
-  adminId String @id @default (cuid())
-  email String
+  adminId String @id @default(cuid())
+  email   String
 }
 
+model challenges {
+  id          String       @id @default(cuid())
+  name        String
+  description String
+  deadline    DateTime
+  points      Int
+  isCompleted Boolean
+  author      personalUser @relation(fields: [authorId], references: [id])
+  authorId    String
+}
