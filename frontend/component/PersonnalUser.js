@@ -7,11 +7,12 @@ import pick from "../assets/addImage.png";
 import Header from './constants/Header';
 import { auth} from "../Firebase/index";
 import { signOut} from "firebase/auth";
-import axios from "axios";
+import axios from "axios";é
 import ADDRESS_IP from '../API'
 
 export default function PersonnalUser({ navigation }) {
   const [user,setUser]=useState([]);
+  
   const mail = auth.currentUser.email
       const fetchUser=()=>{
         axios.get(`http://${ADDRESS_IP}:5000/users/email/${mail}`)
@@ -46,11 +47,11 @@ export default function PersonnalUser({ navigation }) {
     <>
     <Header/>
     <ScrollView style={styles.container}>
-      {user.map((item) => (
-        <View key={item.idEV}>
-          <View style={styles.imageContainer}>
+      {user?.map((item) => (
+        <View key={item?.idEV}>
+          <View style={styles?.imageContainer}>
             <Image 
-              source={{uri:item.photo}} 
+              source={{uri:item?.photo}} 
               style={styles.userImage} 
             />
           </View>

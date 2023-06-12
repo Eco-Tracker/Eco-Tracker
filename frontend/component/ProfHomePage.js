@@ -36,17 +36,17 @@ const ProfHomePage = () => {
 
   return (
     <View style={styles.content}>
-    {data.map((item) => (
-      <View key={item.idEV}>
-      <Image source={{uri: item.image}} style={styles.imageStyle}/>
+    {data?.map((item) => (
+      <View key={item?.idEV}>
+      <Image source={{uri: item?.image}} style={styles.imageStyle}/>
       <Text style={styles.textStyle}>
-        {item.name} 
+        {item?.name} 
       </Text>
-      <Text >{item.description}</Text>
-      <Text >{item.location}</Text>    
-      <Text >{item.date}</Text>
-      <Text>{item.participants}</Text>
-      <Text>{item.like}</Text>
+      <Text >{item?.description}</Text>
+      <Text >{item?.location}</Text>    
+      <Text >{item?.date}</Text>
+      <Text>{item?.participants}</Text>
+      <Text>{item?.like}</Text>
     </View>
     ))}
      {/* <View style={styles.formNavBarButton}>

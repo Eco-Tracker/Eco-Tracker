@@ -41,6 +41,7 @@ const LoginUser = ({ navigation }) => {
     // Add handle press logic here
   };
 
+
   const handleSignUp = () => {
     navigation.navigate('Signuppers'); // Navigate to the SignUp component/page
   };
@@ -76,6 +77,7 @@ const LoginUser = ({ navigation }) => {
             </TouchableOpacity>
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
+              
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
                 <Text style={[styles.signUpText, { color: '#4CAF50' }]}>Sign Up</Text>
               </TouchableOpacity>

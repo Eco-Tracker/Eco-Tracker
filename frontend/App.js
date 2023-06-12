@@ -13,12 +13,15 @@ import Signuppers from './component/Signuppers.js';
 import Signupprof from './component/Signupprof.js';
 import PersonnalUser from './component/PersonnalUser';
 import ProfesionnalUser from './component/ProfesionnalUser';
+import Nav from "../frontend/NavBar/Nav"
+import ProfHomePage from './component/ProfHomePage';
+import AddEvent from "./component/AddEvent"
+import PostForm from "./component/post"
+
 import PostList from './component/HomePage';
 import eventDetails from "./component/constants/EventDetails";
 import post from './component/post'
 import NavBar from "./component/NavBarPro";
-import ProfHomePage from './component/ProfHomePage';
-import AddEvent from "./component/AddEvent"
 import TopPlacesCarousel from './component/constants/TopPlacesCarousel';
 
 
@@ -50,7 +53,7 @@ const App=() => {
         <Stack.Screen name="ProfesionnalUser" component={ProfesionnalUser} />
         <Stack.Screen name="TopPlacesCarousel" component={TopPlacesCarousel} />
         <Stack.Screen name="Wrapper" component={Wrapper} />
-        <Stack.Screen name="post" component={post} />
+        <Stack.Screen name="post" component={PostForm} />
         <Stack.Screen name="AddEvent" component={AddEvent} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -58,9 +61,3 @@ const App=() => {
 };
 
 export default App;
-
-
-
-
-
-

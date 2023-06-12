@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE "User";
-
 -- CreateTable
 CREATE TABLE "comments" (
     "id" TEXT NOT NULL,
@@ -78,6 +69,19 @@ CREATE TABLE "admin" (
     CONSTRAINT "admin_pkey" PRIMARY KEY ("adminId")
 );
 
+-- CreateTable
+CREATE TABLE "challenges" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "deadline" TIMESTAMP(3) NOT NULL,
+    "points" INTEGER NOT NULL,
+    "isCompleted" BOOLEAN NOT NULL,
+    "authorId" TEXT NOT NULL,
+
+    CONSTRAINT "challenges_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "personalUser_mail_key" ON "personalUser"("mail");
 
@@ -95,3 +99,6 @@ ALTER TABLE "events" ADD CONSTRAINT "events_authorId_fkey" FOREIGN KEY ("authorI
 
 -- AddForeignKey
 ALTER TABLE "posts" ADD CONSTRAINT "posts_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "personalUser"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "challenges" ADD CONSTRAINT "challenges_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "personalUser"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

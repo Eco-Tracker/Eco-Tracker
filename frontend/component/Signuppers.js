@@ -80,7 +80,6 @@ const SignUpUsers = ({ navigation }) => {
         });
         console.log('User profile updated');
       }
-
       await axios.post(`http://${ADDRESS_IP}:5000/users/register`,{
         name,
         mail,
