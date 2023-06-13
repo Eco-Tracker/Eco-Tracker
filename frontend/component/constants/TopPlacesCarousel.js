@@ -53,7 +53,7 @@ const TopPlacesCarousel = () => {
               backgroundColor: '#F3F3F3',
             
             }}
-            onPress={() => navigation.navigate('eventDetails', {item})}>
+            onPress={() => navigation.navigate('EventDetails', {item})}>
             <View style={[styles.card]}>
               <View style={styles.imageBox}>
                 <ImageBackground source={{uri: item.image}} style={styles.image} />

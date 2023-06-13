@@ -12,8 +12,8 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { signInWithEmailAndPassword, sendPasswordResetEmail} from "firebase/auth";
-import {auth, googleAuthProvider } from "../Firebase/index";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { auth, googleAuthProvider } from "../Firebase/index";
 import Nav from "../NavBar/Nav"
 import NavBar from '../NavBar/Nav';
 const Login = ({ navigation }) => {
@@ -45,11 +45,12 @@ const Login = ({ navigation }) => {
   const handleSignUp = () => {
     navigation.navigate('Signupprof'); // Naviguer vers le composant/page "SignUpPro"
   };
-  const resetPassword=()=>{
-    sendPasswordResetEmail(auth,professionalMail)
-    .then((res)=> {
-      console.log(professionalMail,"email")
-      alert('password reset email has been sent successfully')} )
+  const resetPassword = () => {
+    sendPasswordResetEmail(auth, professionalMail)
+      .then((res) => {
+        console.log(professionalMail, "email")
+        alert('password reset email has been sent successfully')
+      })
       .catch((error) => {
         alert('Please enter a valid email', error);
       });
@@ -67,7 +68,7 @@ const Login = ({ navigation }) => {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-    
+
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
         <View style={styles.container}>
           <StatusBar style={styles.status} />
@@ -88,10 +89,11 @@ const Login = ({ navigation }) => {
             />
             <View style={styles.signUpContainer}>
               <Text style={styles.signUpText}>Don't have an account? </Text>
+
               <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-                <Text style={[styles.signUpText, { color: '#4CAF50', fontWeight: 'bold' }]}>Sign Up</Text>
+                <Text style={[styles.signUpText, { color: '#4CAF50', fontWeight: 'bold', fontSize: 13 }]}>Sign Up</Text>
               </TouchableOpacity>
-              <Text style={styles.forgotPasswordText} onPress={()=>{resetPassword()}}>Forgot password ?</Text>
+              <Text style={styles.forgotPasswordText} onPress={() => { resetPassword() }}>Forgot password ?</Text>
 
             </View>
             <TouchableOpacity style={styles.btnContainer} onPress={handleLogin}>
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   header: {
-    top :50,
+    top: 50,
     fontSize: 14,
     marginBottom: -20,
   },
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
     marginBottom: -60,
   },
   btnContainer: {
-    top:25,
+    top: 25,
     width: 320,
     borderRadius: 12,
     backgroundColor: '#4CAF50',
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 10,
-    top:80,
+    top: 80,
   },
   signUpButton: {
     marginLeft: 5,
@@ -154,17 +156,17 @@ const styles = StyleSheet.create({
   signUpText: {
     fontSize: 10,
     lineHeight: 14,
-    top:-90,
-    left:-35,
+    top: -90,
+    left: -35,
   },
   forgotPasswordText: {
     fontSize: 8,
     lineHeight: 14,
     fontWeight: 'bold',
-    top:-90,
-    left:35,
+    top: -90,
+    left: 35,
   },
- 
+
 });
 
 export default Login;
