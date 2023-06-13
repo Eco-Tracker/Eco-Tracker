@@ -61,6 +61,12 @@ export default function ProfesionnalUser({ navigation }) {
           <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
             <Text style={styles.buttonText}>Log Out</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.logoutButton}
+        onPress={()=>{
+            navigation.navigate(
+            'UpdateProfile',{user:proUser})}}>
+          <Text style={styles.buttonText}>Modify</Text>
+        </TouchableOpacity>
 
         </View>
       )}
