@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   Animated,
+  ActivityIndicator,
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
@@ -103,6 +104,7 @@ const Loading = () => {
   return (
     <View style={styles.container}>
       <Text>Loading...</Text>
+      <ActivityIndicator size="large" color="#00ff00" />
     </View>
   );
 };
