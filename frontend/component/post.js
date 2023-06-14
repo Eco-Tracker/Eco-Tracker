@@ -94,7 +94,7 @@ try {
     console.log('this is id',id)
 
     try { 
-      await axios.post(`http://${ADDRESS_IP}:5000/post/register`, {id: id,title:Title,body:description,image:image,type:type,like:4});
+      await axios.post(`http://${ADDRESS_IP}:5000/post/register`, {id: id,title:Title,body:description,image:image,type:type,like:0});
     } catch (error) {
       console.error('Error creating post:', error);
     }
@@ -130,11 +130,7 @@ try {
         value={Title}
         onChangeText={setTitle}
       />
-      </View>
-      <View style={styles.third}>
-       <TouchableOpacity  onPress={selectImage} style={{height:100,width:100, borderColor:"gray",borderWidth:3,borderStyle:"dashed",borderRadius:"10",justifyContent:"center"}} >
-        <Text style={{textAlign:"center"}}>Select Image</Text>
-        </TouchableOpacity>
+       <Button title="Select Image" onPress={selectImage} color={buttonColor} />
 
       {/* {image && <Image source={{ uri: image }} style={styles.image} />}
       <Button title="Choose Image" onPress={handleImageChange} /> */}

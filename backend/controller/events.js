@@ -103,7 +103,37 @@ const deleteEvent = async (req, res) => {
     }
 }
 
+const updateLike = async (req, res) => {
+  try {
+      const Like = await prisma.events.update({  
+          where: { idEV: req.params.idEV },
+          data: { 
+              like: req.body.like
+          }
+      });
 
+      res.status(200).json(Like);
+  } catch (err) {
+      console.log(err)
+      res.status(500).json(err);
+  }
+}
+
+const updatePart = async (req, res) => {
+  try {
+      const participant = await prisma.events.update({  
+          where: { idEV: req.params.idEV },
+          data: { 
+            participants: req.body.participants
+          }
+      });
+
+      res.status(200).json(participant);
+  } catch (err) {
+      console.log(err)
+      res.status(500).json(err);
+  }
+}
 
 module.exports = {
     add,
@@ -112,5 +142,7 @@ module.exports = {
     getOneBylocation,
     getAll, 
     deleteEvent,
-    getByUser
+    getByUser,
+    updateLike,
+    updatePart
 }

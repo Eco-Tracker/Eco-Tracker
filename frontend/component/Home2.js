@@ -1,46 +1,73 @@
 import React, { useState } from 'react';
-import { Button, StatusBar, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, StatusBar, Image, StyleSheet, Text, TouchableOpacity, View, Switch } from 'react-native';
+
+export const ToggleButton = ({ userType, onToggle, onButtonPress }) => {
+  const [isEnabled, setIsEnabled] = useState(userType === 'personal');
+
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState);
+    onToggle();
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.toggleContainer}>
+        {isEnabled ? (
+          <Text style={styles.textOn} onPress={toggleSwitch}>Personal User</Text>
+        ) : (
+          <Text style={styles.textOff} onPress={toggleSwitch}>Professional User</Text>
+        )}
+        <Switch
+          trackColor={{ false: '#3E3E3E', true: '#4CAF50' }}
+          thumbColor={isEnabled ? '#fff' : '#fff'}
+          ios_backgroundColor="#3E3E3E"
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+          style={{ transform: [{ scaleX: 1.5 }] }} // Adjust the scaleX value for desired width
+        />
+      </View>
+    </View>
+  );
+};
 
 export default function App({ navigation }) {
-  const [imageSource, setImageSource] = useState(require('../images/1.png'));
-  const [buttonPressCount, setButtonPressCount] = useState(0);
+  const [userType, setUserType] = useState('personal');
 
-  const handlePress = () => {
-    if (buttonPressCount === 0) {
-      // First button press
-      setButtonPressCount(1); // Update button press count
-    } else {
-      navigation.navigate('Loginpers'); // Perform navigation to LoginComponent
-    }
+  const handleToggle = () => {
+    setUserType(prevType => prevType === 'personal' ? 'professional' : 'personal');
   };
 
   const handleImagePress = () => {
-    navigation.navigate('Login'); // Perform navigation to LoginComponent
+    navigation.navigate('Login');
   };
 
-  const handleButton1 = () => {
-    navigation.navigate('Loginpers');
-  };
-
-  const handleButton2 = () => {
-    navigation.navigate('Loginprof');
+  const handleButton = () => {
+    if (userType === 'personal') {
+      navigation.navigate('Loginpers');
+    } else {
+      navigation.navigate('Loginprof');
+    }
   };
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" translucent={false} />
 
-      <Image source={imageSource} style={styles.image} onPress={handleImagePress} />
+      {userType === 'personal' ? (
+        <Image source={require('../images/1.png')} style={styles.image} onPress={handleImagePress} />
+      ) : (
+        <Image source={require('../images/2.png')} style={styles.image1} onPress={handleImagePress} />
+      )}
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.Personalbutton} onPress={handleButton1}>
-          <Text style={styles.buttonText}>PersonalUser</Text>
-        </TouchableOpacity>
+        <ToggleButton userType={userType} onToggle={handleToggle} onButtonPress={handleButton} />
       </View>
 
-      <TouchableOpacity style={styles.ProfesionalButton} onPress={handleButton2}>
-        <Text style={styles.buttonText}>ProfesionalUser</Text>
+      <TouchableOpacity style={styles.loginButton} onPress={handleButton}>
+        <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
+
+      <Text style={styles.footerText}>Here you have to make your choice if you are a visitor member or a professional type</Text>
 
       <StatusBar style="auto" />
     </View>
@@ -53,15 +80,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20,
   },
-  Personalbutton: {
-    backgroundColor: '#4CAF50',
-    width: 240,
-    height: 50,
-    borderRadius: 12,
+  toggleContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  ProfesionalButton: {
+  loginButton: {
     backgroundColor: '#4CAF50',
     width: 240,
     height: 50,
@@ -84,6 +106,28 @@ const styles = StyleSheet.create({
     width: 300,
     height: 330,
     marginTop: 10,
-    top:-70
+    top: -70,
+  },
+  image1: {
+    width: 300,
+    height: 330,
+    marginTop: 10,
+    top: -20,
+  },
+  textOn: {
+    fontSize: 26,
+    color: 'green',
+    marginBottom: 0,
+  },
+  textOff: {
+    fontSize: 26,
+    color: 'green',
+    marginBottom: 10,
+  },
+  footerText: {
+    marginTop: 20,
+    fontSize: 12,
+    color: 'black',
+    textAlign: 'center',
   },
 });

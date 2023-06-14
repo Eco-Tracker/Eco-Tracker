@@ -27,7 +27,7 @@ export default function ProfesionnalUser({ navigation }) {
 
       const onLogout = () => {
         auth.signOut();
-            navigation.navigate("Loginprof")  
+            navigation.navigate("Home2")  
       };
       
 
@@ -58,9 +58,19 @@ export default function ProfesionnalUser({ navigation }) {
             <Text style={styles.userPhone}>{proUser.codeFiscal}</Text>
             <View style={styles.border}></View>
           </View>
+          <View>
+          <TouchableOpacity style={styles.logoutButton}
+        onPress={()=>{
+            navigation.navigate(
+            'UpdateProfile',{user:proUser})}}>
+          <Text style={styles.buttonText}>Update</Text>
+        </TouchableOpacity>
+        </View>
+        <View>
           <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
             <Text style={styles.buttonText}>Log Out</Text>
           </TouchableOpacity>
+          </View>
 
         </View>
       )}

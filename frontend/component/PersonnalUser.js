@@ -1,81 +1,79 @@
 import React, { useState, useEffect } from 'react';
-import { KeyboardAvoidingView, StatusBar, Image, StyleSheet, Text, TouchableOpacity,ScrollView, View ,TextInput} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import * as ImagePicker from 'expo-image-picker';
-import pick from "../assets/addImage.png";
+import { KeyboardAvoidingView, StatusBar, Image, StyleSheet, Text, TouchableOpacity, ScrollView, View, TextInput } from 'react-native';
 import Header from './constants/Header';
 import { auth} from "../Firebase/index";
 import { signOut} from "firebase/auth";
 import axios from "axios";
 import ADDRESS_IP from '../API'
-
 export default function PersonnalUser({ navigation }) {
-  const [user,setUser]=useState([]);
-  
-  const mail = auth.currentUser.email
-      const fetchUser=()=>{
-        axios.get(`http://${ADDRESS_IP}:5000/users/email/${mail}`)
-        .then((res)=>{
-          console.log(res.data, 'this is the id2')
-          setUser(res.data)
-          console.log(user, 'sarhane'); 
-        })
-        .catch((err)=>{
-          console.log(err)
-        })
-      }
+  const [users, setUser] = useState([]);
+  const mail = auth.currentUser.email;
+  console.log(mail);
+  const fetchUser = () => {
+    axios.get(`http://${ADDRESS_IP}:5000/users/email/${mail}`)
+      .then((res) => {
+        console.log(res.data, 'this is the user data');
+        setUser(res.data[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-      useEffect(() => {
-        fetchUser();
-      }, []);
-      const onLogout = () => {
-        auth.signOut();
-        navigation.navigate("Loginpers");
-   };
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
-  // const [selectedImage, setSelectedImage] = useState("https://www.pinclipart.com/picdir/middle/221-2217551_computer-user-clip-art.png");
-  // const [email, setEmail] = useState('')
-  //   const [phoneNumber, setPhoneNumber] = useState('')
-  //   const [userName, setUserName] = useState('')
-  //   const [name, setName] = useState('')
-  
+  const onLogout = () => {
+    auth.signOut();
+    navigation.navigate("Home2");
+  };
 
- 
+  console.log(users.photo, 'updated user state');
 
   return (
     <>
     <Header/>
-    <ScrollView style={styles.container}>
-      {user?.map((item) => (
-        <View key={item?.idEV}>
-          <View style={styles?.imageContainer}>
-            <Image 
-              source={{uri:item?.photo}} 
-              style={styles.userImage} 
-            />
-          </View>
-
-          <View style={styles.userInfo}>
-          <Text style={styles.texty} >Name</Text>
-            <Text style={styles.userName}>{item.name}</Text>
-            <View style={styles.border}></View>
-            <Text style={styles.texty} >Email</Text>
-            <Text style={styles.userEmail}>{item.mail}</Text>
-            <View style={styles.border}></View>
-            <Text style={styles.texty} >Phone Number</Text>
-            <Text style={styles.userPhone}>{item.phone}</Text>
-            <View style={styles.border}></View>
-          </View>
-
-          <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
-            <Text style={styles.buttonText}>Log Out</Text>
-          </TouchableOpacity>
+      <ScrollView style={styles.container}>
+        {users && ( <View>
+        <View style={styles.imageContainer}>
+          <Image
+            source={{ uri: users.photo }}
+            style={styles.userImage}
+          />
         </View>
-      ))}
 
-      <StatusBar style="auto" />
-    </ScrollView>
+        <View style={styles.userInfo}>
+          <Text style={styles.texty}>Name</Text>
+          <Text style={styles.userName}>{users.name}</Text>
+          <View style={styles.border}></View>
+          <Text style={styles.texty}>Email</Text>
+          <Text style={styles.userEmail}>{users.mail}</Text>
+          <View style={styles.border}></View>
+          <Text style={styles.texty}>Phone Number</Text>
+          <Text style={styles.userPhone}>{users.phone}</Text>
+          <View style={styles.border}></View>
+        </View>
+        <View>
+          <TouchableOpacity style={styles.logoutButton}
+        onPress={()=>{
+            navigation.navigate(
+            'UpdatePers',{user:users})}}>
+          <Text style={styles.buttonText}>Update</Text>
+        </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
+          <Text style={styles.buttonText}>Log Out</Text>
+        </TouchableOpacity>
+
+        <StatusBar style="auto" />
+        </View> 
+        )}
+
+
+        <StatusBar style="auto" />
+      </ScrollView>
     </>
   );
 }
@@ -94,8 +92,8 @@ const styles = StyleSheet.create({
     width: 150, 
     height: 150, 
     borderRadius: 75,
-    borderColor: '#C7C1C0',  // adding a border color
-    borderWidth: 3,         // adding a border width
+    borderColor: '#C7C1C0', 
+    borderWidth: 3, 
     marginBottom: 20,
   },
   userInfo: {
