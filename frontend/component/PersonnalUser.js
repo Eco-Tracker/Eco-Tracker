@@ -29,7 +29,7 @@ export default function PersonnalUser({ navigation }) {
     navigation.navigate("Home2");
   };
 
-  console.log(users.id, 'updated user state');
+  console.log(users.photo, 'updated user state');
 
   return (
     <>
