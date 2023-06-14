@@ -30,8 +30,6 @@ const Login = ({ navigation }) => {
       const user = userCredential.user;
       Alert.alert("Welcome");
       console.log("User created:", user);
-
-      // Rediriger vers la page "profhomepage"
       navigation.navigate('ProfHomePage');
     } catch (error) {
       Alert.alert("Signup first", error.message);
