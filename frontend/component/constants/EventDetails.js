@@ -3,10 +3,12 @@ import {
   FlatList,
   Text,
   View,
+  Button,
   StyleSheet,
   TouchableOpacity,
   Image,
 } from 'react-native';
+import FavoriteButton from './FavoriteButton';
 import { colors, shadow, sizes, spacing } from './theme';
 import axios from 'axios';
 import ADDRESS_IP from '../../API';
@@ -20,7 +22,9 @@ const CARD_HEIGHT = 250;
 
 const EventDetails = ({ route }) => {
   const [event, setEvent] = useState([]);
-  const { item } = route.params;
+  const [s, sets] = useState(0);
+  const [x , setx]=useState(0);
+  const { item, index } = route.params;
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -36,7 +40,54 @@ const EventDetails = ({ route }) => {
 
     fetchEvent();
   }, []);
-
+  var d= item.idEV
+  // console.log(item.like, "like")
+        const incrementLikeCount = async (id, index) => {
+          console.log(s)
+          setEvent((prevEvents) => {
+            const updatedPosts = [...prevEvents];
+            if (d === id && s === 0) {
+              item.like += 1;
+              sets(2);
+            } else {
+              item.like -= 1;
+              sets(0);
+            }
+            return updatedPosts;
+          });
+          console.log(item.like,"hey")
+          try {
+            await axios.put(`http://${ADDRESS_IP}:5000/event/like/${id}`, {
+              like: item.like,
+            
+            });
+          } catch (error) {
+            console.error('Error updating like count:', error);
+          }
+        };
+        console.log(item.participants, "participants")
+              const incrementPartCount = async (id, index) => {
+                console.log(x)
+                setEvent((prevEvents) => {
+                  const updatedPosts = [...prevEvents];
+                  if (d === id && x === 0) {
+                    item.participants += 1;
+                    setx(2);
+                  } else {
+                    item.participants -= 1;
+                    setx(0);
+                  }
+                  return updatedPosts;
+                });
+              
+                try {
+                  await axios.put(`http://${ADDRESS_IP}:5000/event/part/${id}`, {
+                    participants: item.participants,
+                  });
+                } catch (error) {
+                  console.error('Error updating like count:', error);
+                }
+              };
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.navigate('Wrapper')} style={styles.backButton}>
@@ -54,11 +105,19 @@ const EventDetails = ({ route }) => {
         <Text style={styles.description}>{item.description}</Text>
         <View style={styles.infoContainer}>
           <View style={styles.infoItem}>
-            <Icon name="user" size={30} color={colors.black} />
+            <Icon name="user" size={30} color={colors.black}  onPress={() => incrementPartCount(item.idEV,index)}/>
             <Text style={styles.infoText}>{item.participants}</Text>
           </View>
+          <TouchableOpacity style={styles.favoritee} >
+          {/* <Button
+                title="Favorite"
+                onPress={() => incrementLikeCount(item.idEV,index)}
+                style={styles.likeText}
+              /> */}
+           
+          </TouchableOpacity>
           <View style={styles.infoItem}>
-            <Icon name="heart" size={30} color={colors.red} />
+            <Icon name="heart" size={30} color={colors.red} onPress={() => incrementLikeCount(item.idEV,index)} />
             <Text style={styles.infoText}>{item.like}</Text>
           </View>
         </View>

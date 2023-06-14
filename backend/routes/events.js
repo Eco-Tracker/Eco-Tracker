@@ -7,7 +7,9 @@ const {
     getOneBylocation,
     getAll, 
     deleteEvent,
-    getByUser
+    getByUser,
+    updateLike,
+    updatePart
 }= require("../controller/events")
 router.get("/", getAll);
 router.post("/add", add);
@@ -16,4 +18,6 @@ router.delete("/:idEV",deleteEvent);
 router.get("/name/:name", getOneByName);
 router.get("/idUser/:id",getByUser);
 router.get("/location/:location",getOneBylocation)
+router.put("/like/:idEV", updateLike)
+router.put("/part/:idEV", updatePart)
 module.exports = router;     

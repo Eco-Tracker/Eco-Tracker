@@ -1,10 +1,7 @@
 import * as React from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const Tab = createBottomTabNavigator();
-import ProfHomePage from "./ProfHomePage";
-import AddEvent from './AddEvent';
-import ProfesionnalUser from './ProfesionnalUser';
 import Wrapper from "./Wrapper";
 import post from './post';
 import PersonnalUser from "./PersonnalUser";
@@ -27,21 +24,21 @@ const NavBarPers = () => {
                 tabBarShowLabel: false,
                 tabBarHideOnKeyboard: true,
                 tabBarIcon: ({ focused, color, size }) => {
-                    let iconComponent;
+                    let iconName;
                     let routeName = route.name;
                     if (routeName === homeName) {
-                        iconComponent = focused ? <EvilIcons name="navicon" size={size} color={color} /> : <EvilIcons name="navicon" size={size} color={color} />;
+                        iconName = focused ? 'home' : 'home-outline'
                     } else if (routeName === add) {
-                        iconComponent = focused ? <EvilIcons name="plus" size={size} color={color} /> : <EvilIcons name="plus" size={size} color={color} />;
+                        iconName = focused ? 'add-circle' : 'add-circle-outline'
                     } else if (routeName === chat) {
-                        iconComponent = focused ? <EvilIcons name="comment" size={size} color={color} /> : <EvilIcons name="comment" size={size} color={color} />;
+                        iconName = focused ? 'chatbox' : 'chatbox-outline' 
                     } else if (routeName === profile) {
-                        iconComponent = focused ? <EvilIcons name="user" size={size} color={color} /> : <EvilIcons name="user" size={size} color={color} />;
+                        iconName = focused ? 'person' : 'person-outline'
                     } else if (routeName === challenge) {
-                        iconComponent = focused ? <EvilIcons name="trophy" size={size} color={color} /> : <EvilIcons name="trophy" size={size} color={color} />;
+                        iconName = focused ? 'trophy' : 'trophy-outline'
                     }
 
-                    return iconComponent;
+                    return <Ionicons name={iconName} size={size} color={color} />
                 },
             })}
         >
