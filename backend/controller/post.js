@@ -56,7 +56,24 @@ const updateOneByTitle = async (req, res) => {
     }
 }
 
+const updateOneByLike = async (req, res) => {
+    try {
+        const updatedLike = await prisma.posts.update({  
+            where: { post_Id: req.params.post_Id },
+            data: { 
+                like: req.body.like
+            }
+        });
 
+        res.status(200).json(updatedLike);
+    } catch (err) {
+        console.log(err)
+        res.status(500).json(err);
+    }
+}
+  
+    
+  
 
 
 const register = async (req , res)=>{
@@ -87,5 +104,6 @@ module.exports = {
     getOneByTitle,
     getAll,
     deleteOneByTitle,
-    updateOneByTitle
+    updateOneByTitle,
+    updateOneByLike
 }
