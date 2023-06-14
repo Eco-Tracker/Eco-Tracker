@@ -25,6 +25,7 @@ import NavBar from "./component/NavBarPro";
 import TopPlacesCarousel from './component/constants/TopPlacesCarousel';
 import NavBarPers from './component/NavBarPers'
 import Chat from "./component/Chat";
+import UpdatePers from "./component/UpdatePers";
 
 
 
@@ -55,7 +56,8 @@ const App=() => {
         <Stack.Screen name="ProfesionnalUser" component={ProfesionnalUser} />
         <Stack.Screen name="TopPlacesCarousel" component={TopPlacesCarousel} />
         <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
-        <Stack.Screen name="Wrapper" component={Wrapper} />
+        <Stack.Screen name="UpdatePers" component={UpdatePers} />
+        <Stack.Screen name="Wrapper" component={NavBarPers} />
         <Stack.Screen name="post" component={PostForm} />
         <Stack.Screen name="AddEvent" component={AddEvent} />
         <Stack.Screen name="Chat" component={Chat} />

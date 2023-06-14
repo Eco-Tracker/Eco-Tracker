@@ -29,7 +29,9 @@ const add = async (req , res)=>{
         const comment = await prisma.comments.create({
             data: {
                 bodyCom: req.body.bodyCom,
-                post_Id:req.body.post_Id,
+                posts: {
+                    connect: { post_Id: req.body.post_Id },
+                },
                 author:{
                     connect:{id:req.body.id}
                 }

@@ -58,15 +58,19 @@ export default function ProfesionnalUser({ navigation }) {
             <Text style={styles.userPhone}>{proUser.codeFiscal}</Text>
             <View style={styles.border}></View>
           </View>
-          <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
-            <Text style={styles.buttonText}>Log Out</Text>
-          </TouchableOpacity>
+          <View>
           <TouchableOpacity style={styles.logoutButton}
         onPress={()=>{
             navigation.navigate(
             'UpdateProfile',{user:proUser})}}>
-          <Text style={styles.buttonText}>Modify</Text>
+          <Text style={styles.buttonText}>Update</Text>
         </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
+            <Text style={styles.buttonText}>Log Out</Text>
+          </TouchableOpacity>
+          </View>
 
         </View>
       )}
