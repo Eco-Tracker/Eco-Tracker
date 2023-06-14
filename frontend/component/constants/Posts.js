@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import {
   FlatList,
   Text,
@@ -6,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  Button
 } from 'react-native';
 import {colors, shadow, sizes, spacing} from './theme';
 import FavoriteButton from './FavoriteButton';
@@ -13,6 +15,7 @@ import list from "./data"
 import CommentButton from './CommentButton';
 import axios from 'axios';
 import ADDRESS_IP from '../../API'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 const CARD_WIDTH = sizes.width-45;
@@ -21,6 +24,9 @@ const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
+  const [s, sets] = useState(0);
+
+
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -37,18 +43,43 @@ const Posts = () => {
   }, []);
 
 
-
-
-
+  
+  
   
   return (
+    
     <FlatList
       data={posts}
       showsVerticalScrollIndicator={true}
       snapToInterval={CARD_WIDTH_SPACING}
       decelerationRate="fast"
-      keyExtractor={i => i.id}
+      keyExtractor={item => item.id}
       renderItem={({item, index}) => {
+
+        var d= item.post_Id
+        const incrementLikeCount = async (id, index) => {
+          console.log(s)
+          setPosts((prevPosts) => {
+            const updatedPosts = [...prevPosts];
+            if (d === id && s === 0) {
+              updatedPosts[index].like += 1;
+              sets(2);
+            } else {
+              updatedPosts[index].like -= 1;
+              sets(0);
+            }
+            return updatedPosts;
+          });
+        
+          try {
+            await axios.put(`http://${ADDRESS_IP}:5000/post/like/${id}`, {
+              like: posts[index].like,
+            });
+          } catch (error) {
+            console.error('Error updating like count:', error);
+          }
+        };
+        
         return (
             <>
           <TouchableOpacity
@@ -66,14 +97,25 @@ const Posts = () => {
               </View>
               <View style={styles.titleBox}>
                 <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.location}>{item.body}</Text>
+                
               </View>
+              <Text style={styles.location}>{item.body}</Text>
             </View>
           </TouchableOpacity>
   
           <TouchableOpacity style={styles.favoritee}>
-          <FavoriteButton style={styles.favorite} />
+          <Button
+                title="Favorite"
+                onPress={() => incrementLikeCount(item.post_Id,index)}
+                style={styles.likeText}
+              />
+          <FavoriteButton style={styles.favorite} 
+                onPress={() => incrementLikeCount(index)}/>
+           
           </TouchableOpacity>
+          <View style={styles.favoritee}>
+        <Text style={styles.likeText} >{item.like}</Text>
+      </View>
           <TouchableOpacity style={styles.favoritee}>
           <CommentButton style={styles.comment} /></TouchableOpacity>
           
@@ -86,6 +128,18 @@ const Posts = () => {
 };
 
 const styles = StyleSheet.create({
+ 
+  likeText: {
+    position: 'absolute',
+    top: 155,
+    right: 310,  // Adjust as needed
+    color: colors.black, // Or any color you prefer
+    fontSize: sizes.h3,
+    paddingLeft: 10,  // Adjust as needed
+    color: colors.black,  // Or any color you prefer
+    fontSize: sizes.h3,
+    
+  },
   card: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
@@ -93,7 +147,7 @@ const styles = StyleSheet.create({
   },
   favorite: {
     position: 'absolute',
-    top: 165,
+    top: 150,
     right: 330,
     
     // zIndex: 1,
@@ -107,10 +161,12 @@ const styles = StyleSheet.create({
   },
   
   comment: {
+    flexDirection: 'row',  // Add this to align the button and the likes count horizontally
+    alignItems: 'center',  // This centers the button and the likes count vertically
     backgroundColor: '#fff',
     position: 'absolute',
-    top: 165,
-    right:280,
+    top: 150,
+    right: 270,
   },
   imageBox: {
     width: CARD_WIDTH,
@@ -129,11 +185,15 @@ const styles = StyleSheet.create({
     left: 16,
   },
   title: {
+    bottom:220,
+
     fontSize: sizes.h2,
     fontWeight: 'bold',
     color: colors.white,
   },
   location: {
+    // backgroundColor: '#fff',
+bottom:150,
     fontSize: sizes.h3,
     color: colors.white,
   },
