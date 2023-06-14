@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Image, StyleSheet,Text,TouchableOpacity  } from 'react-native';
 import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
 import {auth} from "../Firebase/index";
 import ADDRESS_IP from '../API'
+import logo from "../assets/littlelogo.png"
 
 
 
@@ -14,7 +15,7 @@ const PostForm = () => {
   const [buttonColor, setButtonColor] = useState('#000000');
   const [image, setImage] = useState('');
   const [id,setId]=useState('');
-  const email = auth.currentUser.email
+  // const email = auth.currentUser.email
 
   const selectImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -102,29 +103,45 @@ try {
 
   return (
     <View style={styles.container}>
+      <View style={styles.first}>
+        <Image source={logo} style={styles.image2} />
+        <Text style={{fontSize:50,fontWeight:"bold"}}>Create Post</Text>
+
+      </View>
+      <View style={styles.second}>
+        <Text style={{fontSize:20,fontWeight:"bold"}}>Title</Text>
       <TextInput
         style={styles.input}
-        placeholder="Description"
+        placeholder="Once upon a time..."
         value={description}
         onChangeText={setDescription}
       />
+      <Text style={{fontSize:20,fontWeight:"bold"}}>Type</Text>
       <TextInput
         style={styles.input}
-        placeholder="Type"
+        placeholder="Once upon a time..."
         value={type}
         onChangeText={setType}
       />
+      <Text style={{fontSize:20,fontWeight:"bold"}}>Description</Text>
        <TextInput
-        style={styles.input}
-        placeholder="Type"
+        style={styles.input2}
+        placeholder="The start of wonderful story..." 
         value={Title}
         onChangeText={setTitle}
       />
-       <Button title="Select Image" onPress={selectImage} color={buttonColor} />
+      </View>
+      <View style={styles.third}>
+       <TouchableOpacity  onPress={selectImage} style={{height:100,width:100, borderColor:"gray",borderWidth:3,borderStyle:"dashed",borderRadius:"10",justifyContent:"center"}} >
+        <Text style={{textAlign:"center"}}>Select Image</Text>
+        </TouchableOpacity>
 
       {/* {image && <Image source={{ uri: image }} style={styles.image} />}
       <Button title="Choose Image" onPress={handleImageChange} /> */}
-      <Button title="Submit" onPress={createPost} />
+      <TouchableOpacity onPress={createPost} style={styles.button} >
+        <Text style={{color:"white",fontSize:30,padding:2,textAlign:"center"}}>Post</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -134,18 +151,60 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  button : {
+    backgroundColor: "#4CAF50",
+    width:150,
+    borderRadius: 10,
+    height:45,
+    top:50
+   
+  },
   input: {
     marginBottom: 10,
+    marginTop: 2,
     padding: 10,
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 10,
+    fontSize:17
+  },
+  input2: {
+    
+    marginBottom: 10,
+    marginTop: 2,
+    padding: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 10,
+    fontSize:17,
+    width:"100%",
+    height:200,
+     
+    
   },
   image: {
     width: 200,
     height: 200,
     marginBottom: 10,
   },
+  image2 : {
+    width: 55,
+    height: 55,
+
+  },
+  first:{
+   alignItems: 'center',
+   top:30
+  },
+  second : {
+    top:40
+  },
+  third : {
+    top : 90,
+    flexDirection:"row",
+   justifyContent: 'center',
+   gap:50
+  }
 });
 
 export default PostForm;

@@ -7,7 +7,7 @@ import pick from "../assets/addImage.png";
 import Header from './constants/Header';
 import { auth} from "../Firebase/index";
 import { signOut} from "firebase/auth";
-import axios from "axios";é
+import axios from "axios";
 import ADDRESS_IP from '../API'
 
 export default function PersonnalUser({ navigation }) {

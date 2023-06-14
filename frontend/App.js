@@ -40,15 +40,16 @@ const App=() => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
+        
       >
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Home2" component={Home2} />
         <Stack.Screen name="Loginpers" component={Loginpers} />
         <Stack.Screen name="Loginprof" component={Login} />
         <Stack.Screen name="Signuppers" component={Signuppers} />
-        <Stack.Screen   name='Signupprof'  component={Signupprof}/>
-        <Stack.Screen   name='eventDetails'  component={eventDetails}/>
-        <Stack.Screen   name='ProfHomePage'  component={NavBar}/>
+        <Stack.Screen name='Signupprof'  component={Signupprof}/>
+        <Stack.Screen name='eventDetails'  component={eventDetails}/>
+        <Stack.Screen name='ProfHomePage'  component={NavBar}/>
         <Stack.Screen name="PersonnalUser" component={PersonnalUser} />
         <Stack.Screen name="ProfesionnalUser" component={ProfesionnalUser} />
         <Stack.Screen name="TopPlacesCarousel" component={TopPlacesCarousel} />
