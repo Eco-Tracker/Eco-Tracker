@@ -72,9 +72,9 @@ try {
       console.log(res.data.id, 'this is the id')
       setId(res.data.id)
       console.log(id, 'amro')
-      return res.data.id; // return the id to the next .then() block
+      return res.data.id; 
     })
-    .then((userId)=>{ // userId here is the value returned by previous .then() block
+    .then((userId)=>{ 
       console.log(userId,'2 id ---')
       return axios.post(`http://${ADDRESS_IP}:5000/event/add`,{
         id: id,

@@ -6,7 +6,7 @@ import {auth} from "../Firebase/index";
 const ProfHomePage = () => {
   const [data,setData]=useState([]); 
   const [id,setId]=useState('');
-  const email = auth.currentUser.email
+  const email = auth.currentUser.email 
 
   const handleGet = () =>{
     axios.get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
