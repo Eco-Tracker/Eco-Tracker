@@ -1,81 +1,127 @@
-import React from 'react';
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
-const Chat = () => {
-    const navigation = useNavigation();
-
-    
-
-    return (
-        <View style={styles.container}>
+import React, {
+    useState,
+    useEffect,
+    useLayoutEffect,
+    useCallback
+  } from 'react';
+  import { TouchableOpacity, Text,View, StyleSheet} from 'react-native';
+  import { GiftedChat } from 'react-native-gifted-chat';
+ 
+  import {
+    collection,
+    addDoc,
+    orderBy,
+    query,
+    onSnapshot
+  } from 'firebase/firestore';
+  import { auth, database } from '../Firebase/index.js';
+  import { useNavigation } from '@react-navigation/native';
+  import { AntDesign } from '@expo/vector-icons';
+  import colors from '../colors.js';
+  import { LogBox } from "react-native";
   
-        </View>
-    );
-};
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F3F3F3',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    formNavBarButton: {
-        position: 'absolute',
-        width: 425,
-        height: 155,
-        top: 300,
-        left: -16,
-        alignItems: 'center',
-        paddingBottom: 0,
-    },
-    homeButton: {
-        position: 'absolute',
-        top: 660,
-        left: 13,
-        width: 47,
-        height: 50,
-    },
-    homeButtonImage: {
-        width: 47,
-        height: 50,
-    },
-    addButton: {
-        position: 'absolute',
-        top: 305,
-        bottom: 60,
-        width: 50,
-        height: 50,
-        alignSelf: 'center',
-    },
-    profilButton: {
-        position: 'absolute',
-        width: 40,
-        height: 50,
-        top: 330,
-        left: 152,
-        alignItems: 'center',
-        paddingBottom: 0,
-    },
-    challengeButton: {
-        position: 'absolute',
-        width: 82,
-        height: 50,
-        top: 330,
-        left: 115,
-        alignItems: 'center',
-        paddingBottom: 0,
-    },
-    chatButton: {
-        position: 'absolute',
-        width: 44,
-        height: 46,
-        top: 330,
-        left: 45,
-        alignItems: 'center',
-        paddingBottom: 0,
-    },
-});
-
-export default Chat;
+  export default function Chat() {
+    LogBox.ignoreAllLogs();
+    const [messages, setMessages] = useState([]);
+    const [messagesLength, setMessagesLength] = useState(0);
+  
+    const navigation = useNavigation();
+  
+  
+  
+  
+  
+  
+  
+    
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            style={{
+              marginRight: 10
+            }}
+          >
+            <AntDesign name="logout" size={24} color={colors.gray} style={{marginRight: 10}}/>
+          </TouchableOpacity>
+        )
+      });
+    }, [navigation]);
+  
+    useEffect(() => {
+  
+        const collectionRef = collection(database, 'eco-tracker');
+        const q = query(collectionRef, orderBy('createdAt', 'desc'));
+  
+    const unsubscribe = onSnapshot(q, querySnapshot => {
+        console.log('querySnapshot unsusbscribe');
+          setMessages(
+            querySnapshot.docs.map((doc,i) => {
+              i-1?setMessagesLength(messages.length)  :undefined
+              return{
+              _id: doc.data()._id,
+              createdAt: doc.data().createdAt.toDate(),
+              text: doc.data().text,
+              user: doc.data().user
+            }
+          })
+          );
+          
+        });
+    return unsubscribe; 
+      }, [messagesLength,messages.length]);
+   
+    const onSend = useCallback((messages ) => {  
+     //alert(JSON.stringify(messages))
+        setMessages(previousMessages =>
+          GiftedChat.append(previousMessages, messages)
+        );
+        setMessagesLength(messages.length)
+  
+        // setMessages([...messages, ...messages]);
+        const { _id, createdAt, text, user } = messages[0];    
+        addDoc(collection(database,'eco-tracker'),{
+          _id,
+          createdAt,
+          text,
+          user
+        });
+      
+      }, []);
+  
+      return (
+        // <View>
+        //         {messages && messages.map((message) => (
+        //   <Text key={message}>{message.text}</Text>
+        // ))}
+        // </View>
+        // <>
+        //   {messages.map(message => (
+        //     <Text key={message._id}>{message.text}</Text>
+        //   ))}
+        // </>
+        <> 
+          {console.log(messagesLength,"mehdiiiiiiiiiiiiiiiiiiiiiiiiiiii")}
+         <GiftedChat
+          messages={messages}
+          showAvatarForEveryMessage={true}
+          showUserAvatar={false}
+          keyboardShouldPersistTaps='never'
+           onSend={messages => onSend(messages)}
+          messagesContainerStyle={{
+            backgroundColor: '#fff'
+          }}
+          textInputStyle={{
+            backgroundColor: '#fff',
+            borderRadius: 20,
+          }}
+          user={{
+            _id: auth?.currentUser?.email,
+            avatar: 'https://i.pravatar.cc/300'
+          }}
+        />      
+  
+        </>
+      );
+  }
+  
