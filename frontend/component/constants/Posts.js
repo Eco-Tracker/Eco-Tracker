@@ -14,6 +14,7 @@ import CommentButton from './CommentButton';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import ADDRESS_IP from '../../API';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const CARD_WIDTH = sizes.width - 45;
 const CARD_HEIGHT = 300;
@@ -89,17 +90,16 @@ const Posts = () => {
               <Text style={styles.location}>{item.body}</Text>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity style={styles.favoritee}>
-            <Button
-              title="Favorite"
-              onPress={() => incrementLikeCount(item.post_Id, index)}
-              style={styles.likeText}
-            />
-            <FavoriteButton
-              style={styles.favorite}
-              onPress={() => incrementLikeCount(index)}
-            />
+  
+          <TouchableOpacity style={styles.favoritee}  onPress={() => incrementLikeCount(item.post_Id,index)}>
+          {/* <Button
+                title="Favorite"
+                onPress={() => incrementLikeCount(item.post_Id,index)}
+                style={styles.likeText}
+              /> */}
+          <FavoriteButton style={styles.favorite} 
+               />
+           
           </TouchableOpacity>
           <View style={styles.favoritee}>
             <Text style={styles.likeText}>{item.like}</Text>

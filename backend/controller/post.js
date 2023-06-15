@@ -16,7 +16,7 @@ catch(err){
 
 const getOneByTitle = async (req,res)=>{
     try {
-        const titles= await prisma.posts.findMany({ where: { title: req.params.title } })
+        const titles= await prisma.posts.findMany({ where: { post_Id: req.params.post_Id } })
          res.status(200).json(titles)
     }
     catch (err) {
@@ -24,6 +24,23 @@ const getOneByTitle = async (req,res)=>{
          res.status(500).json(err)
     }
 }
+
+
+
+const getPostUser = async (req,res)=>{
+    try{
+      const one = await prisma.posts.findMany({where :{
+        authorId : req.params.id
+      }
+    })
+    res.status(200).json(one)
+    }
+    catch (err) {
+      res.status(500).json(err)
+  }
+  }
+
+
 
 
 const deleteOneByTitle = async (req, res) => {
@@ -72,7 +89,15 @@ const updateOneByLike = async (req, res) => {
     }
 }
   
-    
+const deletePost = async (req, res) => {
+    try {
+        const deletedPosts = await prisma.posts.deleteMany({ where: { post_Id: req.params.post_Id } });
+        res.status(200).json(deletedPosts);
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+}
   
 
 
@@ -105,5 +130,7 @@ module.exports = {
     getAll,
     deleteOneByTitle,
     updateOneByTitle,
-    updateOneByLike
+    updateOneByLike,
+    getPostUser,
+    deletePost
 }
