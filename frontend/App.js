@@ -26,6 +26,7 @@ import TopPlacesCarousel from './component/constants/TopPlacesCarousel';
 import NavBarPers from './component/NavBarPers'
 import Chat from "./component/Chat";
 import UpdatePers from "./component/UpdatePers";
+import MinePosts from "./component/MinePosts"
 
 
 
@@ -60,6 +61,7 @@ const App=() => {
         <Stack.Screen name="Wrapper" component={NavBarPers} />
         <Stack.Screen name="post" component={PostForm} />
         <Stack.Screen name="AddEvent" component={AddEvent} />
+        <Stack.Screen name="MinePosts" component={MinePosts} />
         <Stack.Screen name="Chat" component={Chat} />
       </Stack.Navigator>
     </NavigationContainer>
