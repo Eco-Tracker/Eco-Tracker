@@ -2,11 +2,15 @@
   import { initializeApp } from "firebase/app";
   import { getAnalytics } from "firebase/analytics";
   import {getAuth , GoogleAuthProvider} from "firebase/auth"
+  import { getFirestore } from 'firebase/firestore';
+  
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
   
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  
+  
   const firebaseConfig = {
     apiKey: "AIzaSyAAYWvZwUsHZ0YE6VwpwajrdX4tSw0LBzQ",
     authDomain: "eco-tracker-51fc3.firebaseapp.com",
@@ -18,7 +22,10 @@
   };
   
   // Initialize Firebase
+  
   const app = initializeApp(firebaseConfig);
    const auth = getAuth();
    const googleAuthProvider= new GoogleAuthProvider()
-   export {auth, googleAuthProvider}
+   const database = getFirestore();
+  
+   export {auth, googleAuthProvider,database}
