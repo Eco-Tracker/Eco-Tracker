@@ -11,6 +11,8 @@ const CommentButton = ({active, style}) => {
           backgroundColor: colors.white,
           padding: 4,
           borderRadius: 20,
+          marginTop:15
+          
         },
         shadow.light,
         style,

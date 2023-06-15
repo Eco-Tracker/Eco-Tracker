@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
  
   likeText: {
     position: 'absolute',
-    top: 155,
+    top: 168,
     right: 310,  // Adjust as needed
     color: colors.black, // Or any color you prefer
     fontSize: sizes.h3,
