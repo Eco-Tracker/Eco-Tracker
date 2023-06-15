@@ -27,6 +27,7 @@ import NavBarPers from './component/NavBarPers'
 import Chat from "./component/Chat";
 import UpdatePers from "./component/UpdatePers";
 import MinePosts from "./component/MinePosts"
+import CommentButton from "./component/constants/CommentButton"
 
 
 
@@ -59,6 +60,7 @@ const App=() => {
         <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
         <Stack.Screen name="UpdatePers" component={UpdatePers} />
         <Stack.Screen name="Wrapper" component={NavBarPers} />
+        <Stack.Screen name="CommentButton" component={CommentButton} />
         <Stack.Screen name="post" component={PostForm} />
         <Stack.Screen name="AddEvent" component={AddEvent} />
         <Stack.Screen name="MinePosts" component={MinePosts} />
