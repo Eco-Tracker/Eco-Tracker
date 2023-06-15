@@ -24,17 +24,17 @@ const Posts = () => {
   const [s, sets] = useState(0);
   const navigation = useNavigation();
 
-  useEffect(() => {
+  
     const fetchPosts = async () => {
       try {
         const response = await axios.get(`http://${ADDRESS_IP}:5000/post/`);
-        console.log(response.data);
+        // console.log(response.data);
         setPosts(response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     };
-
+    useEffect(() => {
     fetchPosts();
   }, []);
 
@@ -78,6 +78,7 @@ const Posts = () => {
               backgroundColor: '#F3F3F3',
             }}
           >
+            
             <View style={[styles.card]}>
               <View style={styles.imageBox}>
                 <Image source={{ uri: item.image }} style={styles.image} />
@@ -103,12 +104,10 @@ const Posts = () => {
           <View style={styles.favoritee}>
             <Text style={styles.likeText}>{item.like}</Text>
           </View>
-          <TouchableOpacity style={styles.favoritee}>
-          <CommentButton
-             item={item.post_Id}
-             style={styles.commentButton}
-             onPress={() => navigation.navigate('CommentButton', { item })}
-           />
+          <TouchableOpacity 
+               style={styles.favoritee} 
+               onPress={() => navigation.navigate('CommentButton', { item })}>
+                <Text>Go to Comments</Text>
           </TouchableOpacity>
         </>
       )}
