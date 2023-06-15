@@ -16,7 +16,7 @@ const Search = ({ onSearch }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 15,
+    marginBottom: 23,
     paddingHorizontal: 5,
   },
   textInput: {
@@ -27,8 +27,9 @@ const styles = StyleSheet.create({
     borderColor: '#4CAF50',
     borderBottomWidth: 0.5,
     justifyContent: 'space-around',
-    marginLeft: 120,
-    top:25, 
+    marginLeft: 100,
+    top:40,
+     
   },
 });
 

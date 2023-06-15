@@ -11,6 +11,7 @@ const FavoriteButton = ({active, style}) => {
           backgroundColor: colors.white,
           padding: 4,
           borderRadius: 20,
+          marginTop: 15
         },
         shadow.light,
         style,

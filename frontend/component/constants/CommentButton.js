@@ -52,20 +52,17 @@ const CommentButton = () => {
   }
 
   return (
-    <View>
-      {comments?.map((comment) => (
-        <View key={comment?.id}>
-          <Text>
-            {comment?.bodyCom}
-          </Text>
-        </View>
-      ))}
-      <TextInput
-        placeholder="comment"
-        value={bodyCom}
-        onChangeText={setBodyCom}
-      />
-      <Button title="Submit" onPress={handlePost} />
+    <View
+      style={[
+        {
+          backgroundColor: colors.white,
+          padding: 4,
+          borderRadius: 20,
+        },
+        shadow.light,
+        style,
+      ]}>
+      <Comment icon={active ? 'FavoriteFilled' : 'Favorite'} size={24} />
     </View>
   );
 };

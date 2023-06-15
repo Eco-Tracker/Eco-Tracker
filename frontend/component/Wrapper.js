@@ -51,17 +51,18 @@ const Wrapper = () => {
 
 const styles = StyleSheet.create({
   searchContainer: {
-    left: -42,
+    left: -45,
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 15,
+
   },
   logoImage: {
-    top: 16,
-    left: 120,
+    top: 25,
+    left: 60,
     width: 40,
     height: 45,
-    marginRight: 10,
+    marginRight: 20,
   },
 });
 

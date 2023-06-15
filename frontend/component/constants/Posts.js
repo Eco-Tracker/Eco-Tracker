@@ -118,9 +118,9 @@ const Posts = () => {
 const styles = StyleSheet.create({
   likeText: {
     position: 'absolute',
-    top: 155,
-    right: 310,
-    color: colors.black,
+    top: 168,
+    right: 310,  // Adjust as needed
+    color: colors.black, // Or any color you prefer
     fontSize: sizes.h3,
     paddingLeft: 10,
     color: colors.black,

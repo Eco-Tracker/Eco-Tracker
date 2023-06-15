@@ -15,7 +15,7 @@ const PostForm = () => {
   const [buttonColor, setButtonColor] = useState('#000000');
   const [image, setImage] = useState('');
   const [id,setId]=useState('');
-  const email = auth.currentUser.email
+  // const email = auth.currentUser.email
 
   const selectImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -130,11 +130,7 @@ try {
         value={Title}
         onChangeText={setTitle}
       />
-      </View>
-      <View style={styles.third}>
-       <TouchableOpacity  onPress={selectImage} style={{height:100,width:100, borderColor:"gray",borderWidth:3,borderStyle:"dashed",borderRadius:10,justifyContent:"center"}} >
-        <Text style={{textAlign:"center"}}>Select Image</Text>
-        </TouchableOpacity>
+       <Button title="Select Image" onPress={selectImage} color={buttonColor} />
 
       {/* {image && <Image source={{ uri: image }} style={styles.image} />}
       <Button title="Choose Image" onPress={handleImageChange} /> */}
