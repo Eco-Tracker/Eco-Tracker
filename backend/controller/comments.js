@@ -23,6 +23,21 @@ const getOneComment = async (req,res)=>{
     }
 }
 
+const getByUser = async (req,res)=>{
+  try{
+    const one = await prisma.comments.findMany({where :{
+      authorId : req.params.id
+    }
+  })
+  res.status(200).json(one)
+  }
+  catch (err) {
+        
+    res.status(500).json(err)
+}
+}
+
+
 
 const add = async (req , res)=>{
     try {
@@ -78,5 +93,6 @@ module.exports = {
     update,
     getAll, 
     deleteComment,
-    getOneComment
+    getOneComment,
+    getByUser
 }
