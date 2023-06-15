@@ -28,6 +28,7 @@ export default function PersonnalUser({ navigation }) {
     auth.signOut();
     navigation.navigate("Home2");
   };
+ 
 
   console.log(users.photo, 'updated user state');
 
@@ -65,6 +66,12 @@ export default function PersonnalUser({ navigation }) {
 
         <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
           <Text style={styles.buttonText}>Log Out</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.logoutButton} onPress={()=>{
+            navigation.navigate(
+            'MinePosts', {user:users})}}>
+          <Text style={styles.buttonText}>MyPosts</Text>
         </TouchableOpacity>
 
         <StatusBar style="auto" />
