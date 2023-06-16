@@ -55,7 +55,7 @@ const add = async (req , res)=>{
                 participants : req.body.participants ,
                 like: req.body.like,
                 image: req.body.image,
-                date : req.body.date,
+                date : new Date(req.body.date),
                 location: req.body.location,
                 author:{
                   connect:{id:req.body.id}

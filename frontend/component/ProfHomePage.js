@@ -1,13 +1,14 @@
 import React, { useState, useEffect  } from 'react';
 import axios from "axios"
 import ADDRESS_IP from '../API'
-import { View, Image, TouchableOpacity, StyleSheet, TextInput, StatusBar, KeyboardAvoidingView, ScrollView, Text } from 'react-native';
+import { View, Image,TouchableOpacity, StyleSheet, TextInput, StatusBar, KeyboardAvoidingView, ScrollView, Text } from 'react-native';
 import {auth} from "../Firebase/index";
+import { useNavigation } from '@react-navigation/native';
 const ProfHomePage = () => {
   const [data,setData]=useState([]); 
   const [id,setId]=useState('');
   const email = auth.currentUser.email 
-
+  const navigation = useNavigation();
   const handleGet = () =>{
     axios.get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
     .then((res)=>{
@@ -34,8 +35,21 @@ const ProfHomePage = () => {
     handleGet();
   }, []);
 
+  const handleDelete = (id) => {
+    axios.delete(`http://${ADDRESS_IP}:5000/event/${id}`)
+    .then((res) => {
+      setData(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  };
+  
+  
+
+
   return (
-    <View style={styles.content}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
     {data?.map((item) => (
       <View key={item?.idEV}>
       <Image source={{uri: item?.image}} style={styles.imageStyle}/>
@@ -47,6 +61,12 @@ const ProfHomePage = () => {
       <Text >{item?.date}</Text>
       <Text>{item?.participants}</Text>
       <Text>{item?.like}</Text>
+      <TouchableOpacity onPress={() => handleDelete(item?.idEV)}><Text>Delete</Text></TouchableOpacity>
+      <TouchableOpacity 
+               style={styles.favoritee} 
+               onPress={() => navigation.navigate('UpdateEvent', { item })}>
+                <Text>°°°</Text>
+          </TouchableOpacity>
     </View>
     ))}
      {/* <View style={styles.formNavBarButton}>
@@ -69,7 +89,7 @@ const ProfHomePage = () => {
       <TouchableOpacity style={styles.profilButton}>
         <Image source={require('../assets/ProfHome/profil.png')} style={styles.profilButton} />
       </TouchableOpacity> */}
-    </View>
+    </ScrollView>
   
 
   )
@@ -79,18 +99,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F3F3F3',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scrollView: {
-    flex: 1,
-    top: -13,
   },
   content: {
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: 10,
-    
+  },
+  scrollView: {
+    flex: 1,
+    top: -13,
   },
   imageStyle: {
     width: 100, 
