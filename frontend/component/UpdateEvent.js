@@ -10,7 +10,7 @@ const UpdateEvent = () => {
     const route = useRoute();
     const { item } = route.params;
     const idEV = item.idEV;
-    console.log(idEV)
+    console.log(idEV, 'this is the id of the event')
   const [name,setName]=useState(item.name);
   const [description,setDescription]=useState(item.description);
   const [date,setDate]=useState(item.date);
@@ -72,31 +72,31 @@ try {
 }
 }
 
-  const handleUpdate = () =>{
-    axios.get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
-    .then((res)=>{
-      console.log(res.data.id, 'this is the id')
-      setId(res.data.id)
-      console.log(id, 'amro')
-      return res.data.id; 
+const handleUpdate = () => {
+  axios.get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
+  .then((res) => {
+    console.log(res.data.id, 'this is the id')
+    setId(res.data.id)
+    console.log(id, 'amro')
+    return res.data.id; 
+  })
+  .then((userId) => { 
+    console.log(userId,'2 id ---')
+    return axios.put(`http://${ADDRESS_IP}:5000/event/${idEV}`,{
+      authorId: userId,
+      name: name,
+      description: description,
+      image: image,
+      location: location,
+      like: item.like,
+      participants: item.participants,
+      date: date
     })
-    .then((userId)=>{ 
-      console.log(userId,'2 id ---')
-      return axios.put(`http://${ADDRESS_IP}:5000/event/${idEV}`,{
-        id: id,
-        name:name,
-        description:description,
-        image:image,
-        location:location,
-        like:like,
-        participants:participants,
-        date:date
-      })
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-  }
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+}
   
 
 
