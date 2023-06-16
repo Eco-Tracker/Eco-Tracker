@@ -4,14 +4,19 @@ import ADDRESS_IP from '../API'
 import { View,Button, Image, TouchableOpacity, StyleSheet, TextInput, StatusBar, KeyboardAvoidingView, ScrollView, Text } from 'react-native';
 import {auth} from "../Firebase/index";
 import * as ImagePicker from 'expo-image-picker';
-import logo from "../assets/littlelogo.png"
-const AddEvent = () => {
-  const [name,setName]=useState('');
-  const [description,setDescription]=useState('');
-  const [date,setDate]=useState('');
+import logo from "../assets/littlelogo.png";
+import { useNavigation, useRoute } from '@react-navigation/native';   
+const UpdateEvent = () => {
+    const route = useRoute();
+    const { item } = route.params;
+    const idEV = item.idEV;
+    console.log(idEV, 'this is the id of the event')
+  const [name,setName]=useState(item.name);
+  const [description,setDescription]=useState(item.description);
+  const [date,setDate]=useState(item.date);
   const [image,setImage]=useState('');
   const [like,setLike]=useState('');
-  const [location,setLocation]=useState('');
+  const [location,setLocation]=useState(item.location);
   const [participants,setParticipants]=useState('');
   const [id,setId]=useState('');
   const [buttonColor, setButtonColor] = useState('#000000');
@@ -67,31 +72,31 @@ try {
 }
 }
 
-  const handlePost = () =>{
-    axios.get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
-    .then((res)=>{
-      console.log(res.data.id, 'this is the id')
-      setId(res.data.id)
-      console.log(id, 'amro')
-      return res.data.id; 
+const handleUpdate = () => {
+  axios.get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
+  .then((res) => {
+    console.log(res.data.id, 'this is the id')
+    setId(res.data.id)
+    console.log(id, 'amro')
+    return res.data.id; 
+  })
+  .then((userId) => { 
+    console.log(userId,'2 id ---')
+    return axios.put(`http://${ADDRESS_IP}:5000/event/${idEV}`,{
+      authorId: userId,
+      name: name,
+      description: description,
+      image: image,
+      location: location,
+      like: item.like,
+      participants: item.participants,
+      date: date
     })
-    .then((userId)=>{ 
-      console.log(userId,'2 id ---')
-      return axios.post(`http://${ADDRESS_IP}:5000/event/add`,{
-        id: id,
-        name:name,
-        description:description,
-        image:image,
-        location:location,
-        like:0,
-        participants:0,
-        date:date
-      })
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-  }
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+}
   
 
 
@@ -132,8 +137,8 @@ try {
       />
        <Button title="Select Image"  onPress={selectImage} color={buttonColor} />
 
-      <TouchableOpacity onPress={handlePost} style={styles.button} >
-        <Text style={{color:"white",fontSize:30,padding:2,textAlign:"center"}}>Post</Text>
+      <TouchableOpacity onPress={handleUpdate} style={styles.button} >
+        <Text style={{color:"white",fontSize:30,padding:2,textAlign:"center"}}>Update</Text>
         </TouchableOpacity>
         </View>
       </View>
@@ -201,5 +206,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AddEvent;
+export default UpdateEvent;
 
