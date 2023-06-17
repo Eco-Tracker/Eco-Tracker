@@ -14,7 +14,7 @@ const NavBar=()=>{
             <Tab.Navigator
                 initialRouteName={homeName}
                 screenOptions={({route})=>({
-                    tabBarActiveTintColor:'green',
+                    tabBarActiveTintColor:'#4CAF50',
                     tabBarInactiveTintColor:'grey',
                     tabBarShowLabel:false,
                     tabBarHideOnKeyboard:true,
