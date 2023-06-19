@@ -3,8 +3,6 @@ import { createStackNavigator, DefaultTheme } from "@react-navigation/stack";
 
 
 import Wrapper from "./component/Wrapper";
-
-
 import Home from './component/Home'
 import Home2 from './component/Home2'
 import Loginpers from './component/Loginpers.js';
@@ -27,7 +25,8 @@ import NavBarPers from './component/NavBarPers'
 import Chat from "./component/Chat";
 import UpdatePers from "./component/UpdatePers";
 import MinePosts from "./component/MinePosts"
-import CommentButton from "./component/constants/CommentButton"
+import CommentButton from "./component/constants/CommentButton";
+import UpdateEvent from "./component/UpdateEvent"
 
 
 
@@ -64,6 +63,7 @@ const App=() => {
         <Stack.Screen name="CommentButton" component={CommentButton} />
         <Stack.Screen name="post" component={PostForm} />
         <Stack.Screen name="AddEvent" component={AddEvent} />
+        <Stack.Screen name="UpdateEvent" component={UpdateEvent} />
         <Stack.Screen name="MinePosts" component={MinePosts} />
         <Stack.Screen name="Chat" component={Chat} />
       </Stack.Navigator>

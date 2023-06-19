@@ -15,7 +15,7 @@ const DeleteButton = ({active, style}) => {
         shadow.light,
         style,
       ]}>
-      <Del icon={active ? 'FavoriteFilled' : 'Favorite'} size={24} />
+      <Del icon={active ? 'FavoriteFilled' : 'Favorite' } size={24} />
     </View>
   );
 };

@@ -83,90 +83,89 @@ function UpdatePers({route}) {
             console.log(error.message);
           });
     
-          navigation.navigate("profile");
+          navigation.navigate("PersonnalUser");
         } catch (error) {
           console.log(error.message);
         }
       };
     
       return (
-        <View>
-          <Button title="Select Image" onPress={selectImage} color={buttonColor} />
-          {/* Add input fields for the necessary profile information */}
-          <TextInput
-            style={styles.textInput}
-            onChangeText={setname}
-            value={name}
-            placeholder="Professional Name"
-          />
-          <TextInput
-            style={styles.textInput}
-            onChangeText={setmail}
-            value={mail}
-            placeholder="Professional Mail"
-          />
-          <TextInput
-            style={styles.textInput}
-            onChangeText={setPassword}
-            value={password}
-            placeholder="Password"
-            secureTextEntry
-          />
-          <TextInput
-            style={styles.textInput}
-            onChangeText={setphone}
-            value={phone}
-            placeholder="Contact Number"
-            keyboardType="numeric"
-          />
-          <TouchableOpacity
-            onPress={updateProfile}
-            style={styles.appButtonContainer}
-          >
-            <Text style={styles.appButtonText}>Submit</Text>
-          </TouchableOpacity>
-    
-
+        <View style={styles.container}>
+            <TextInput
+                style={styles.textInput}
+                onChangeText={setname}
+                value={name}
+                placeholder="Professional Name"
+            />
+            <TextInput
+                style={styles.textInput}
+                onChangeText={setmail}
+                value={mail}
+                placeholder="Professional Mail"
+            />
+            <TextInput
+                style={styles.textInput}
+                onChangeText={setPassword}
+                value={password}
+                placeholder="Password"
+                secureTextEntry
+            />
+            <TextInput
+                style={styles.textInput}
+                onChangeText={setphone}
+                value={phone}
+                placeholder="Contact Number"
+                keyboardType="numeric"
+            />
+            <Button style={styles.button} title="Select Image" onPress={selectImage} color={buttonColor} />
+            <TouchableOpacity
+                onPress={updateProfile}
+                style={styles.appButtonContainer}
+            >
+                <Text style={styles.appButtonText}>Submit</Text>
+            </TouchableOpacity>
         </View>
-      );
-    }
+    );
+}
+
 const styles = StyleSheet.create({
-  
-  signin: {
-    flex: 0.9,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-  },
-  head:{
-    flexDirection: 'row',
-    height:50,
-    marginVertical:40
-  },
-textInput:{
-    width: '70%',
-    height: 50,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    borderRadius :13,
-},
-appButtonContainer: {
-    width:'70%',
-    elevation: 8,
-    backgroundColor: "#009688",
-    borderRadius: 15,
-    paddingVertical: 10,
-    paddingHorizontal: 12
-  },
-  appButtonText: {
-    fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
-    alignSelf: "center",
-    textTransform: "uppercase"
-  },
+    container: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: '#f5f5f5',
+        alignItems: 'center'
+    },
+    textInput:{
+        width: '100%',
+        height: 50,
+        borderColor: '#aaa',
+        borderWidth: 1,
+        marginBottom: 10,
+        paddingHorizontal: 20,
+        borderRadius :13,
+        backgroundColor: '#fff'
+    },
+    button: {
+        marginBottom: 20,
+        width: '100%',
+        borderRadius: 5,
+        color: '#fff'
+    },
+    appButtonContainer: {
+        width:'100%',
+        elevation: 8,
+        backgroundColor: "#009688",
+        borderRadius: 15,
+        paddingVertical: 10,
+        paddingHorizontal: 12
+    },
+    appButtonText: {
+        fontSize: 18,
+        color: "#fff",
+        fontWeight: "bold",
+        alignSelf: "center",
+        textTransform: "uppercase"
+    },
 })
   
 export default UpdatePers; 

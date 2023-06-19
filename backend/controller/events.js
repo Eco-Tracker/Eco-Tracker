@@ -55,7 +55,7 @@ const add = async (req , res)=>{
                 participants : req.body.participants ,
                 like: req.body.like,
                 image: req.body.image,
-                date : new Date(),
+                date : new Date(req.body.date),
                 location: req.body.location,
                 author:{
                   connect:{id:req.body.id}
@@ -86,6 +86,7 @@ const update = async (req, res) => {
       });
       res.status(200).json(updatedEvent);
     } catch (err) {
+      console.log(err)
       res.status(500).json(err);
     }
   };

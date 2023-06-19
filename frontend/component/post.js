@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {auth} from "../Firebase/index";
 import ADDRESS_IP from '../API'
 import logo from "../assets/littlelogo.png"
-
+  
 
 
 const PostForm = () => {
@@ -15,7 +15,7 @@ const PostForm = () => {
   const [buttonColor, setButtonColor] = useState('#000000');
   const [image, setImage] = useState('');
   const [id,setId]=useState('');
-  // const email = auth.currentUser.email
+  const email = auth.currentUser.email
 
   const selectImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -87,7 +87,7 @@ try {
     console.log(id, 'amro')
     return res.data.id; // return the id to the next .then() block
   })
-  .catch((err)=>{
+  .catch((err)=>{ 
     console.log(err) 
   })
 
@@ -146,6 +146,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+  },
+  third: {
+    top: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 30,
   },
   button : {
     backgroundColor: "#4CAF50",

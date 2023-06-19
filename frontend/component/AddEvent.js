@@ -1,20 +1,45 @@
-import React, { useState, useEffect  } from 'react';
-import axios from "axios"
-import ADDRESS_IP from '../API'
-import { View,Button, Image, TouchableOpacity, StyleSheet, TextInput, StatusBar, KeyboardAvoidingView, ScrollView, Text } from 'react-native';
-import {auth} from "../Firebase/index";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import ADDRESS_IP from '../API';
+import { useNavigation } from '@react-navigation/native';
+import {
+  View,
+  Button,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput,
+  StatusBar,
+  KeyboardAvoidingView,
+  ScrollView,
+  Text,
+  Alert,
+} from 'react-native';
+import { auth } from '../Firebase/index';
 import * as ImagePicker from 'expo-image-picker';
+import logo from '../assets/littlelogo.png';
+
 const AddEvent = () => {
-  const [name,setName]=useState('');
-  const [description,setDescription]=useState('');
-  const [date,setDate]=useState('');
-  const [image,setImage]=useState('');
-  const [like,setLike]=useState('');
-  const [location,setLocation]=useState('');
-  const [participants,setParticipants]=useState('');
-  const [id,setId]=useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [date, setDate] = useState('');
+  const [image, setImage] = useState('');
+  const [location, setLocation] = useState('');
+  const [id, setId] = useState('');
   const [buttonColor, setButtonColor] = useState('#000000');
-  const email = auth.currentUser.email
+  const email = auth.currentUser.email;
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
 
   const selectImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -23,215 +48,230 @@ const AddEvent = () => {
       aspect: [4, 3],
       quality: 1,
     });
-    
+
     if (!result.canceled && result.assets && result.assets.length > 0) {
       uploadImageToCloudinary(result.assets[0].uri);
     }
   };
-  
-
 
   const uploadImageToCloudinary = async (imageUri) => {
     const data = new FormData();
     let filename = imageUri.split('/').pop();
     let match = /\.(\w+)$/.exec(filename);
     let type = match ? `image/${match[1]}` : `image`;
-    
+
     if (type === 'image/jpg') type = 'image/jpeg';
-if (type === 'image/png') type = 'image/png';
+    if (type === 'image/png') type = 'image/png';
 
-data.append('file', { uri: imageUri, name: filename, type }); 
-data.append('upload_preset', 'lrkelxtq');
+    data.append('file', { uri: imageUri, name: filename, type });
+    data.append('upload_preset', 'lrkelxtq');
 
-try {
-  let response = await axios.post(
-    'https://api.cloudinary.com/v1_1/dtbzrpcbh/image/upload',
-    data,
-    {
-      headers: {
-        'accept': 'application/json',
-        'Content-Type': 'multipart/form-data',
+    try {
+      let response = await axios.post(
+        'https://api.cloudinary.com/v1_1/dtbzrpcbh/image/upload',
+        data,
+        {
+          headers: {
+            accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      if (response.data.secure_url !== '') {
+        const image = response.data.secure_url;
+        setImage(image);
+      } else {
+        Alert.alert('Error', 'Image upload failed');
       }
+    } catch (err) {
+      Alert.alert('Error', 'Image upload failed');
+      console.log('Upload Image Error', err, err.request, err.response);
     }
-  );
-  if (response.data.secure_url !== '') {
-    const image = response.data.secure_url;
-    setImage(image); 
-  } else {
-    Alert.alert("Error", "Image upload failed");
-  }
-} catch (err) {
-  Alert.alert("Error", "Image upload failed");
-  console.log("Upload Image Error", err, err.request, err.response);
-}
-}
+  };
 
-  const handlePost = () =>{
-    axios.get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
-    .then((res)=>{
-      console.log(res.data.id, 'this is the id')
-      setId(res.data.id)
-      console.log(id, 'amro')
-      return res.data.id; // return the id to the next .then() block
-    })
-    .then((userId)=>{ // userId here is the value returned by previous .then() block
-      console.log(userId,'2 id ---')
-      return axios.post(`http://${ADDRESS_IP}:5000/event/add`,{
-        id: id,
-        name:name,
-        description:description,
-        image:image,
-        location:location,
-        like:0,
-        participants:0,
-        date:date
+  const handlePost = () => {
+    if (!name || !description || !date || !location || !image) {
+      Alert.alert('Error', 'Please fill in all the necessary information to create this Post');
+      return;
+    } 
+
+    axios
+      .get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
+      .then((res) => {
+        console.log(email,"wow")
+
+        setId(res.data.id);
+        
+        return res.data.id;
+      })          .then((userId) => {
+        return axios.post(`http://${ADDRESS_IP}:5000/event/add`, {
+          id: id,
+          name: name,
+          description: description,
+          image: image,
+          location: location,
+          like: 0,
+          participants: 0,
+          date: date,
+        });
       })
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-  }
-  
-
+      .then(() => {
+        // Naviguer vers la page ProfHomePage après la mise à jour
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'ProfHomePage' }],
+        });
+      })
+      .catch((err) => {
+        console.log(id,"fucck")
+        console.log(err);
+      });
+  };
 
   return (
-    <View style={styles.container}>
-        <TextInput
+    <ScrollView contentContainerStyle={styles.container}>
+      <StatusBar style="auto" />
+      <View style={styles.inputContainer}>
+        <Image source={logo} style={styles.logo} />
+        <Text style={styles.addEventText}>Add an Event</Text>
+      </View>
+      <TextInput
         style={styles.input}
-        placeholder="Name"
+        placeholder="Event name"
         value={name}
-        onChangeText={setName}
+        onChangeText={(text) => setName(text)}
+        underlineColorAndroid="transparent"
       />
       <TextInput
-        style={styles.input}
-        placeholder="Description"
+        style={[styles.input1]}
+        placeholder="Description ..."
         value={description}
-        onChangeText={setDescription}
+        onChangeText={(text) => setDescription(text)}
+        underlineColorAndroid="transparent"
+        multiline
+        numberOfLines={15}
       />
       <TextInput
         style={styles.input}
-        placeholder="date"
+        placeholder="Date (YYYY-MM-DD)"
         value={date}
-        onChangeText={setDate}
-      />
+        onChangeText={(text) => setDate(text)}
+        underlineColorAndroid="transparent"
+      />  
       <TextInput
         style={styles.input}
         placeholder="Location"
         value={location}
-        onChangeText={setLocation}
+        onChangeText={(text) => setLocation(text)}
+        underlineColorAndroid="transparent"
       />
-       <Button title="Select Image" onPress={selectImage} color={buttonColor} />
-      <Button title="Submit" onPress={handlePost} />
-    </View>
+
+      <View style={styles.third}>
+        <TouchableOpacity
+          onPress={selectImage}
+          style={{
+            height: 100,
+            width: 100,
+            borderColor: 'gray',
+            borderWidth: 3,
+            borderStyle: 'dashed',
+            borderRadius: 10,
+            justifyContent: 'center',
+          }}
+        >
+          <Text style={{ textAlign: 'center' }}>Select Image</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={selectImage} style={styles.imageContainer}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.image} />
+          ) : (
+            <Image source={logo} style={styles.logo} />
+          )}
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity onPress={handlePost} style={styles.button}>
+        <Text style={styles.buttonText}>Post</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#F3F3F3',
+    alignItems: 'center',
     justifyContent: 'center',
+    top: -10,
+  },
+  inputContainer: {
+    marginTop: 20,
+    marginBottom: 20,
     alignItems: 'center',
   },
-  input:{
-    width: '70%',
-    height: 50,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    borderRadius :13,
-},
-  scrollView: {
-    flex: 1,
-    top: -13,
+  addEventText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: -15,
   },
-  content: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginTop: 10,
-    
-  },
-  imageStyle: {
-    width: 100, 
-    height: 100, 
-  },
-  searchInput: {
-    position: 'absolute',
-    width: 280,
+  input: {
+    width: 300,
     height: 40,
-    backgroundColor: '#FBFDFF',
-    borderRadius: 20,
-    paddingHorizontal: 20,
     borderWidth: 1,
-    top: 15,
-    left: 75,
-    borderColor: '#E6E6E6',
+    borderRadius: 10,
+    marginBottom: 10,
+    paddingLeft: 10,
+    backgroundColor: '#fff',
+  },
+  input1: {
+    width: 300,
+    height: 90,
+    borderWidth: 1,
+    borderRadius: 10,
+    marginBottom: 10,
+    paddingLeft: 10,
+    backgroundColor: '#fff',
+    textAlignVertical: 'top',
+  },
+  third: {
+    top: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 30,
+  },
+  imageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    left: 5,
+    top: -10,
+  },
+  image: {
+    width: 150,
+    height: 150,
   },
   logo: {
-    position: 'absolute',
-    top: 10,
-    left: 30,
-    width: 40,
-    height: 43,
+    width: 70,
+    height: 70,
+    marginBottom: 10,
   },
   button: {
-    marginBottom: 60,
+    backgroundColor: '#000000',
+    paddingVertical: 10,
+    paddingHorizontal: 70,
+    borderRadius: 10,
+    marginBottom: 50,
+    top: 50,
+    left: 50,
+    backgroundColor: '#9AC341',
   },
-  profilButton: {
-    position: 'absolute',
-    width: 40,
-    height: 50,
-    top: 330,
-    left: 150,
-    alignItems: 'center',
-    paddingBottom: 0,
+  buttonText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-  formNavBarButton: {
-    position: 'absolute',
-    width: 425,
-    height: 155,
-    top: 605,
-    left: -33,
-    alignItems: 'center',
-    paddingBottom: 0,
-  },
-  homeButton: {
-    position: 'absolute',
-    top: 330,
-    left: 15,
-    width: 47,
-    height: 50,
-  },
-  addButton: {
-    position: 'absolute',
-    top: 305,
-    bottom: 60,
-    width: 50,
-    height: 50,
-    alignSelf: 'center',
-  },
-  
-  shape: {
-    position: 'absolute',
-    top: 60,
-    width: 360,
-    height: 711,
-    backgroundColor: '#F9F9F9',
-    borderRadius: 20,
-  },
-  textStyle: {
-    fontSize: 30,
-    padding: 80,
-    backgroundColor: '#FFFFFF',
-    marginVertical: 10,
-    color: 'black',
-    borderRadius: 20,
-    width: 330,
-    
-  },
-
 });
 
 export default AddEvent;
-
