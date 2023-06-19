@@ -9,12 +9,15 @@ import { auth } from "../../Firebase/index";
 import DeleteBut from './Delete';
 import { sizes, spacing} from './theme';
 import DeleteButton from '../../component/constants/DeleteButton';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 const CARD_WIDTH = sizes.width-45;
 const CARD_HEIGHT = 300;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 const CommentButton = () => {
+  let navigation=useNavigation();
+
   const [comments, setComments] = useState([]);
   const [bodyCom, setBodyCom] = useState('');
   const [update, setUpdate] = useState('');
@@ -101,9 +104,14 @@ const CommentButton = () => {
     }
   })
   };
-
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
     <View style={styles.container}>
+        <TouchableOpacity onPress={goBack} style={styles.appButtonContainer}>
+  <Icon name="arrow-back" size={34} color="green" />
+</TouchableOpacity>
       <Text style={styles.header}>Comments</Text>
       {comments?.map((comment) => (
         <View style={styles.commentContainer} key={comment?.id}>
@@ -141,6 +149,14 @@ const CommentButton = () => {
 };
 
 const styles = StyleSheet.create({
+  appButtonContainer: {
+    borderRadius: 6,
+    alignItems: 'center',
+    margin: 10,
+    padding: 5,
+    left: -130,
+    top: 85,
+  },
   container: {
     flex: 1,
     padding: 20,

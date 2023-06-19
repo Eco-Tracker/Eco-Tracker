@@ -6,12 +6,15 @@ import {auth} from "../Firebase/index";
 import {colors, shadow, sizes, spacing} from '../component/constants/theme';
 import list from "../component/constants/data"
 import DeleteButton from '../component/constants/DeleteButton';
-  
+import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native'
 
-const CARD_WIDTH = sizes.width-45; 
+
+const CARD_WIDTH = sizes.width-45;  
 const CARD_HEIGHT = 300;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 const MinePosts = () => {
+  let navigation=useNavigation();
   const [data,setData]=useState([]); 
   const [id,setId]=useState('');
   const [idpost,setIdpost]=useState('');
@@ -43,8 +46,17 @@ const MinePosts = () => {
     handleGet();
   }, [tracker]);
     
+  const goBack = () => {
+    navigation.goBack();
+  };
       
   return (
+    <View>
+       <TouchableOpacity onPress={goBack} style={styles.appButtonContainer}>
+  <Icon name="arrow-back" size={34} color="green" />
+</TouchableOpacity>
+<Text style={{fontSize:20,fontWeight:"bold", color:'green', top: 3, textAlign:'center',marginVertical: 10,}}>My Posts</Text>
+
     <FlatList
     data={data}
     showsVerticalScrollIndicator={true}
@@ -78,10 +90,16 @@ const MinePosts = () => {
                 console.log(err);
               });
           };
-
+          
  
       return (
-          <>
+        
+        <View>
+       
+
+          <ScrollView>
+          
+                    <StatusBar style={styles.container} />
         <TouchableOpacity
           style={{
             marginLeft: spacing.l,
@@ -89,7 +107,7 @@ const MinePosts = () => {
             height: 350,
             backgroundColor: '#F3F3F3',
           }}>
-                    <Text style={{fontSize:20,fontWeight:"bold", color:'green', top: 100, textAlign:'center',marginVertical: 10,}}>My Post</Text>
+         
 
           <View style={[styles.card]}>
             <View style={styles.imageBox}>
@@ -104,14 +122,27 @@ const MinePosts = () => {
           <TouchableOpacity style={styles.favoritee} onPress={handleDelete} >
           <DeleteButton style={styles.comment} /></TouchableOpacity>
         </TouchableOpacity>
-        </>   
+        <StatusBar style="auto" />
+
+        </ScrollView>    
+        </View>
       ); 
     }}
+    
   />
+   </View>
 );
-};
+}; 
 
 const styles = StyleSheet.create({
+  appButtonContainer: {
+    borderRadius: 6,
+    alignItems: 'center',
+    margin: 10,
+    padding: 5,
+    left: -160,
+    top: 23,
+  },
 
 likeText: {
   position: 'absolute',
@@ -150,7 +181,7 @@ comment: {
   alignItems: 'center',  // This centers the button and the likes count vertically
   backgroundColor: '#fff',
   position: 'absolute',
-  top: 0,
+  top: -50,
   right: 0,
 },
 imageBox: {
