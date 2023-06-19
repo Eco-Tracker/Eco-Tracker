@@ -6,12 +6,15 @@ import {auth} from "../Firebase/index";
 import {colors, shadow, sizes, spacing} from '../component/constants/theme';
 import list from "../component/constants/data"
 import DeleteButton from '../component/constants/DeleteButton';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native'
 
 
-const CARD_WIDTH = sizes.width-45;
+const CARD_WIDTH = sizes.width-45;  
 const CARD_HEIGHT = 300;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 const MinePosts = () => {
+  let navigation=useNavigation();
   const [data,setData]=useState([]); 
   const [id,setId]=useState('');
   const [idpost,setIdpost]=useState('');
@@ -42,38 +45,18 @@ const MinePosts = () => {
   useEffect(() => {
     handleGet();
   }, [tracker]);
-///post/ 
-const handleDelete = () => {
-    axios
-      .get(`http://${ADDRESS_IP}:5000/post/user/${id}`)
-      .then((res) => {
-        console.log(res.data[0].post_Id, 'this is the ID POST');
-        console.log(id, 'ahawa');
-  
-        const postId = res.data[0].post_Id; // Store the post ID in a separate variable
-  
-        setIdpost(postId);
-        return postId; 
-      })
-      .then((postId) => { 
-        console.log('hello', postId);
-        return axios.delete(`http://${ADDRESS_IP}:5000/post/del/${postId}`);
-      })
-      .then((res) => {
-          setTracker(!tracker)
-          window.
-        console.log(idpost, 'salam');
-        console.log(res, 'this is the data');              
-        setData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    
+  const goBack = () => {
+    navigation.goBack();
   };
-  
-  
- 
+      
   return (
+    <View>
+       <TouchableOpacity onPress={goBack} style={styles.appButtonContainer}>
+  <Icon name="arrow-back" size={34} color="green" />
+</TouchableOpacity>
+<Text style={{fontSize:20,fontWeight:"bold", color:'green', top: 3, textAlign:'center',marginVertical: 10,}}>My Posts</Text>
+
     <FlatList
     data={data}
     showsVerticalScrollIndicator={true}
@@ -103,14 +86,20 @@ const handleDelete = () => {
                 console.log(res, 'this is the data');              
                 setData(res.data);
               })
-              .catch((err) => {
+              .catch((err) => { 
                 console.log(err);
               });
           };
-
-
+          
+ 
       return (
-          <>
+        
+        <View>
+       
+
+          <ScrollView>
+          
+                    <StatusBar style={styles.container} />
         <TouchableOpacity
           style={{
             marginLeft: spacing.l,
@@ -118,6 +107,8 @@ const handleDelete = () => {
             height: 350,
             backgroundColor: '#F3F3F3',
           }}>
+         
+
           <View style={[styles.card]}>
             <View style={styles.imageBox}>
               <Image source={{uri: item.image}} style={styles.image} />
@@ -131,14 +122,27 @@ const handleDelete = () => {
           <TouchableOpacity style={styles.favoritee} onPress={handleDelete} >
           <DeleteButton style={styles.comment} /></TouchableOpacity>
         </TouchableOpacity>
-        </>   
+        <StatusBar style="auto" />
+
+        </ScrollView>    
+        </View>
       ); 
     }}
+    
   />
+   </View>
 );
-};
+}; 
 
 const styles = StyleSheet.create({
+  appButtonContainer: {
+    borderRadius: 6,
+    alignItems: 'center',
+    margin: 10,
+    padding: 5,
+    left: -160,
+    top: 23,
+  },
 
 likeText: {
   position: 'absolute',
@@ -155,6 +159,7 @@ card: {
   width: CARD_WIDTH,
   height: CARD_HEIGHT,
   marginVertical: 10,
+  top:100
 },
 favorite: {
   position: 'absolute',
@@ -176,8 +181,8 @@ comment: {
   alignItems: 'center',  // This centers the button and the likes count vertically
   backgroundColor: '#fff',
   position: 'absolute',
-  top: 150,
-  right: 270,
+  top: -50,
+  right: 0,
 },
 imageBox: {
   width: CARD_WIDTH,

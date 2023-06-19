@@ -105,7 +105,7 @@ import React, {
          <GiftedChat
           messages={messages}
           showAvatarForEveryMessage={true}
-          showUserAvatar={false}
+          showUserAvatar={true}
           keyboardShouldPersistTaps='never'
            onSend={messages => onSend(messages)}
           messagesContainerStyle={{
@@ -117,7 +117,7 @@ import React, {
           }}
           user={{
             _id: auth?.currentUser?.email,
-            avatar: 'https://i.pravatar.cc/300'
+            avatar: auth?.currentUser?.photoURL
           }}
         />      
   

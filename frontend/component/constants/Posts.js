@@ -4,7 +4,7 @@ import {
   Text,
   View,
   StyleSheet,
-  TouchableOpacity,
+  TouchableOpacity,   
   Image,
   Button
 } from 'react-native';
@@ -15,6 +15,8 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import ADDRESS_IP from '../../API';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import DeleteButton from '../../component/constants/DeleteButton';
+
 
 const CARD_WIDTH = sizes.width - 45;
 const CARD_HEIGHT = 300;
@@ -46,7 +48,7 @@ const Posts = () => {
       if (posts[index].post_Id === id && s === 0) {
         updatedPosts[index].like += 1;
         sets(2);
-      } else {
+      } else { 
         updatedPosts[index].like -= 1;
         sets(0);
       }
@@ -96,6 +98,8 @@ const Posts = () => {
                 title="Favorite"
                 onPress={() => incrementLikeCount(item.post_Id,index)}
                 style={styles.likeText}
+                          
+
               /> */}
           <FavoriteButton style={styles.favorite} 
                />
@@ -105,9 +109,9 @@ const Posts = () => {
             <Text style={styles.likeText}>{item.like}</Text>
           </View>
           <TouchableOpacity 
-               style={styles.favoritee} 
+               style={styles.comment} 
                onPress={() => navigation.navigate('CommentButton', { item })}>
-                <Text>Go to Comments</Text>
+                <Text>Comments</Text>
           </TouchableOpacity>
         </>
       )}
@@ -142,13 +146,24 @@ const styles = StyleSheet.create({
     top: 150,
     right: spacing.m,
   },
+  
   comment: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    marginLeft: 10,
+    borderWidth: 1, // Add border width
+    borderColor: '#999', // Add border color
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
     position: 'absolute',
-    top: 150,
-    right: 270,
+    top: 320,
+    right: 10,
   },
   imageBox: {
     width: CARD_WIDTH,
