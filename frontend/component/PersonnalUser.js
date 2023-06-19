@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: 'center',
     marginTop: 10,
-  },
+  }, 
   updateButton: {
     backgroundColor: '#9AC341',
     borderRadius: 12,

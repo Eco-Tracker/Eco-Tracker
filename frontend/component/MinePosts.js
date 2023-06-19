@@ -8,7 +8,7 @@ import list from "../component/constants/data"
 import DeleteButton from '../component/constants/DeleteButton';
   
 
-const CARD_WIDTH = sizes.width-45;
+const CARD_WIDTH = sizes.width-45; 
 const CARD_HEIGHT = 300;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 const MinePosts = () => {
@@ -89,7 +89,7 @@ const MinePosts = () => {
             height: 350,
             backgroundColor: '#F3F3F3',
           }}>
-                    <Text style={{fontSize:20,fontWeight:"bold", color:'green', top: 70, textAlign:'center',marginVertical: 10,}}>My Posts</Text>
+                    <Text style={{fontSize:20,fontWeight:"bold", color:'green', top: 100, textAlign:'center',marginVertical: 10,}}>My Post</Text>
 
           <View style={[styles.card]}>
             <View style={styles.imageBox}>
