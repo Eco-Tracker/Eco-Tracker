@@ -28,7 +28,7 @@ export default function PersonnalUser({ navigation }) {
 
   const onLogout = () => {
     auth.signOut();
-    navigation.navigate("Home2");
+    navigation.navigate("Home2"); 
   };
  
 
@@ -50,16 +50,13 @@ export default function PersonnalUser({ navigation }) {
 
           <View style={styles.userInfo}>
             <Text style={styles.texty}>Name</Text>
-            <Text style={styles.userName}>{users.professionalName}</Text>
+            <Text style={styles.userName}>{users.name}</Text>
             <View style={styles.border}></View>
             <Text style={styles.texty}>Email</Text>
-            <Text style={styles.userEmail}>{users.professionalMail}</Text>
+            <Text style={styles.userEmail}>{users.mail}</Text>
             <View style={styles.border}></View>
             <Text style={styles.texty}>Phone Number</Text>
-            <Text style={styles.userPhone}>{users.contactNumber}</Text>
-            <View style={styles.border}></View>
-            <Text style={styles.texty}>Code Fiscal</Text>
-            <Text style={styles.userPhone}>{users.codeFiscal}</Text>
+            <Text style={styles.userPhone}>{users.phone}</Text>
             <View style={styles.border}></View>
           </View>
           <View>
@@ -156,7 +153,7 @@ const styles = StyleSheet.create({
     top: -30,
   },
   logoutButton: {
-    backgroundColor: 'grey',
+    backgroundColor: 'green',
     borderRadius: 6,
     alignItems: 'center',
     margin: 10,
