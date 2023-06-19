@@ -27,6 +27,9 @@ import UpdatePers from "./component/UpdatePers";
 import MinePosts from "./component/MinePosts"
 import CommentButton from "./component/constants/CommentButton";
 import UpdateEvent from "./component/UpdateEvent"
+import Challenge from "./component/Challenge";
+import YourProgress from "./component/YourProgress";
+import Challenges from "./component/Challenges";
 
 
 
@@ -43,17 +46,19 @@ const App=() => {
 
     <NavigationContainer>
       <Stack.Navigator
-        screenOptions={{ headerShown: false }}
+        screenOptions={{ headerShown: false }} initialRouteName ="Challenge"
         
       >
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="yp" component={YourProgress} />
+        <Stack.Screen name="chall" component={Challenges} />
         <Stack.Screen name="Home2" component={Home2} />
         <Stack.Screen name="Loginpers" component={Loginpers} />
         <Stack.Screen name="Loginprof" component={Login} />
         <Stack.Screen name="Signuppers" component={Signuppers} />
-        <Stack.Screen   name='Signupprof'  component={Signupprof}/>
-        <Stack.Screen   name='EventDetails'  component={EventDetails}/>
-        <Stack.Screen   name='ProfHomePage'  component={NavBar}/>
+        <Stack.Screen name='Signupprof'  component={Signupprof}/>
+        <Stack.Screen name='EventDetails'  component={EventDetails}/>
+        <Stack.Screen name='ProfHomePage'  component={NavBar}/>
         <Stack.Screen name="PersonnalUser" component={PersonnalUser} />
         <Stack.Screen name="ProfesionnalUser" component={ProfesionnalUser} />
         <Stack.Screen name="TopPlacesCarousel" component={TopPlacesCarousel} />
@@ -66,6 +71,7 @@ const App=() => {
         <Stack.Screen name="UpdateEvent" component={UpdateEvent} />
         <Stack.Screen name="MinePosts" component={MinePosts} />
         <Stack.Screen name="Chat" component={Chat} />
+        <Stack.Screen name="Challenge" component={Challenge} />
       </Stack.Navigator>
     </NavigationContainer>
   );
