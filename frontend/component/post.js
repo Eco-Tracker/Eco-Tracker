@@ -88,12 +88,12 @@ try {
     return res.data.id; // return the id to the next .then() block
   })
   .catch((err)=>{
-    console.log(err)
+    console.log(err) 
   })
 
     console.log('this is id',id)
 
-    try { 
+    try {    
       await axios.post(`http://${ADDRESS_IP}:5000/post/register`, {id: id,title:Title,body:description,image:image,type:type,like:0});
     } catch (error) {
       console.error('Error creating post:', error);

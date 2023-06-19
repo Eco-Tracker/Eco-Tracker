@@ -42,37 +42,8 @@ const MinePosts = () => {
   useEffect(() => {
     handleGet();
   }, [tracker]);
-///post/ 
-const handleDelete = () => {
-    axios
-      .get(`http://${ADDRESS_IP}:5000/post/user/${id}`)
-      .then((res) => {
-        console.log(res.data[0].post_Id, 'this is the ID POST');
-        console.log(id, 'ahawa');
-  
-        const postId = res.data[0].post_Id; // Store the post ID in a separate variable
-  
-        setIdpost(postId);
-        return postId; 
-      })
-      .then((postId) => { 
-        console.log('hello', postId);
-        return axios.delete(`http://${ADDRESS_IP}:5000/post/del/${postId}`);
-      })
-      .then((res) => {
-          setTracker(!tracker)
-          window.
-        console.log(idpost, 'salam');
-        console.log(res, 'this is the data');              
-        setData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  
-  
- 
+    
+      
   return (
     <FlatList
     data={data}
