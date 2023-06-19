@@ -8,6 +8,8 @@ import icons from '../../assets/comments.png';
 import { auth } from "../../Firebase/index";
 import DeleteBut from './Delete';
 import { sizes, spacing} from './theme';
+import DeleteButton from '../../component/constants/DeleteButton';
+
 
 const CARD_WIDTH = sizes.width-45;
 const CARD_HEIGHT = 300;
@@ -101,107 +103,99 @@ const CommentButton = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
+      <Text style={styles.header}>Comments</Text>
       {comments?.map((comment) => (
-        <View key={comment?.id}>
-          <Text>
+        <View style={styles.commentContainer} key={comment?.id}>
+          <Text style={styles.commentText}>
             {comment?.bodyCom}
           </Text>
-          <View>
+          <View style={styles.buttonContainer}>
             <TouchableOpacity
-              style={styles.favoritee}
+              style={styles.button}
               onPress={() => handleDelete(comment?.id, comment?.authorId)}
             >
-              <Text>Delete</Text>
+              <DeleteButton/>
             </TouchableOpacity>
+            <View style={styles.updateInputContainer}>
+              <TextInput  
+                style={styles.updateInput} 
+                placeholder="Update comment"
+                value={update}
+                onChangeText={setUpdate}
+              />
+              <Button  title="Update" onPress={() => handleUpdate(comment?.id, comment?.authorId)} />
             </View>
-            <View>
-            <TouchableOpacity>
-              <TextInput  placeholder="comment"
-                   value={update}
-                    onChangeText={setUpdate}
-                 />
-                 <Button title="Update" onPress={() => handleUpdate(comment?.id, comment?.authorId)} />
-            </TouchableOpacity>
             </View>
         </View>
       ))}
       <TextInput
-        placeholder="comment"
+        style={styles.input}
+        placeholder="Add comment"
         value={bodyCom}
         onChangeText={setBodyCom}
       />
-      <Button title="Submit" onPress={handlePost} />
-      
+      <Button  style ={{color: 'green'}}title="Submit" onPress={handlePost} />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f5f5f5'
+  },
+  header: {
+    top:35,
+    fontSize: 24,
+    fontWeight: 'bold',
+textAlign: 'center',
+    marginBottom: 20,
+    color: 'green'
+  },
   commentContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: '#ffffff',
+    marginVertical: 10,
+    marginTop: 40
+
   },
   commentText: {
-    flex: 1,
+    fontSize: 16
   },
-  likeText: {
-    position: 'absolute',
-    top: 155,
-    right: 310,
-    color: colors.black,
-    fontSize: sizes.h3,
-    paddingLeft: 10,
-    color: colors.black,
-    fontSize: sizes.h3,
+  input: {
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: '#ffffff',
+    marginTop: 40
   },
-  card: {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    marginVertical: 10,
-  },
-  favorite: {
-    position: 'absolute',
-    top: 150,
-    right: 330,
-  },
-  favoritee: {
-    backgroundColor: '#fff',
-    position: 'absolute',
-    top: 150,
-    right: spacing.m,
-  },
-  deleteButton: {
+  buttonContainer: {
     flexDirection: 'row',
+    marginTop: 10
+  },
+  button: {
+    padding: 10,
+    borderRadius: 5,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    justifyContent: 'center',
+    marginRight: 10,
+    color:'green'
+
   },
-  imageBox: {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    borderRadius: sizes.radius,
-    overflow: 'hidden',
+  updateInputContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
-  image: {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    resizeMode: 'cover',
+  updateInput: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 5,
+    marginRight: 10
   },
-  titleBox: {
-    position: 'absolute',
-    top: CARD_HEIGHT - 80,
-    left: 16,
-  },
-  title: {
-    bottom: 220,
-    fontSize: sizes.h2,
-    fontWeight: 'bold',
-    color: colors.white,
-  },
-  location: {
-    bottom: 150,
-    fontSize: sizes.h3,
-    color: colors.white,
-  },
+ 
 });
 export default CommentButton;
