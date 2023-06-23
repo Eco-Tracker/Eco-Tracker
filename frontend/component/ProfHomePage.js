@@ -74,9 +74,10 @@ const ProfHomePage = () => {
       <View style={styles.headerContainer}>
         <Image source={SmallLogo} style={styles.logo} />
         <View style={styles.searchContainer}>
+          <Icon name="microphone" size={18} color="#999" style={styles.voiceIcon} />
           <TextInput
             style={styles.searchInput}
-            placeholder="Search by name or location"
+            placeholder=" Search by name or location"
             placeholderTextColor="#999"
             value={searchText}
             onChangeText={text => setSearchText(text)}
@@ -197,6 +198,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: 20,
     marginRight: 10,
+    fontSize: 12,
   },
   content: {
     flex: 1,
@@ -282,6 +284,9 @@ const styles = StyleSheet.create({
   },
   icon2: {
     marginLeft: 220,
+  },
+  voiceIcon: {
+    marginRight: 10,
   },
 });
 

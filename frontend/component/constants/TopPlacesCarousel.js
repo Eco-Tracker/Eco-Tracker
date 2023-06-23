@@ -48,7 +48,6 @@ const TopPlacesCarousel = () => {
           <TouchableOpacity
             style={{
               marginLeft: spacing.l,
-              marginRight: index === list.length - 1 ? spacing.l : 0,
               height: CARD_HEIGHT,
               backgroundColor: '#F3F3F3',
             

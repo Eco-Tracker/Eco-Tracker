@@ -5,16 +5,15 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
- 
 }
 
 model comments {
   id       String       @id @default(cuid())
   bodyCom  String
   post_Id  String
-  posts    posts        @relation(fields: [post_Id], references: [post_Id])
-  author   personalUser @relation(fields: [authorId], references: [id])
   authorId String
+  author   personalUser @relation(fields: [authorId], references: [id])
+  posts    posts        @relation(fields: [post_Id], references: [post_Id])
 }
 
 model events {
@@ -26,8 +25,8 @@ model events {
   like         Int
   date         DateTime
   location     String
-  author       profissionalUser @relation(fields: [authorId], references: [id])
   authorId     String
+  author       profissionalUser @relation(fields: [authorId], references: [id])
 }
 
 model personalUser {
@@ -37,9 +36,9 @@ model personalUser {
   mail       String       @unique
   phone      Int
   banned     Boolean      @default(false)
-  posts      posts[]
-  comments   comments[]
   challenges challenges[]
+  comments   comments[]
+  posts      posts[]
 }
 
 model posts {
@@ -49,9 +48,9 @@ model posts {
   body     String
   image    String
   like     Int
-  author   personalUser @relation(fields: [authorId], references: [id])
   authorId String
   comments comments[]
+  author   personalUser @relation(fields: [authorId], references: [id])
 }
 
 model profissionalUser {
@@ -77,6 +76,13 @@ model challenges {
   deadline    DateTime
   points      Int
   isCompleted Boolean
-  author      personalUser @relation(fields: [authorId], references: [id])
   authorId    String
+  author      personalUser @relation(fields: [authorId], references: [id])
+}
+
+model userChallenge {
+  id          String  @id @default(cuid())
+  idChallenge String
+  idUser      String
+  isCompleted Boolean @default(false)
 }

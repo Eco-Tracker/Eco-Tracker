@@ -5,10 +5,16 @@ import YourProgress from './YourProgress';
 import Challenges from './Challenges';
 
 
-
-
 const Challenge = () => {
-  const [activeTab, setActiveTab] = useState('Confirm');
+  const [activeTab, setActiveTab] = useState('Challenges');
+
+  const handleYourProgressPress = () => {
+    setActiveTab('YourProgress');
+  };
+
+  const handleChallengesPress = () => {
+    setActiveTab('Challenges');
+  };
 
   return (
     <View style={styles.container}>
@@ -20,14 +26,15 @@ const Challenge = () => {
         <TouchableOpacity
           style={[
             styles.tab,
-            activeTab === 'Confirm' ? styles.tabActive : null,
+            activeTab === 'YourProgress' ? styles.tabActive : null,
           ]}
-          onPress={() => setActiveTab('Confirm')}
+          onPress={handleYourProgressPress}
         >
           <Text
             style={[
               styles.tabText,
-              activeTab === 'Confirm' ? styles.tabTextActive : null,
+
+              activeTab === 'YourProgress' ? styles.tabTextActive : null,
             ]}
           >
             Your Progress
@@ -36,22 +43,23 @@ const Challenge = () => {
         <TouchableOpacity
           style={[
             styles.tab,
-            activeTab === 'Cancel' ? styles.tabActive : null,
+            activeTab === 'Challenges' ? styles.tabActive : null,
           ]}
-          onPress={() => setActiveTab('Cancel')}
+          onPress={handleChallengesPress}
         >
           <Text
             style={[
               styles.tabText,
-              activeTab === 'Cancel' ? styles.tabTextActive : null,
+              activeTab === 'Challenges' ? styles.tabTextActive : null,
             ]}
           >
             Challenges
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={{}}>
-      {activeTab === 'Confirm' ? <YourProgress /> : <Challenges />}</View>
+      <View style={styles.cards}>
+        {activeTab === 'YourProgress' ? <YourProgress /> : <Challenges /> }
+      </View>
     </View>
   );
 };
@@ -65,15 +73,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingTop: 20,
-    top:40,
-    gap:150,
-    
+    paddingTop: 45,
+    top: -10,
+    justifyContent: 'center',
+    backgroundColor: '#F3F3F3',
+
   },
   achievementText: {
     fontSize: 25,
     fontWeight: 'bold',
-    left:25
+    marginLeft: 10,
+
   },
   logo: {
     marginLeft: 10,
@@ -85,8 +95,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     paddingTop: 10,
-    gap:-20,
-    top:40
+    gap: -20,
+    top: -10,
+    backgroundColor: '#F3F3F3',
   },
   tab: {
     justifyContent: 'center',
@@ -94,6 +105,15 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     borderWidth: 1,
+    backgroundColor: '#F3F3F3',
+    marginHorizontal: 5,
+    width: 150,
+    zIndex: 5,
+  },
+  cards: {
+    flex: 1,
+    top:-10
+},
     borderColor: '#ccc',
     backgroundColor: '#F3F3F3',
     marginHorizontal: 5,

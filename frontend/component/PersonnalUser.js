@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { KeyboardAvoidingView, StatusBar, Image, StyleSheet, Text, TouchableOpacity, ScrollView, View, TextInput } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  StatusBar,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  View,
+  TextInput,
+} from 'react-native';
 import Header from './constants/Header';
-import { auth} from "../Firebase/index";
-import { signOut} from "firebase/auth";
-import axios from "axios";
-import ADDRESS_IP from '../API'
-import logo from "../assets/littlelogo.png";
+import { auth } from '../Firebase/index';
+import { signOut } from 'firebase/auth';
+import axios from 'axios';
+import ADDRESS_IP from '../API';
+import logo from '../assets/littlelogo.png';
 
 export default function PersonnalUser({ navigation }) {
   const [users, setUser] = useState([]);
   const mail = auth.currentUser.email;
-  console.log(mail);
+
   const fetchUser = () => {
-    axios.get(`http://${ADDRESS_IP}:5000/users/email/${mail}`)
+    axios
+      .get(`http://${ADDRESS_IP}:5000/users/email/${mail}`)
       .then((res) => {
         console.log(res.data, 'this is the user data');
         setUser(res.data[0]);
@@ -28,77 +39,72 @@ export default function PersonnalUser({ navigation }) {
 
   const onLogout = () => {
     auth.signOut();
-    navigation.navigate("Home2"); 
-  };
- 
 
-  console.log(users.photo, 'updated user state');
+    navigation.navigate('Home2');
+
+  };
 
   return (
-    <View style={styles.container}>
-    <StatusBar style={styles.container} />
-    <Image source={logo} style={styles.logo} />
-    <ScrollView contentContainerStyle={styles.scrollContent}>
-      {users && (
-        <View>
-          <View style={styles.imageContainer}>
-            <Image
-              source={{ uri: users.photo }}
-              style={styles.userImage}
-            />
-          </View>
+    <View style={styles.container}>      
+      <StatusBar style={styles.statusBar} />
+      <Image source={logo} style={styles.logo} />
+      
+        {users && (
+          <View style={styles.content}>
+            <View style={styles.imageContainer}>
+              <Image source={{ uri: users.photo }} style={styles.userImage} />
+            </View>
 
-          <View style={styles.userInfo}>
-            <Text style={styles.texty}>Name</Text>
-            <Text style={styles.userName}>{users.name}</Text>
-            <View style={styles.border}></View>
-            <Text style={styles.texty}>Email</Text>
-            <Text style={styles.userEmail}>{users.mail}</Text>
-            <View style={styles.border}></View>
-            <Text style={styles.texty}>Phone Number</Text>
-            <Text style={styles.userPhone}>{users.phone}</Text>
-            <View style={styles.border}></View>
-          </View>
-          <View>
-            <TouchableOpacity style={styles.logoutButton}
+            <View style={styles.userInfo}>
+              <Text style={styles.label}>Name:</Text>
+              <Text style={styles.texty}>{users.name}</Text>
+              <View style={styles.border} />
+              <Text style={styles.label}>Email:</Text>
+              <Text style={styles.texty}>{users.mail}</Text>
+              <View style={styles.border} />
+              <Text style={styles.label}>Phone Number:</Text>
+              <Text style={styles.texty}>{users.phone}</Text>
+              <View style={styles.border} />
+            </View>
+
+            <TouchableOpacity
+              style={styles.button}
               onPress={() => {
                 navigation.navigate('UpdatePers', { user: users });
-              }}>
-              <Text style={styles.ButtonText}>Update</Text>
+              }}
+            >
+              <Text style={styles.buttonText}>Update</Text>
             </TouchableOpacity>
-          </View>
-          <View>
+
             <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
-              <Text style={styles.logoutButtonText}>Log Out</Text>
+              <Text style={styles.buttonText}>Log Out</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.button2}
+              onPress={() => {
+                navigation.navigate('MinePosts', { user: users });
+              }}
+            >
+              <Text style={styles.buttonText}>My Posts</Text>
             </TouchableOpacity>
           </View>
-          <View>
-          <TouchableOpacity style={styles.logoutButton} onPress={()=>{
-          navigation.navigate(
-          'MinePosts', {user:users})}}>
-        <Text style={styles.buttonText}>MyPosts</Text>
-      </TouchableOpacity>
-          </View>
-        </View>
-      )}
-    </ScrollView>
-  </View>
+        )}
+      
+    </View>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    top:-50,
+    top: 80,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scrollContent: {
-    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding:20,
   },
+  
   imageContainer: {
     alignItems: 'center',
     marginVertical: 10,
@@ -110,11 +116,14 @@ const styles = StyleSheet.create({
     borderColor: '#C7C1C0',
     borderWidth: 3,
     marginBottom: 20,
+    top:30,
   },
   userInfo: {
     alignItems: 'center',
-    marginBottom: 20,
-    top: -35,
+    marginBottom: 40,
+    margin:0,
+    top: -15,
+    padding:40,
   },
   userName: {
     fontSize: 12,
@@ -124,7 +133,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'black',
     marginTop: 10,
-  
+
   },
   texty: {
     color: 'black',
@@ -152,28 +161,48 @@ const styles = StyleSheet.create({
     margin: 10,
     top: -30,
   },
+  button: {
+    backgroundColor: '#9AC341',
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 44,
+    marginBottom: 5,
+    margin: 10,
+    padding: 5,
+    top: -70,
+  },
+  button2: {
+    backgroundColor: '#9AC341',
+    borderRadius: 12,
+    alignItems: 'center',
+    
+    marginBottom: 5,
+    margin: 100,
+    right:-120,
+    padding: 5,
+    top: -720,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
   logoutButton: {
-    backgroundColor: 'green',
+    backgroundColor: 'grey',
     borderRadius: 6,
     alignItems: 'center',
     margin: 10,
     padding: 5,
-    top: -30,
-  
-  },
-  ButtonText: {
-    color: 'white',
-  },
-  logoutButtonText: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
-    
+    top: -70,
+
   },
   logo: {
-    height: 50,
-    width: 50,
-    top: 70,
+    height: 60,
+    width: 60,
+    top: 35,
+
     left: -120,
   },
 });
