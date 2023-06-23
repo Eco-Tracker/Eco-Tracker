@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import ADDRESS_IP from '../../API';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import DeleteButton from '../../component/constants/DeleteButton';
+
 
 const CARD_WIDTH = sizes.width - 45;
 const CARD_HEIGHT = 300;
@@ -36,7 +38,7 @@ const Posts = () => {
       if (posts[index].post_Id === id && s === 0) {
         updatedPosts[index].like += 1;
         sets(2);
-      } else {
+      } else { 
         updatedPosts[index].like -= 1;
         sets(0);
       }
@@ -76,7 +78,6 @@ const Posts = () => {
               <Text style={styles.likeText}>{item.like}</Text>
             </View>
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.comment}
             onPress={() => navigation.navigate('CommentButton', { item })}

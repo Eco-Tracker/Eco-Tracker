@@ -74,6 +74,7 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>
     </AuthProvider>
+
   );
 };
 

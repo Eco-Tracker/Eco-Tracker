@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useContext } from 'react';
 import {
   View,
@@ -122,6 +123,7 @@ const YourProgress = () => {
         </SafeAreaView>
       </ScrollView>
     </View>
+
   );
 };
 
@@ -162,6 +164,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderWidth: 1,
   },
+
   logo: {
     marginLeft: 10,
     width: 70,
@@ -186,6 +189,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 4,
     marginLeft: 'auto',
+
   },
 });
 

@@ -4,6 +4,7 @@ import logo from "../assets/littlelogo.png"
 import YourProgress from './YourProgress';
 import Challenges from './Challenges';
 
+
 const Challenge = () => {
   const [activeTab, setActiveTab] = useState('Challenges');
 
@@ -32,6 +33,7 @@ const Challenge = () => {
           <Text
             style={[
               styles.tabText,
+
               activeTab === 'YourProgress' ? styles.tabTextActive : null,
             ]}
           >
@@ -75,16 +77,19 @@ const styles = StyleSheet.create({
     top: -10,
     justifyContent: 'center',
     backgroundColor: '#F3F3F3',
+
   },
   achievementText: {
     fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 10,
+
   },
   logo: {
     marginLeft: 10,
     width: 50,
     height: 50,
+    right:40
   },
   tabs: {
     flexDirection: 'row',
@@ -109,6 +114,12 @@ const styles = StyleSheet.create({
     flex: 1,
     top:-10
 },
+    borderColor: '#ccc',
+    backgroundColor: '#F3F3F3',
+    marginHorizontal: 5,
+    width: 150,
+    zIndex:5
+  },
   tabActive: {
     backgroundColor: '#4CAF50',
     zIndex: 1,

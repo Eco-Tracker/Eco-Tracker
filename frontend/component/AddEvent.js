@@ -100,15 +100,17 @@ const AddEvent = () => {
     if (!name || !description || !date || !selectedRegion || !image) {
       Alert.alert('Error', 'Please fill in all the necessary information to create this Post');
       return;
-    }
+    } 
 
     axios
       .get(`http://${ADDRESS_IP}:5000/proUsers/email/${email}`)
       .then((res) => {
+        console.log(email,"wow")
+
         setId(res.data.id);
+        
         return res.data.id;
-      })
-      .then((userId) => {
+      })          .then((userId) => {
         return axios.post(`http://${ADDRESS_IP}:5000/event/add`, {
           id: id,
           name: name,
@@ -128,6 +130,7 @@ const AddEvent = () => {
         });
       })
       .catch((err) => {
+        console.log(id,"fucck")
         console.log(err);
       });
   };

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Alert, Image, StatusBar, StyleSheet, TouchableOpacity, Button, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -155,6 +156,7 @@ function UpdatePers({ route }) {
       <StatusBar style="auto" />
     </ScrollView>
   );
+
 }
 
 const styles = StyleSheet.create({
@@ -224,6 +226,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',
+
   },
   logo: {
     height: 70,

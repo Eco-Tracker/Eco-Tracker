@@ -39,12 +39,13 @@ export default function PersonnalUser({ navigation }) {
 
   const onLogout = () => {
     auth.signOut();
+
     navigation.navigate('Home2');
+
   };
 
   return (
-    <View style={styles.container}>
-      
+    <View style={styles.container}>      
       <StatusBar style={styles.statusBar} />
       <Image source={logo} style={styles.logo} />
       
@@ -91,6 +92,7 @@ export default function PersonnalUser({ navigation }) {
         )}
       
     </View>
+
   );
 }
 
@@ -150,6 +152,14 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: 'center',
     marginTop: 10,
+  }, 
+  updateButton: {
+    backgroundColor: '#9AC341',
+    borderRadius: 12,
+    alignItems: 'center',
+    padding: 10,
+    margin: 10,
+    top: -30,
   },
   button: {
     backgroundColor: '#9AC341',
@@ -192,6 +202,7 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     top: 35,
+
     left: -120,
   },
 });

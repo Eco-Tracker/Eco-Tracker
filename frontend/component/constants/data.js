@@ -1,4 +1,4 @@
-const data =[
+ export const data =[
     {
       id: 1,
       image: require('../../assets/2082f59465c39094ce90bebd0fcf8fa7.jpeg'),
@@ -56,4 +56,148 @@ const data =[
         "Cherry blossoms usually bloom between mid-March and early May. In 2022, Tokyo's cherry blossom season officially began on March 20",
     }
   ];
-  export default data;
+
+
+
+export  const challenges =[
+    {
+      id: 1,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall1",
+descrtiption : "hohohohohohoho",
+deadline : "DAY1",
+points : "progress 1",
+isCompleted : true, 
+
+      
+    },
+    {
+      id: 2,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall2",
+descrtiption : "hohohohohohoho",
+deadline : "DAY2",
+points : "progress 1",
+isCompleted : false, 
+      
+    },
+    {
+      id: 3,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall3",
+descrtiption : "hohohohohohoho",
+deadline : "DAY3",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    },  {
+      id: 4,
+      image: "https://i.pinimg.com/564x/3a/44/a9/3a44a999473b075ac610c99c26b93647.jpg",
+name:"chall4",
+descrtiption : "hohohohohohoho",
+deadline : "DAY4",
+points : "progress 1",
+isCompleted : true, 
+      
+    }
+  ]
+ 

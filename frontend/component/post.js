@@ -5,7 +5,9 @@ import * as ImagePicker from 'expo-image-picker';
 import {auth} from "../Firebase/index";
 import ADDRESS_IP from '../API'
 import logo from "../assets/littlelogo.png"
+
 import { useNavigation } from '@react-navigation/native';
+
 
 
 const PostForm = () => {
@@ -17,6 +19,7 @@ const PostForm = () => {
   const [id,setId]=useState('');
   const email = auth.currentUser.email
   const navigation = useNavigation();
+
   const selectImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -78,6 +81,7 @@ try {
 //     console.log(err)
 //   })
 // }
+
   const createPost = () => {
     if (!title || !body  || !image) {
       Alert.alert('Error', 'Please fill in all the necessary information to create this Post');

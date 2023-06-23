@@ -108,7 +108,9 @@ const CommentButton = () => {
   const goBack = () => {
     navigation.goBack();
   };
-
+  const goBack = () => {
+    navigation.goBack();
+  };
   return (
     <ScrollView style={styles.container}>
       <Image source={logo} style={styles.logo} />
@@ -138,6 +140,7 @@ const CommentButton = () => {
               </View>
             )}
           </View>
+
         </View>
       ))}
       <TextInput
@@ -148,6 +151,7 @@ const CommentButton = () => {
       />
       <Button title="Submit" onPress={handlePost} color="green" />
     </ScrollView>
+
   );
 };
 
@@ -224,7 +228,9 @@ const styles = StyleSheet.create({
     width: 50,
     top: 10,
     alignSelf: 'center',
+
   },
+ 
 });
 
 export default CommentButton;

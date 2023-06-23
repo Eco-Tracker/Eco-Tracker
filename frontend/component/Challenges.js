@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useContext, createContext } from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet, Image,
@@ -101,6 +102,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     marginBottom: 20,
   },
+
   logo: {
     marginLeft: 10,
     width: 70,
@@ -136,6 +138,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     textAlign: 'center',
+    right:10
   },
 });
 

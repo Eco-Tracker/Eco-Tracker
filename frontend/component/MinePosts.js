@@ -25,7 +25,7 @@ const CARD_WIDTH = sizes.width - 45;
 const CARD_HEIGHT = 300;
 const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 
-const MinePosts = () => {
+const MinePosts = ()
   const [data, setData] = useState([]);
   const [id, setId] = useState('');
   const [idpost, setIdpost] = useState('');
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
     top: 20,
     right: -120,
   },
+
   appButtonContainer: {
     borderRadius: 6,
     alignItems: 'center',
@@ -205,6 +206,7 @@ const styles = StyleSheet.create({
     fontSize: sizes.h3,
     color: colors.white,
   },
+
 });
 
 export default MinePosts;
