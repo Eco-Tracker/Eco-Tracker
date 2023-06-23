@@ -47,9 +47,9 @@ const LoginUser = ({ navigation }) => {
   };
 
   const resetPassword = () => {
-    sendPasswordResetEmail(auth, professionalMail)
+    sendPasswordResetEmail(auth, mail)
       .then((res) => {
-        console.log(professionalMail, "email")
+        console.log(mail, "email")
         alert('password reset email has been sent successfully')
       })
       .catch((error) => {

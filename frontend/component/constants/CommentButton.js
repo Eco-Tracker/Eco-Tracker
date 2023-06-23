@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Text, TextInput, Button } from 'react-native';
-import { colors, shadow } from './theme';
-import axios from 'axios';
-import ADDRESS_IP from '../../API';
+import { View, TouchableOpacity, Image, StyleSheet, Text, TextInput, Button, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import icons from '../../assets/comments.png';
-import { auth } from "../../Firebase/index";
-import DeleteBut from './Delete';
-import { sizes, spacing} from './theme';
+import Icon from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
+import logo from "../../assets/littlelogo.png";
 
-const CARD_WIDTH = sizes.width-45;
-const CARD_HEIGHT = 300;
-const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
+import ADDRESS_IP from '../../API';
+import { auth } from '../../Firebase/index';
+
 const CommentButton = () => {
-  const [comments, setComments] = useState([]);
-  const [bodyCom, setBodyCom] = useState('');
-  const [update, setUpdate] = useState('');
-  const [idComment,setidComment]=useState('');
-  const [tracker,setTracker]=useState(false);
-  const [userId,setUserId]=useState('')
+  const navigation = useNavigation();
   const route = useRoute();
   const { item } = route.params;
   const post_id = item.post_Id;
   const user = auth.currentUser.email;
-  console.log(user)
 
+  const [comments, setComments] = useState([]);
+  const [bodyCom, setBodyCom] = useState('');
+  const [update, setUpdate] = useState('');
+  const [userId, setUserId] = useState(null);
 
   const fetchComment = async () => {
     try {
@@ -39,169 +33,198 @@ const CommentButton = () => {
     fetchComment();
   }, []);
 
-  const handlePost = () => {
+  useEffect(() => {
     axios.get(`http://${ADDRESS_IP}:5000/users/email/${user}`)
       .then((res) => {
         const userId = res.data[0].id;
-        console.log(res.data[0].id,"me")
+        setUserId(userId);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handlePost = () => {
+    axios
+      .get(`http://${ADDRESS_IP}:5000/users/email/${user}`)
+      .then((res) => {
+        const userId = res.data[0].id;
         return axios.post(`http://${ADDRESS_IP}:5000/comment/add`, {
           id: userId,
           post_Id: post_id,
           bodyCom: bodyCom,
-        })
+        });
       })
       .then((res) => {
-        console.log(res.data);
         fetchComment();
+        setBodyCom('');
       })
       .catch((err) => {
         console.log(err);
-      })
-  }
+      });
+  };
 
   const handleDelete = (commentId, commentAuthorId) => {
-    axios.get(`http://${ADDRESS_IP}:5000/users/email/${user}`)
+    axios
+      .get(`http://${ADDRESS_IP}:5000/users/email/${user}`)
       .then((res) => {
         const userId = res.data[0].id;
-        console.log(res.data[0].id,"me")
-    if (commentAuthorId === userId) {
-    return axios.delete(`http://${ADDRESS_IP}:5000/comment/${commentId}`)
-        .then((res) => {
-          console.log(commentId, 'Deleted');
-          console.log(res, 'this is the data');
-          fetchComment();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log("You are not authorized to delete this comment.");
-    }
-  })
+        if (commentAuthorId === userId) {
+          return axios
+            .delete(`http://${ADDRESS_IP}:5000/comment/${commentId}`)
+            .then(() => {
+              fetchComment();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          console.log("You are not authorized to delete this comment.");
+        }
+      });
   };
+
   const handleUpdate = (commentId, commentAuthorId) => {
-    axios.get(`http://${ADDRESS_IP}:5000/users/email/${user}`)
+    axios
+      .get(`http://${ADDRESS_IP}:5000/users/email/${user}`)
       .then((res) => {
         const userId = res.data[0].id;
-        console.log(res.data[0].id,"me")
-    if (commentAuthorId === userId) {
-    return axios.put(`http://${ADDRESS_IP}:5000/comment/${commentId}`,{bodyCom:update})
-        .then((res) => {
-          console.log(commentId, 'Updated');
-          console.log(res, 'this is the data');
-          fetchComment();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log("You are not authorized to update this comment.");
-    }
-  })
+        if (commentAuthorId === userId) {
+          return axios
+            .put(`http://${ADDRESS_IP}:5000/comment/${commentId}`, { bodyCom: update })
+            .then(() => {
+              fetchComment();
+              setUpdate('');
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          console.log("You are not authorized to update this comment.");
+        }
+      });
+  };
+
+  const goBack = () => {
+    navigation.goBack();
   };
 
   return (
-    <View>
-      {comments?.map((comment) => (
-        <View key={comment?.id}>
-          <Text>
-            {comment?.bodyCom}
-          </Text>
-          <View>
-            <TouchableOpacity
-              style={styles.favoritee}
-              onPress={() => handleDelete(comment?.id, comment?.authorId)}
-            >
-              <Text>Delete</Text>
-            </TouchableOpacity>
-            </View>
-            <View>
-            <TouchableOpacity>
-              <TextInput  placeholder="comment"
-                   value={update}
-                    onChangeText={setUpdate}
-                 />
-                 <Button title="Update" onPress={() => handleUpdate(comment?.id, comment?.authorId)} />
-            </TouchableOpacity>
-            </View>
+    <ScrollView style={styles.container}>
+      <Image source={logo} style={styles.logo} />
+      <TouchableOpacity onPress={goBack} style={styles.backButton}>
+        <Icon name="arrow-back" size={24} color="green" />
+      </TouchableOpacity>
+      <Text style={styles.header}>Comments</Text>
+      {comments.map((comment) => (
+        <View style={styles.commentContainer} key={comment.id}>
+          <Text style={styles.commentText}>{comment.bodyCom}</Text>
+          <View style={styles.buttonContainer}>
+            {comment.authorId === userId && (
+              <View style={styles.updateInputContainer}>
+                <TextInput
+                  style={styles.updateInput}
+                  placeholder="Update comment"
+                  value={update}
+                  onChangeText={setUpdate}
+                  
+                />
+                <TouchableOpacity onPress={() => handleUpdate(comment.id, comment.authorId)}>
+                  <Icon name="create-outline" size={20} color="blue" />
+                </TouchableOpacity> 
+                <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(comment.id, comment.authorId)}>
+                  <Icon name="trash-outline" size={20} color="red" />
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
         </View>
       ))}
       <TextInput
-        placeholder="comment"
+        style={styles.input}
+        placeholder="Add comment"
         value={bodyCom}
         onChangeText={setBodyCom}
       />
-      <Button title="Submit" onPress={handlePost} />
-      
-    </View>
+      <Button title="Submit" onPress={handlePost} color="green" />
+    </ScrollView>
   );
 };
+
 const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    paddingTop:-10,
+    
+    backgroundColor: '#f5f5f5',
+  },
+  backButton: {
+    position: 'absolute',
+    top: 15,
+    left: 15,
+    padding: 10,
+    zIndex: 1,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: 'green',
+  },
   commentContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    padding: 15,
+    borderRadius: 10,
+    backgroundColor: '#ffffff',
     marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#dcdcdc',
   },
   commentText: {
-    flex: 1,
+    fontSize: 16,
   },
-  likeText: {
-    position: 'absolute',
-    top: 155,
-    right: 310,
-    color: colors.black,
-    fontSize: sizes.h3,
-    paddingLeft: 10,
-    color: colors.black,
-    fontSize: sizes.h3,
-  },
-  card: {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    marginVertical: 10,
-  },
-  favorite: {
-    position: 'absolute',
-    top: 150,
-    right: 330,
-  },
-  favoritee: {
-    backgroundColor: '#fff',
-    position: 'absolute',
-    top: 150,
-    right: spacing.m,
+  buttonContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
   },
   deleteButton: {
+    padding: 2,
+    borderRadius: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 15,
+  },
+  buttonText: {
+    color: '#ffffff',
+  },
+  updateInputContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    marginRight: 10,
   },
-  imageBox: {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    borderRadius: sizes.radius,
-    overflow: 'hidden',
+  updateInput: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 5,
+    marginRight: 10,
   },
-  image: {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    resizeMode: 'cover',
+  input: {
+    padding: 15,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: '#ffffff',
+    marginTop: 40,
+    marginBottom: 20,
   },
-  titleBox: {
-    position: 'absolute',
-    top: CARD_HEIGHT - 80,
-    left: 16,
-  },
-  title: {
-    bottom: 220,
-    fontSize: sizes.h2,
-    fontWeight: 'bold',
-    color: colors.white,
-  },
-  location: {
-    bottom: 150,
-    fontSize: sizes.h3,
-    color: colors.white,
+  logo: {
+    height: 50,
+    width: 50,
+    top: 10,
+    alignSelf: 'center',
   },
 });
+
 export default CommentButton;

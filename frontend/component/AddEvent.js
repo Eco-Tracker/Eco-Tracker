@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ADDRESS_IP from '../API';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   View,
   Button,
@@ -14,19 +15,24 @@ import {
   ScrollView,
   Text,
   Alert,
+  Platform,
 } from 'react-native';
 import { auth } from '../Firebase/index';
 import * as ImagePicker from 'expo-image-picker';
 import logo from '../assets/littlelogo.png';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Picker } from '@react-native-picker/picker';
 
 const AddEvent = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
   const [image, setImage] = useState('');
+  const [selectedRegion, setSelectedRegion] = useState('');
   const [location, setLocation] = useState('');
   const [id, setId] = useState('');
   const [buttonColor, setButtonColor] = useState('#000000');
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const email = auth.currentUser.email;
   const navigation = useNavigation();
 
@@ -49,7 +55,7 @@ const AddEvent = () => {
       quality: 1,
     });
 
-    if (!result.canceled && result.assets && result.assets.length > 0) {
+    if (!result.cancelled && result.assets && result.assets.length > 0) {
       uploadImageToCloudinary(result.assets[0].uri);
     }
   };
@@ -91,7 +97,7 @@ const AddEvent = () => {
   };
 
   const handlePost = () => {
-    if (!name || !description || !date || !location || !image) {
+    if (!name || !description || !date || !selectedRegion || !image) {
       Alert.alert('Error', 'Please fill in all the necessary information to create this Post');
       return;
     }
@@ -108,14 +114,14 @@ const AddEvent = () => {
           name: name,
           description: description,
           image: image,
-          location: location,
+          location: selectedRegion,
           like: 0,
           participants: 0,
           date: date,
         });
       })
       .then(() => {
-        // Naviguer vers la page ProfHomePage après la mise à jour
+        // Navigate to the ProfHomePage after the update
         navigation.reset({
           index: 0,
           routes: [{ name: 'ProfHomePage' }],
@@ -125,6 +131,40 @@ const AddEvent = () => {
         console.log(err);
       });
   };
+
+  const handleDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowDatePicker(false);
+    setDate(currentDate);
+  };
+
+  const regions = [
+'Tunis(la capitale)',
+'Sfax',
+'Sousse',
+'Kairouan',
+'Bizerte',
+'Gabès',
+'Ariana',
+'Gafsa',
+'La Marsa',
+'Tataouine',
+'Djerba',
+'Monastir',
+'Hammamet',
+'Mahdia',
+'Nabeul',
+'Tozeur',
+'Matmata',
+'Tabarka',
+'Hammam Sousse',
+'Carthage',
+'El Kef',
+'Douz',
+'Kasserine',
+'Medenine',
+'Beja',
+  ];
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -141,7 +181,7 @@ const AddEvent = () => {
         underlineColorAndroid="transparent"
       />
       <TextInput
-        style={[styles.input1]}
+        style={styles.input1}
         placeholder="Description ..."
         value={description}
         onChangeText={(text) => setDescription(text)}
@@ -149,20 +189,30 @@ const AddEvent = () => {
         multiline
         numberOfLines={15}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Date (YYYY-MM-DD)"
-        value={date}
-        onChangeText={(text) => setDate(text)}
-        underlineColorAndroid="transparent"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Location"
-        value={location}
-        onChangeText={(text) => setLocation(text)}
-        underlineColorAndroid="transparent"
-      />
+      <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.input}>
+        <Icon name="calendar" size={20} color="#000000" style={styles.calendarIcon} />
+        <Text style={styles.dateText} top={5}>{date.toDateString()}</Text>
+      </TouchableOpacity>
+      {showDatePicker && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="date"
+          display="default"
+          onChange={handleDateChange}
+          style={{ textAlign: 'center' }}
+        />
+      )}
+      <Picker
+        selectedValue={selectedRegion}
+        style={styles.input2}
+        onValueChange={(itemValue) => setSelectedRegion(itemValue)}
+      >
+        <Picker.Item label="Select a region" value="" />
+        {regions.map((region, index) => (
+          <Picker.Item key={index} label={region} value={region} />
+        ))}
+      </Picker>
 
       <View style={styles.third}>
         <TouchableOpacity
@@ -175,6 +225,7 @@ const AddEvent = () => {
             borderStyle: 'dashed',
             borderRadius: 10,
             justifyContent: 'center',
+            right: 20,
           }}
         >
           <Text style={{ textAlign: 'center' }}>Select Image</Text>
@@ -202,12 +253,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F3F3',
     alignItems: 'center',
     justifyContent: 'center',
-    top: -10,
+    paddingTop: 50,
   },
   inputContainer: {
-    marginTop: 20,
     marginBottom: 20,
     alignItems: 'center',
+    
   },
   addEventText: {
     fontSize: 20,
@@ -215,59 +266,76 @@ const styles = StyleSheet.create({
     marginBottom: -15,
   },
   input: {
+    backgroundColor: 'white',
     width: 300,
     height: 40,
     borderWidth: 1,
+    borderColor: '#000000',
+    marginBottom: 20,
     borderRadius: 10,
-    marginBottom: 10,
     paddingLeft: 10,
-    backgroundColor: '#fff',
   },
   input1: {
+    backgroundColor: 'white',
     width: 300,
-    height: 90,
+    height: 100,
     borderWidth: 1,
+    borderColor: '#000000',
+    marginBottom: 20,
     borderRadius: 10,
-    marginBottom: 10,
     paddingLeft: 10,
-    backgroundColor: '#fff',
+    paddingTop: 10,
     textAlignVertical: 'top',
   },
-  third: {
-    top: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 30,
-  },
-  imageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    left: 5,
-    top: -10,
-  },
-  image: {
-    width: 150,
-    height: 150,
-  },
-  logo: {
-    width: 70,
-    height: 70,
-    marginBottom: 10,
+  input2: {
+    backgroundColor: 'white',
+    width: 300,
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#000000',
+    marginBottom: 20,
+    borderRadius: 10,
+    paddingLeft: 10,
   },
   button: {
-    backgroundColor: '#000000',
-    paddingVertical: 10,
-    paddingHorizontal: 70,
+    width: 170,
+    height: 45,
+    backgroundColor: 'green',
     borderRadius: 10,
-    marginBottom: 50,
-    top: 50,
-    left: 50,
-    backgroundColor: '#9AC341',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    right:-60,
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 20,
+    color: '#FFFFFF',
     fontWeight: 'bold',
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+  },
+  imageContainer: {
+    height: 100,
+    width: 100,
+    marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    right: -30,
+  },
+  image: {
+    height: 120,
+    width: 150,
+    borderRadius: 10,
+  },
+  third: {
+    flexDirection: 'row',
+  },
+  calendarIcon: {
+    position: 'absolute',
+    top: 5,
+    right: 10,
   },
 });
 

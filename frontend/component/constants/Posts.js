@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  FlatList,
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Button
-} from 'react-native';
-import { colors, shadow, sizes, spacing } from './theme';
+import { ScrollView, Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { colors, sizes, spacing } from './theme';
 import FavoriteButton from './FavoriteButton';
 import CommentButton from './CommentButton';
 import axios from 'axios';
@@ -18,29 +10,27 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const CARD_WIDTH = sizes.width - 45;
 const CARD_HEIGHT = 300;
-const CARD_WIDTH_SPACING = CARD_WIDTH + spacing.l;
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [s, sets] = useState(0);
   const navigation = useNavigation();
+  const [isLiked, setIsLiked] = useState(false);
 
-  
-    const fetchPosts = async () => {
-      try {
-        const response = await axios.get(`http://${ADDRESS_IP}:5000/post/`);
-        // console.log(response.data);
-        setPosts(response.data);
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
-    };
-    useEffect(() => {
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get(`http://${ADDRESS_IP}:5000/post/`);
+      setPosts(response.data);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
+
+  useEffect(() => {
     fetchPosts();
   }, []);
 
   const incrementLikeCount = async (id, index) => {
-    console.log(s);
     setPosts((prevPosts) => {
       const updatedPosts = [...prevPosts];
       if (posts[index].post_Id === id && s === 0) {
@@ -63,119 +53,122 @@ const Posts = () => {
   };
 
   return (
-    <FlatList
-      data={posts}
-      showsVerticalScrollIndicator={true}
-      snapToInterval={CARD_WIDTH_SPACING}
-      decelerationRate="fast"
-      keyExtractor={(item) => item.id}
-      renderItem={({ item, index }) => (
-        <>
+    <ScrollView contentContainerStyle={styles.container}>
+      {posts.map((item, index) => (
+        <TouchableOpacity key={item.id} style={styles.cardContainer}>
+          <View style={styles.card}>
+            <Image source={{ uri: item.image }} style={styles.image} />
+            <View style={styles.contentContainer}>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.body}>{item.body}</Text>
+            </View>
+          </View>
+
           <TouchableOpacity
-            style={{
-              marginLeft: spacing.l,
-              marginRight: index === posts.length - 1 ? spacing.l : 0,
-              height: 350,
-              backgroundColor: '#F3F3F3',
+            style={styles.favorite}
+            onPress={() => {
+              incrementLikeCount(item.post_Id, index);
+              setIsLiked(!isLiked); // Inverse l'état actuel lors du clic
             }}
           >
-            
-            <View style={[styles.card]}>
-              <View style={styles.imageBox}>
-                <Image source={{ uri: item.image }} style={styles.image} />
-              </View>
-              <View style={styles.titleBox}>
-                <Text style={styles.title}>{item.title}</Text>
-              </View>
-              <Text style={styles.location}>{item.body}</Text>
+            <View style={styles.likeContainer}>
+              <Ionicons name="heart" size={20} color={isLiked ? 'red' : 'green'} />
+              <Text style={styles.likeText}>{item.like}</Text>
             </View>
           </TouchableOpacity>
-  
-          <TouchableOpacity style={styles.favoritee}  onPress={() => incrementLikeCount(item.post_Id,index)}>
-          {/* <Button
-                title="Favorite"
-                onPress={() => incrementLikeCount(item.post_Id,index)}
-                style={styles.likeText}
-              /> */}
-          <FavoriteButton style={styles.favorite} 
-               />
-           
+
+          <TouchableOpacity
+            style={styles.comment}
+            onPress={() => navigation.navigate('CommentButton', { item })}
+          >
+            <Ionicons name="chatbox" size={20} color={'green'} />
           </TouchableOpacity>
-          <View style={styles.favoritee}>
-            <Text style={styles.likeText}>{item.like}</Text>
-          </View>
-          <TouchableOpacity 
-               style={styles.favoritee} 
-               onPress={() => navigation.navigate('CommentButton', { item })}>
-                <Text>Go to Comments</Text>
-          </TouchableOpacity>
-        </>
-      )}
-    />
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  likeText: {
-    position: 'absolute',
-    top: 168,
-    right: 310,  // Adjust as needed
-    color: colors.black, // Or any color you prefer
-    fontSize: sizes.h3,
-    paddingLeft: 10,
-    color: colors.black,
-    fontSize: sizes.h3,
+  container: {
+    flexGrow: 1,
+    top: 10,
+    paddingHorizontal: spacing.l,
+  },
+  cardContainer: {
+    marginBottom: spacing.m,
+    backgroundColor: '#F3F3F3',
   },
   card: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
-    marginVertical: 10,
+    borderRadius: sizes.radius,
+    overflow: 'hidden',
+    elevation: 3,
+  },
+  image: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
+  contentContainer: {
+    padding: spacing.m,
+    backgroundColor: colors.white,
+  },
+  title: {
+    fontSize: sizes.h3,
+    fontWeight: 'bold',
+    marginBottom: spacing.s,
+    color: colors.black,
+  },
+  body: {
+    fontSize: sizes.body,
+    color: colors.gray,
   },
   favorite: {
     position: 'absolute',
-    top: 150,
-    right: 330,
+    top: 220,
+    right: spacing.l,
+    zIndex: 1,
+    top: 0,
   },
-  favoritee: {
-    backgroundColor: '#fff',
-    position: 'absolute',
-    top: 150,
-    right: spacing.m,
-  },
-  comment: {
+  likeContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
     position: 'absolute',
-    top: 150,
-    right: 270,
-  },
-  imageBox: {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
+    top: 260,
+    right: 40,
+    backgroundColor: colors.white,
+    padding: spacing.s,
     borderRadius: sizes.radius,
-    overflow: 'hidden',
+    shadowColor: 'green',
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    
   },
-  image: {
-    width: CARD_WIDTH,
-    height: CARD_HEIGHT,
-    resizeMode: 'cover',
+  likeText: {
+    marginLeft: spacing.xs,
+    fontSize: sizes.body,
+    color: colors.black,
   },
-  titleBox: {
+  comment: {
     position: 'absolute',
-    top: CARD_HEIGHT - 80,
-    left: 16,
-  },
-  title: {
-    bottom: 220,
-    fontSize: sizes.h2,
-    fontWeight: 'bold',
-    color: colors.white,
-  },
-  location: {
-    bottom: 150,
-    fontSize: sizes.h3,
-    color: colors.white,
+    top: 260,
+    right: 20,
+    backgroundColor: colors.white,
+    padding: spacing.s,
+    borderRadius: sizes.radius,
+    shadowColor: 'green',
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    
   },
 });
 

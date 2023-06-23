@@ -16,4 +16,4 @@ router.get("/id/:id",getOneById);
 router.put("/:id",updateUser);
 router.get("/email/:mail",getOneByemail)
 router.delete("/:id",deleteUser)
-module.exports = router;
+module.exports = router; 
