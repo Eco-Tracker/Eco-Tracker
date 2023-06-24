@@ -8,7 +8,8 @@ const {
     getAll,
     updatePro,
     deletePro,
-    getOneById
+    getOneById,
+    bannUser
 }= require("../controller/proUser")
 router.get("/", getAll);
 router.post("/register", register);
@@ -17,5 +18,6 @@ router.get("/id/:id",getOneById)
 router.get("/name/:name", getOneByName);
 router.get("/email/:professionalMail", getOneByemail);
 router.put("/:id",updatePro);
+router.put("/bann/:id",bannUser);
 router.delete("/:id",deletePro)
-module.exports = router;     
+module.exports = router;

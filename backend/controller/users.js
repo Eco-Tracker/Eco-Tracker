@@ -79,7 +79,7 @@ const deleteUser = async (req, res) => {
          res.status(200).json(user)
     }
     catch (err) {
-         res.status(500).json(err)
+         res.status(500).json("from back")
     }
 }
 const getOneByemail = async (req,res)=>{
@@ -92,7 +92,17 @@ const getOneByemail = async (req,res)=>{
          res.status(500).json(err)
     }
 }
-
+const bannUser = async (req, res)=> {
+    try{
+       
+        const bann=await prisma.personalUser.update({where:{ id: req.params.id},data:{banned:req.body.banned}})
+        res.status(204).json(bann)
+    }
+    catch (err) {
+        
+        res.status(500).json(err)
+   }
+}
 module.exports = {
     getOneByemail,
     register,
@@ -100,5 +110,7 @@ module.exports = {
     getAllUsers,
     getOneById,
     deleteUser,
-    updateUser
+    updateUser,
+    bannUser,
+
 }
