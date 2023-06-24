@@ -102,7 +102,17 @@ const deletePro = async (req, res) => {
          res.status(500).json(err)
     }
 }
-
+const bannUser = async (req, res)=> {
+    try{
+       
+        const bann=await prisma.profissionalUser.update({where:{ id: req.params.id},data:{banned:req.body.banned}})
+        res.status(204).json(bann)
+    }
+    catch (err) {
+        
+        res.status(500).json(err)
+   }
+}
 
 module.exports = {
     register,
@@ -112,5 +122,6 @@ module.exports = {
     getAll,
     updatePro,
     deletePro,
-    getOneById
+    getOneById,
+    bannUser
 }
